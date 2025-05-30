@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fff;
+}
+
+/* Navbar mate  */
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2e7d32;
+  color: white;
+  padding: 1rem;
+}
+
+.top-bar .material-icons {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* RECENT , ALL, AND FAVORITES mate  */
+.tabs {
+  display: flex;
+  /* justify-content: center;         Center all tabs horizontally */
+  /* align-items: center;            Center vertically */
+  background-color: #388e3c;
+  color: white;
+  position: relative;
+}
+
+.tabs .tab {
+  flex: 1;                         /* Make tabs take equal space */
+  text-align: center;             /* Center text in each tab */
+  padding: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.tab {
+  text-decoration: none;
+  background: none;
+  border: none;
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+  flex: 1;
+  cursor: pointer;
+}
+
+/* 
+.tab:hover {
+    background-color: #ddd;
+  } 
+*/
+
+.tab.active {
+  border-bottom: 3px solid orange;
+
+}
+
+.icons .material-icons {
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+}
+
+/* Floating Action Button */
+.fab {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background-color: #ffca28;
+  border: none;
+  border-radius: 50%;
+  padding: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.fab .material-icons {
+  font-size: 24px;
+}
