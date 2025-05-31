@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="CreateAccount.css">
+</head>
+
+<body>
+
+    <header class="top-bar">
+        <div class="icon-left">
+            <span class="material-icons">arrow_back</span>
+        </div>
+        <h1>Create Account</h1>
+        <div class="icon-right">
+            <span class="material-icons">check</span>
+        </div>
+    </header>
+
+    <main class="form-container">
+        <label>Account Name</label>
+        <input type="text" placeholder="">
+
+        <label>Description</label>
+        <input type="text" placeholder="">
+
+        <div class="row">
+            <label>Parent account</label>
+            <label class="switch">
+                <input type="checkbox" id="parentToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <select disabled id="parentAccount">
+            <option>Assets:Current Assets:Cash in Wallet</option>
+        </select>
+
+        <label>Type</label>
+        <select>
+            <option>ASSET</option>
+            <option>INCOME</option>
+            <option>EXPENSE</option>
+            <option>LIABILITY</option>
+        </select>
+
+        <label>Currency</label>
+        <select>
+            <option>INR (Indian Rupee)</option>
+            <option>USD (US Dollar)</option>
+            <option>EUR (Euro)</option>
+        </select>
+
+        <label>Account Color</label>
+        <input type="color">
+
+        <label style="color: #f5a000;">Notes</label>
+        <hr style="border: 1px solid #f5a000; width: 100%; margin: 10px 0;">
+
+        <div class="checkbox-group">
+            <label><input type="checkbox"> Placeholder</label>
+            <label><input type="checkbox"> Hidden</label>
+            <label><input type="checkbox"> Favorite</label>
+        </div>
+
+        <div class="row">
+            <label>Default Transfer Account</label>
+            <label class="switch">
+                <input type="checkbox" id="transferToggle">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <select disabled id="transferAccount">
+            <option>Assets:Current Assets:Cash in Wallet</option>
+        </select>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

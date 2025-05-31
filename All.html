@@ -7,11 +7,13 @@
   <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png" type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  
+ 
 </head>
 <body>
 
 <header class="top-bar">
-  <span class="material-icons">menu</span>
+  <span class="material-icons menu-btn" onclick="toggleMenu()">menu</span>
   <h1>Accounts</h1>
   <span class="material-icons">search</span>
 </header>
@@ -22,9 +24,11 @@
   <a href="favorites.html" class="tab">FAVORITES</a>
 </nav>
 
-<button class="fab">
+<button class="fab" onclick="openCreateForm()">
   <span class="material-icons">add</span>
 </button>
 
+
+<script src="none.js"></script>
 </body>
 </html>
