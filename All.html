@@ -24,6 +24,70 @@
   <a href="favorites.html" class="tab">FAVORITES</a>
 </nav>
 
+<main id="accountDetails" class="account-list">
+  <!-- Account details will be shown here -->
+   <script>
+function openCreateForm() {
+  window.location.href = "CreateAccount.html";
+}
+
+// Fetch data
+let accounts = JSON.parse(localStorage.getItem("accountList")) || [];
+const container = document.getElementById("accountDetails");
+
+// Display accounts
+function displayAccounts() {
+  container.innerHTML = "";
+
+  if (accounts.length === 0) {
+    container.innerHTML = "<p>No account data found. Click + to create one.</p>";
+    return;
+  }
+
+  accounts.forEach(account => {
+    const card = document.createElement("div");
+    card.className = "account-card";
+    card.innerHTML = `
+      <div class="color-bar" style="background-color: ${account.color};"></div>
+      <div class="card-content">
+  <div class="left">
+    <div class="title">${account.accountName}</div>
+    ${
+      (account.subAccountCount ?? 0) > 0
+        ? `<div class="subtitle">
+            ${account.subAccountCount} sub-account${account.subAccountCount > 1 ? 's' : ''}
+           </div>`
+        : ''
+    }
+  </div>
+  <div class="right">
+    <span class="material-icons favorite-icon">
+      ${account.favorite ? "favorite" : "favorite_border"}
+    </span>
+    <div class="amount">₹${account.balance ? account.balance.toFixed(2) : '0.00'}</div>
+    <span class="material-icons menu-icon" onclick="deleteAccount(${account.id})">more_vert</span>
+  </div>
+</div>
+
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Delete account
+function deleteAccount(id) {
+  accounts = accounts.filter(acc => acc.id !== id);
+  localStorage.setItem("accountList", JSON.stringify(accounts));
+  displayAccounts(); // refresh UI
+}
+
+// Initial display
+displayAccounts();
+</script>
+
+</main>
+
+
 <button class="fab" onclick="openCreateForm()">
   <span class="material-icons">add</span>
 </button>

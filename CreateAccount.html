@@ -13,7 +13,8 @@
 
     <header class="top-bar">
         <div class="icon-left">
-            <span class="material-icons">arrow_back</span>
+            <!-- <span class="material-icons" onclick="openCreateForm1()">arrow_back</span> -->
+            <span class="material-icons" id="backButton">arrow_back</span>
         </div>
         <h1>Create Account</h1>
         <div class="icon-right">
@@ -23,10 +24,10 @@
 
     <main class="form-container">
         <label>Account Name</label>
-        <input type="text" placeholder="">
+        <input type="text" id="accountName" placeholder=" Enter account name" required>
 
         <label>Description</label>
-        <input type="text" placeholder="">
+        <input type="text" id="description" placeholder="">
 
         <div class="row">
             <label>Parent account</label>
@@ -40,7 +41,7 @@
         </select>
 
         <label>Type</label>
-        <select>
+        <select id="accountType">
             <option>ASSET</option>
             <option>INCOME</option>
             <option>EXPENSE</option>
@@ -48,22 +49,22 @@
         </select>
 
         <label>Currency</label>
-        <select>
+        <select id="currency">
             <option>INR (Indian Rupee)</option>
             <option>USD (US Dollar)</option>
             <option>EUR (Euro)</option>
         </select>
 
         <label>Account Color</label>
-        <input type="color">
+        <input type="color" id="accountColor">
 
         <label style="color: #f5a000;">Notes</label>
         <hr style="border: 1px solid #f5a000; width: 100%; margin: 10px 0;">
 
         <div class="checkbox-group">
-            <label><input type="checkbox"> Placeholder</label>
-            <label><input type="checkbox"> Hidden</label>
-            <label><input type="checkbox"> Favorite</label>
+            <label><input type="checkbox" id="placeholder"> Placeholder</label>
+            <label><input type="checkbox" id="hidden"> Hidden</label>
+            <label><input type="checkbox" id="favorite"> Favorite</label>
         </div>
 
         <div class="row">

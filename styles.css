@@ -111,3 +111,50 @@ body {
   font-size: 20px;
   cursor: pointer;
 }
+
+/* Form Elements */
+.account-card {
+  display: flex;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 10px 0;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.color-bar {
+  width: 4px;
+}
+
+.card-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1;
+  padding: 10px 12px;
+}
+
+.left .title {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.left .subtitle {
+  font-size: 12px;
+  color: gray;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.amount {
+  font-weight: bold;
+}
+
+.favorite-icon, .menu-icon {
+  cursor: pointer;
+  color: #888;
+}
