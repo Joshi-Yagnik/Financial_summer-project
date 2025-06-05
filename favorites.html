@@ -1,31 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Accounts - Favorites</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/120px-GnuCash_logo.svg.png" type="image/x-icon" />
+  <link rel="icon"
+    href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/120px-GnuCash_logo.svg.png"
+    type="image/x-icon" />
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<header class="top-bar">
-  <span class="material-icons">menu</span>
-  <h1>Accounts</h1>
-  <span class="material-icons">search</span>
-</header>
+  <header class="top-bar">
+    <span class="material-icons menu-btn" onclick="toggleMenu()">menu</span>
 
-<nav class="tabs">
-  <a href="index.html" class="tab">RECENT</a>
-  <a href="All.html" class="tab">ALL</a>
-  <a href="favorites.html" class="tab active">FAVORITES</a>
-</nav>
+    <nav id="navLinks" class="side-menu">
+      <!-- Top Green Header -->
+      <div class="menu-top">
+        <div class="menu-header">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/50px-GnuCash_logo.svg.png"
+            class="logo">
+          <span class="title">GnuCash</span>
+        </div>
 
-<button class="fab" onclick="openCreateForm()">
-  <span class="material-icons">add</span>
-</button>
+        <div class="book-dropdown" onclick="toggleBookDropdown()">
+          <span class="selected-book">Book 1</span>
+          <span class="material-icons">arrow_drop_down</span>
+        </div>
 
-<script src="none.js"></script>
+        <div id="bookList" class="book-list">
+          <div onclick="selectBook('Book 1')">Book 1</div>
+          <div onclick="selectBook('Book 2')">Book 2</div>
+          <div onclick="selectBook('Manage Books...')">Manage Books...</div>
+        </div>
+      </div>
+
+      <!-- White Menu Body -->
+      <div class="menu-body">
+        <!-- Book Actions -->
+        <div class="menu-section">
+          <a href="#"><span class="material-icons">folder</span> Open...</a>
+        </div>
+
+        <!-- Accounts -->
+        <div class="menu-section">
+          <p class="section-title">Accounts</p>
+          <a href="#"><span class="material-icons">favorite_border</span> Favorites</a>
+          <a href="#"><span class="material-icons">bar_chart</span> Reports</a>
+        </div>
+
+        <!-- Transactions -->
+        <div class="menu-section">
+          <p class="section-title">Transactions</p>
+          <a href="#"><span class="material-icons">schedule</span> Scheduled Actions</a>
+          <a href="#"><span class="material-icons">upload</span> Export...</a>
+        </div>
+
+        <!-- Preferences -->
+        <div class="menu-section">
+          <p class="section-title">Preferences</p>
+          <a href="#"><span class="material-icons">settings</span> Settings</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="spacer">
+      <h1>Accounts</h1>
+    </div>
+
+    <span class="material-icons">search</span>
+  </header>
+
+  <nav class="tabs">
+    <a href="index.html" class="tab">RECENT</a>
+    <a href="All.html" class="tab">ALL</a>
+    <a href="favorites.html" class="tab active">FAVORITES</a>
+  </nav>
+
+  <button class="fab" onclick="openCreateForm()">
+    <span class="material-icons">add</span>
+  </button>
+
+  <script src="none.js"></script>
 </body>
+
 </html>

@@ -1,64 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Accounts - All</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png" type="image/x-icon" />
+  <link rel="icon"
+    href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
+    type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  
- 
+
+
 </head>
+
 <body>
 
-<header class="top-bar">
-  <span class="material-icons menu-btn" onclick="toggleMenu()">menu</span>
-  <h1>Accounts</h1>
-  <span class="material-icons">search</span>
-</header>
+  <header class="top-bar">
+    <span class="material-icons menu-btn" onclick="toggleMenu()">menu</span>
 
-<nav class="tabs">
-  <a href="index.html" class="tab">RECENT</a>
-  <a href="All.html" class="tab active">ALL</a>
-  <a href="favorites.html" class="tab">FAVORITES</a>
-</nav>
+    <nav id="navLinks" class="side-menu">
+      <!-- Top Green Header -->
+      <div class="menu-top">
+        <div class="menu-header">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/50px-GnuCash_logo.svg.png"
+            class="logo">
+          <span class="title">GnuCash</span>
+        </div>
 
-<main id="accountDetails" class="account-list">
-  <!-- Account details will be shown here -->
-   <script>
-function openCreateForm() {
-  window.location.href = "CreateAccount.html";
-}
+        <div class="book-dropdown" onclick="toggleBookDropdown()">
+          <span class="selected-book">Book 1</span>
+          <span class="material-icons">arrow_drop_down</span>
+        </div>
 
-// Fetch data
-let accounts = JSON.parse(localStorage.getItem("accountList")) || [];
-const container = document.getElementById("accountDetails");
+        <div id="bookList" class="book-list">
+          <div onclick="selectBook('Book 1')">Book 1</div>
+          <div onclick="selectBook('Book 2')">Book 2</div>
+          <div onclick="selectBook('Manage Books...')">Manage Books...</div>
+        </div>
+      </div>
 
-// Display accounts
-function displayAccounts() {
-  container.innerHTML = "";
+      <!-- White Menu Body -->
+      <div class="menu-body">
+        <!-- Book Actions -->
+        <div class="menu-section">
+          <a href="#"><span class="material-icons">folder</span> Open...</a>
+        </div>
 
-  if (accounts.length === 0) {
-    container.innerHTML = "<p>No account data found. Click + to create one.</p>";
-    return;
-  }
+        <!-- Accounts -->
+        <div class="menu-section">
+          <p class="section-title">Accounts</p>
+          <a href="#"><span class="material-icons">favorite_border</span> Favorites</a>
+          <a href="#"><span class="material-icons">bar_chart</span> Reports</a>
+        </div>
 
-  accounts.forEach(account => {
-    const card = document.createElement("div");
-    card.className = "account-card";
-    card.innerHTML = `
+        <!-- Transactions -->
+        <div class="menu-section">
+          <p class="section-title">Transactions</p>
+          <a href="#"><span class="material-icons">schedule</span> Scheduled Actions</a>
+          <a href="#"><span class="material-icons">upload</span> Export...</a>
+        </div>
+
+        <!-- Preferences -->
+        <div class="menu-section">
+          <p class="section-title">Preferences</p>
+          <a href="#"><span class="material-icons">settings</span> Settings</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="spacer">
+      <h1>Accounts</h1>
+    </div>
+
+    <span class="material-icons">search</span>
+  </header>
+
+  <nav class="tabs">
+    <a href="index.html" class="tab">RECENT</a>
+    <a href="All.html" class="tab active">ALL</a>
+    <a href="favorites.html" class="tab">FAVORITES</a>
+  </nav>
+
+  <main id="accountDetails" class="account-list">
+    <!-- Account details will be shown here -->
+    <script>
+      function openCreateForm() {
+        window.location.href = "CreateAccount.html";
+      }
+
+      // Fetch data
+      let accounts = JSON.parse(localStorage.getItem("accountList")) || [];
+      const container = document.getElementById("accountDetails");
+
+      // Display accounts
+      function displayAccounts() {
+        container.innerHTML = "";
+
+        if (accounts.length === 0) {
+          container.innerHTML = "<p>No account data found. Click + to create one.</p>";
+          return;
+        }
+
+        accounts.forEach(account => {
+          const card = document.createElement("div");
+          card.className = "account-card";
+          card.innerHTML = `
       <div class="color-bar" style="background-color: ${account.color};"></div>
       <div class="card-content">
   <div class="left">
     <div class="title">${account.accountName}</div>
-    ${
-      (account.subAccountCount ?? 0) > 0
-        ? `<div class="subtitle">
+    ${(account.subAccountCount ?? 0) > 0
+              ? `<div class="subtitle">
             ${account.subAccountCount} sub-account${account.subAccountCount > 1 ? 's' : ''}
            </div>`
-        : ''
-    }
+              : ''
+            }
   </div>
   <div class="right">
     <span class="material-icons favorite-icon">
@@ -70,29 +128,30 @@ function displayAccounts() {
 </div>
 
     `;
-    container.appendChild(card);
-  });
-}
+          container.appendChild(card);
+        });
+      }
 
-// Delete account
-function deleteAccount(id) {
-  accounts = accounts.filter(acc => acc.id !== id);
-  localStorage.setItem("accountList", JSON.stringify(accounts));
-  displayAccounts(); // refresh UI
-}
+      // Delete account
+      function deleteAccount(id) {
+        accounts = accounts.filter(acc => acc.id !== id);
+        localStorage.setItem("accountList", JSON.stringify(accounts));
+        displayAccounts(); // refresh UI
+      }
 
-// Initial display
-displayAccounts();
-</script>
+      // Initial display
+      displayAccounts();
+    </script>
 
-</main>
-
-
-<button class="fab" onclick="openCreateForm()">
-  <span class="material-icons">add</span>
-</button>
+  </main>
 
 
-<script src="none.js"></script>
+  <button class="fab" onclick="openCreateForm()">
+    <span class="material-icons">add</span>
+  </button>
+
+
+  <script src="none.js"></script>
 </body>
+
 </html>
