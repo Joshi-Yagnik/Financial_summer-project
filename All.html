@@ -98,11 +98,6 @@
       function displayAccounts() {
         container.innerHTML = "";
 
-        if (accounts.length === 0) {
-          container.innerHTML = "<p>No account data found. Click + to create one.</p>";
-          return;
-        }
-
         accounts.forEach(account => {
           const card = document.createElement("div");
           card.className = "account-card";
