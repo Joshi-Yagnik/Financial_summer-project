@@ -241,6 +241,104 @@ body {
   cursor: pointer;
 }
 
+/* Section Styling */
+.account-list {
+  padding: 2px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Card Layout */
+.card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 8px solid;
+  background-color: #fff;
+  padding: 15px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Side */
+.card-left h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.card-left p {
+  margin: 5px 0 0;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+/* Right Side */
+.card-right {
+  text-align: right;
+}
+
+.amount {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.amount.green {
+  color: green;
+}
+
+.amount.red {
+  color: red;
+}
+
+.icons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 5px;
+}
+
+/* Color Borders */
+.border-blue {
+  border-color: #2196f3;
+}
+
+.border-orange {
+  border-color: #ff9800;
+}
+
+.border-red {
+  border-color: #f44336;
+}
+
+.border-green {
+  border-color: #4caf50;
+}
+
+.border-purple {
+  border-color: #9c27b0;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card-right {
+    width: 100%;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+  .icons {
+    justify-content: flex-start;
+  }
+}
+
 /* Form Elements */
 .account-card {
   display: flex;
@@ -278,6 +376,12 @@ body {
   align-items: center;
   gap: 10px;
 }
+
+#col {
+  cursor: pointer;
+  color: #666;
+}
+
 
 .amount {
   font-weight: bold;
