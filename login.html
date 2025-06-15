@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" href="login.css">
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
+            authDomain: "financial-summer-project.firebaseapp.com",
+            projectId: "financial-summer-project",
+            storageBucket: "financial-summer-project.firebasestorage.app",
+            messagingSenderId: "502346293460",
+            appId: "1:502346293460:web:379e8369eddfd47ce51b41",
+            measurementId: "G-9C8T2LGM4Q"
+        };
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        document.getElementById("loginBtn").addEventListener("click", function () {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    window.location.href = "All.html"; // redirect to main project page
+                })
+                .catch((error) => {
+                    alert("Login Failed: " + error.message);
+                });
+        });
+
+        // Redirect if already logged in
+        // onAuthStateChanged(auth, (user) => {
+        //     if (user) {
+        //         window.location.href = "All.html";
+        //     }
+        // });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginBtn">Login</button>
+        <div class="link">
+            Don't have an account? <a href="signup.html">Sign up</a>
+        </div>
+    </div>
+</body>
+
+</html>
