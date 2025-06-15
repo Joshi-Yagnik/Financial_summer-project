@@ -74,19 +74,3 @@ button:hover {
   text-decoration: underline;
 }
 
-/* Small mobile fix */
-@media (max-width: 400px) {
-  .container {
-    padding: 20px 16px;
-  }
-
-  input,
-  button {
-    padding: 12px;
-    font-size: 0.95rem;
-  }
-
-  h2 {
-    font-size: 1.4rem;
-  }
-}
