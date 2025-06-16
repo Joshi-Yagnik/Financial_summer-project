@@ -321,21 +321,65 @@ body {
   border-color: #9c27b0;
 }
 
-/* Responsive */
 @media (max-width: 600px) {
   .card {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
     align-items: flex-start;
+    padding: 14px;
+  }
+
+  .card-left {
+    width: 70%;
+  }
+
+  .card-right {
+    width: 30%;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+
+  .card-left h2 {
+    font-size: 1rem;
+  }
+
+  .card-left p {
+    font-size: 0.85rem;
+  }
+
+  .amount {
+    font-size: 1rem;
+  }
+
+  .icons span {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 400px) {
+  .card {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .card-left {
+    width: 100%;
+    margin-bottom: 8px;
   }
 
   .card-right {
     width: 100%;
-    margin-top: 10px;
-    text-align: left;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .amount {
+    font-size: 1rem;
   }
 
   .icons {
-    justify-content: flex-start;
+    gap: 10px;
   }
 }
 
