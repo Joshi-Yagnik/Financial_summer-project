@@ -42,6 +42,16 @@
         window.location.href = "login.html";
       });
     });
+    // Logout
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          window.location.href = "login.html";
+        })
+        .catch((error) => {
+          console.error("Logout Error:", error);
+        });
+    });
   </script>
 
 
@@ -106,12 +116,13 @@
       <h1>Accounts</h1>
     </div>
 
-    <span class="material-icons">search</span>
+    <span class="material-icons" style="cursor: pointer;">search</span>
+    <span class="material-icons" id="logoutBtn" style="cursor: pointer;">logout</span>
   </header>
 
   <!-- Tabs -->
   <nav class="tabs">
-    <a href="index.html" class="tab active">RECENT</a>
+    <a href="Recent.html" class="tab active">RECENT</a>
     <a href="All.html" class="tab">ALL</a>
     <a href="favorites.html" class="tab">FAVORITES</a>
   </nav>
