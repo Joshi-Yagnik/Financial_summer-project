@@ -321,6 +321,7 @@ body {
   border-color: #9c27b0;
 }
 
+/* Responsive Fix */
 @media (max-width: 600px) {
   .card {
     flex-direction: row;
