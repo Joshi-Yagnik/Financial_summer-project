@@ -74,3 +74,42 @@ button:hover {
   text-decoration: underline;
 }
 
+/* 🔽 Responsive Adjustments */
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 18px;
+  }
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  input,
+  button {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+
+  .link {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .container {
+    padding: 20px 14px;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  input,
+  button {
+    font-size: 0.9rem;
+  }
+
+  .link {
+    font-size: 0.8rem;
+  }
+}
