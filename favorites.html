@@ -11,7 +11,7 @@
     type="image/x-icon" />
   <link rel="stylesheet" href="styles.css">
 
-    <script type="module">
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -125,6 +125,19 @@
     <a href="All.html" class="tab">ALL</a>
     <a href="favorites.html" class="tab active">FAVORITES</a>
   </nav>
+
+  <div class="account-list" id="favoriteContainer"></div>
+
+  <script>
+    const container = document.getElementById("favoriteContainer");
+
+    Object.keys(localStorage).forEach(key => {
+      if (key.startsWith("fav-")) {
+        const cardHTML = localStorage.getItem(key);
+        container.insertAdjacentHTML("beforeend", cardHTML);
+      }
+    });
+  </script>
 
   <button class="fab" onclick="openCreateForm()">
     <span class="material-icons">add</span>

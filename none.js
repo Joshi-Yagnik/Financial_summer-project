@@ -27,7 +27,7 @@ document.addEventListener("click", function (event) {
   }
 });
 
-// Book bar 
+// Book bar
 function toggleBookDropdown() {
   const list = document.getElementById("bookList");
   list.style.display = list.style.display === "block" ? "none" : "block";
@@ -51,3 +51,35 @@ function openCreateForm() {
 function closeCreateForm() {
   document.getElementById("createForm").style.display = "none";
 }
+// Loop through all favorite icons on the page
+document.querySelectorAll(".favorite-icon").forEach((icon) => {
+  // Get the parent card of the icon
+  const card = icon.closest(".card");
+
+  // Get a unique identifier for the card (set via data-id attribute)
+  const cardId = card.getAttribute("data-id");
+
+  // Check if this card is already in favorites (on page load)
+  if (localStorage.getItem(`fav-${cardId}`)) {
+    icon.innerText = "favorite"; // Set filled heart icon
+    icon.classList.add("active"); // Add active color class
+  }
+
+  // Add click event to toggle favorite
+  icon.addEventListener("click", function () {
+    const isFavorited = icon.classList.contains("active");
+
+    if (isFavorited) {
+      // If already favorited, remove from localStorage
+      icon.innerText = "favorite_border"; // Show empty heart icon
+      icon.classList.remove("active"); // Remove active color
+      localStorage.removeItem(`fav-${cardId}`); // Delete from localStorage
+    } else {
+      // If not favorited, add to localStorage
+      icon.innerText = "favorite"; // Show filled heart icon
+      icon.classList.add("active"); // Add active color
+      localStorage.setItem(`fav-${cardId}`, card.outerHTML); // Save card HTML
+    }
+  });
+});
+
