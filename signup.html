@@ -31,6 +31,7 @@
                 .then(() => {
                     alert("Signup Successful");
                     window.location.href = "login.html";
+                    speakGreeting(); // Voice greeting like Jarvis
                 })
                 .catch((error) => {
                     alert("Error: " + error.message);
@@ -44,11 +45,25 @@
         <h2>Signup</h2>
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button id="signupBtn">Sign Up</button>
+        <button id="signupBtn" ondblclick="speakGreeting()">Sign Up</button>
         <div class="link">
             Already have an account? <a href="login.html">Login</a>
         </div>
     </div>
+
+    <div class="footer">
+        <p>&copy; 2025 Financial Summer Project</p>
+    </div>
+    
+    <script>
+        // Function to speak a greeting message
+        function speakGreeting() {
+            const utterance = new SpeechSynthesisUtterance("Welcome to the Financial Summer Project. You are now logged in.");
+            utterance.lang = "en-US";
+            speechSynthesis.speak(utterance);
+        }
+    </script>
+
 </body>
 
 </html>

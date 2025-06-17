@@ -113,3 +113,17 @@ button:hover {
     font-size: 0.8rem;
   }
 }
+.footer {
+  background-color: #4CAF50;
+  color: #ffffff;
+  text-align: center;
+  padding: 16px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  font-size: 14px;
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
+.footer a {
+  text-decoration: none;
+}

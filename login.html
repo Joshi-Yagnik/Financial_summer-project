@@ -33,6 +33,7 @@
             signInWithEmailAndPassword(auth, email, password)
                 .then((userCredential) => {
                     window.location.href = "All.html"; // redirect to main project page
+                    speakGreeting(); // Voice greeting like Jarvis
                 })
                 .catch((error) => {
                     alert("Login Failed: " + error.message);
@@ -53,11 +54,49 @@
         <h2>Login</h2>
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
-        <button id="loginBtn">Login</button>
+        <button id="loginBtn" ondblclick="speakGreeting()">Login</button>
         <div class="link">
             Don't have an account? <a href="signup.html">Sign up</a>
         </div>
     </div>
+    
+    <div class="footer">
+        <p>&copy; 2025 Financial Summer Project</p>
+    </div>
+
+    <!-- Time-based Voice Greeting -->
+    
+    <script>
+        function getGreetingMessage() {
+            const hour = new Date().getHours();
+            if (hour >= 5 && hour < 12) return "Jay Shree Ram, Sir! I hope you have a productive day ahead!";
+            if (hour >= 12 && hour < 17) return "Radhey Radhey, Sir! I hope your day is going well!";
+            if (hour >= 17 && hour < 21) return "Jay Shree Karishna, Sir! I hope you had a great day!";
+            return "Om Namah Shivay , Sir! I hope you had a restful day!";
+        }
+        
+        // Function to speak a greeting message
+        function speakGreeting() {
+            const message = getGreetingMessage();
+            const utterance = new SpeechSynthesisUtterance(message);
+
+            // Optional: Jarvis-style voice (check if available)
+            const voices = window.speechSynthesis.getVoices();
+            const jarvisVoice = voices.find(v => v.name.includes("Daniel") || v.name.includes("UK"));
+
+            if (jarvisVoice) {
+                utterance.voice = jarvisVoice;
+            }
+
+            utterance.rate = 1;    // Speed of voice
+            utterance.pitch = 1;   // Tone
+            utterance.volume = 1;  // Volume
+
+            window.speechSynthesis.speak(utterance);
+        }
+
+    </script>
+
 </body>
 
 </html>
