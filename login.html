@@ -59,22 +59,28 @@
             Don't have an account? <a href="signup.html">Sign up</a>
         </div>
     </div>
-    
+
     <div class="footer">
         <p>&copy; 2025 Financial Summer Project</p>
     </div>
 
     <!-- Time-based Voice Greeting -->
-    
+
     <script>
         function getGreetingMessage() {
             const hour = new Date().getHours();
             if (hour >= 5 && hour < 12) return "Jay Shree Ram, Sir! I hope you have a productive day ahead!";
             if (hour >= 12 && hour < 17) return "Radhey Radhey, Sir! I hope your day is going well!";
-            if (hour >= 17 && hour < 21) return "Jay Shree Karishna, Sir! I hope you had a great day!";
+            if (hour >= 17 && hour < 21) return "Jai Shree Krishna, Sir! I hope you had a great day!";
             return "Om Namah Shivay , Sir! I hope you had a restful day!";
+            
+            // if (hour >= 5 && hour < 12) return "Good Morning, Sir!";
+            // if (hour >= 5 && hour < 12) return "Good Morning, Sir!";
+            // if (hour >= 12 && hour < 17) return "Good Afternoon, Sir!";
+            // if (hour >= 17 && hour < 21) return "Good Evening, Sir!";
+            // return "Good Night, Sir!";
         }
-        
+
         // Function to speak a greeting message
         function speakGreeting() {
             const message = getGreetingMessage();
