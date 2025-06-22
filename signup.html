@@ -6,9 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup</title>
     <link rel="stylesheet" href="login.css">
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
@@ -22,20 +24,34 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        document.getElementById("signupBtn").addEventListener("click", () => {
-            const email = document.getElementById("email").value;
+        document.getElementById("signupBtn").addEventListener("click", async () => {
+            const name = document.getElementById("name").value.trim();
+            const age = parseInt(document.getElementById("age").value);
+            const number = document.getElementById("number").value.trim();
+            const email = document.getElementById("email").value.trim();
             const password = document.getElementById("password").value;
 
-            createUserWithEmailAndPassword(auth, email, password)
-                .then(() => {
-                    alert("Signup Successful");
-                    window.location.href = "login.html";
-                    speakGreeting(); // Voice greeting like Jarvis
-                })
-                .catch((error) => {
-                    alert("Error: " + error.message);
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                const user = userCredential.user;
+
+                // Save additional user data to Firestore
+                await setDoc(doc(db, "users", user.uid), {
+                    name: name,
+                    age: age,
+                    number: number,
+                    email: email
                 });
+
+                alert("Signup Successful ✅");
+                speakGreeting(); // Optional: Voice greeting like Jarvis
+                window.location.href = "login.html";
+
+            } catch (error) {
+                alert("Error: " + error.message);
+            }
         });
     </script>
 </head>
@@ -43,6 +59,9 @@
 <body>
     <div class="container">
         <h2>Signup</h2>
+        <input type="text" id="name" placeholder="Name">
+        <input type="number" id="age" placeholder="Age">
+        <input type="tel" id="number" placeholder="Mobile Number">
         <input type="email" id="email" placeholder="Email">
         <input type="password" id="password" placeholder="Password">
         <button id="signupBtn" ondblclick="speakGreeting()">Sign Up</button>
@@ -54,11 +73,13 @@
     <div class="footer">
         <p>&copy; 2025 Financial Summer Project</p>
     </div>
-    
+
     <script>
         // Function to speak a greeting message
         function speakGreeting() {
-            const utterance = new SpeechSynthesisUtterance("Welcome to the Financial Summer Project. You are now logged in.");
+            const name = document.getElementById("name").value;
+            const message = `Welcome to the Financial Summer Project ${name}. You are now logged in.`;
+            const utterance = new SpeechSynthesisUtterance(message);
             utterance.lang = "en-US";
             speechSynthesis.speak(utterance);
         }
