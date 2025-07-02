@@ -129,7 +129,7 @@
 
   <!-- Section Styling -->
   <section class="account-list">
-    <div class="card border-blue" data-id="assets">
+    <div class="card border-blue" data-id="assets" onclick="openAccountDetail('assets')">
       <div class="card-left">
         <h2>Assets</h2>
         <!-- <p>1 sub-account</p> -->
@@ -139,7 +139,7 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
                 <span class="material-icons">edit</span>
@@ -155,7 +155,7 @@
       </div>
     </div>
 
-    <div class="card border-orange" data-id="equity">
+    <div class="card border-orange" data-id="equity" onclick="openAccountDetail('equity')">
       <div class="card-left">
         <h2>Equity</h2>
         <!-- <p>1 sub-account</p> -->
@@ -165,7 +165,7 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('equity')">
                 <span class="material-icons">edit</span>
@@ -181,7 +181,7 @@
       </div>
     </div>
 
-    <div class="card border-red" data-id="expenses">
+    <div class="card border-red" data-id="expenses" onclick="openAccountDetail('expenses')">
       <div class="card-left">
         <h2>Expenses</h2>
         <!-- <p>26 sub-accounts</p> -->
@@ -191,7 +191,7 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('expenses')">
                 <span class="material-icons">edit</span>
@@ -207,7 +207,7 @@
       </div>
     </div>
 
-    <div class="card border-green" data-id="income">
+    <div class="card border-green" data-id="income" onclick="openAccountDetail('income')">
       <div class="card-left">
         <h2>Income</h2>
         <!-- <p>5 sub-accounts</p> -->
@@ -217,7 +217,7 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('income')">
                 <span class="material-icons">edit</span>
@@ -233,7 +233,7 @@
       </div>
     </div>
 
-    <div class="card border-purple" data-id="liabilities">
+    <div class="card border-purple" data-id="liabilities" onclick="openAccountDetail('liabilities')">
       <div class="card-left">
         <h2>Liabilities</h2>
         <!-- <p>1 sub-account</p> -->
@@ -243,7 +243,7 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('liabilities')">
                 <span class="material-icons">edit</span>
@@ -266,6 +266,33 @@
       // Redirect to Create Account page
       function openCreateForm() {
         window.location.href = "CreateAccount.html";
+      }
+
+      // Open account detail page
+      function openAccountDetail(accountType) {
+        switch(accountType) {
+          case 'assets':
+            window.location.href = "assets.html";
+            break;
+          case 'equity':
+            // Create equity.html later
+            alert("Equity detail page coming soon!");
+            break;
+          case 'expenses':
+            // Create expenses.html later
+            alert("Expenses detail page coming soon!");
+            break;
+          case 'income':
+            // Create income.html later
+            alert("Income detail page coming soon!");
+            break;
+          case 'liabilities':
+            // Create liabilities.html later
+            alert("Liabilities detail page coming soon!");
+            break;
+          default:
+            console.log("Unknown account type:", accountType);
+        }
       }
 
       // Get accounts from localStorage
