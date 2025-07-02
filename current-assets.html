@@ -3,14 +3,14 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Assets - Sub-accounts</title>
+  <title>Current Assets - Sub-accounts</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon"
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
     type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="assets.css">
+  <link rel="stylesheet" href="current-assets.css">
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -44,11 +44,11 @@
 </head>
 
 <body>
-  <header class="top-bar assets-header">
+  <header class="top-bar current-assets-header">
     <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
     
     <div class="header-content">
-      <h1>Assets</h1>
+      <h1>Current Assets</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
     </div>
 
@@ -76,15 +76,15 @@
   </nav>
 
   <section class="sub-accounts-list">
-    <div class="sub-account-card" onclick="openSubAccount('current-assets')">
+    <div class="sub-account-card" onclick="openAccountTransactions('cash-in-wallet')">
       <div class="color-bar blue-bar"></div>
       <div class="card-content">
         <div class="left">
-          <div class="title">Current Assets</div>
-          <div class="subtitle">3 sub-accounts</div>
+          <div class="title">Cash in Wallet</div>
+          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span class="material-icons favorite-icon">favorite_border</span>
           <div class="amount">₹0.00</div>
           <div class="kebab-menu">
             <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
@@ -103,15 +103,15 @@
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openSubAccount('fixed-assets')">
+    <div class="sub-account-card" onclick="openAccountTransactions('checking-account')">
       <div class="color-bar blue-bar"></div>
       <div class="card-content">
         <div class="left">
-          <div class="title">Fixed Assets</div>
-          <div class="subtitle">2 sub-accounts</div>
+          <div class="title">Checking Account</div>
+          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span class="material-icons favorite-icon">favorite_border</span>
           <div class="amount">₹0.00</div>
           <div class="kebab-menu">
             <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
@@ -130,15 +130,15 @@
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openSubAccount('investments')">
+    <div class="sub-account-card" onclick="openAccountTransactions('savings-account')">
       <div class="color-bar blue-bar"></div>
       <div class="card-content">
         <div class="left">
-          <div class="title">Investments</div>
-          <div class="subtitle">1 sub-account</div>
+          <div class="title">Savings Account</div>
+          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span class="material-icons favorite-icon">favorite_border</span>
           <div class="amount">₹0.00</div>
           <div class="kebab-menu">
             <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
@@ -164,27 +164,16 @@
 
   <script>
     function goBack() {
-      window.location.href = "All.html";
+      window.location.href = "assets.html";
     }
 
     function openCreateForm() {
       window.location.href = "CreateAccount.html";
     }
 
-    function openSubAccount(accountType) {
-      switch(accountType) {
-        case 'current-assets':
-          window.location.href = "current-assets.html";
-          break;
-        case 'fixed-assets':
-          alert("Fixed Assets detail page coming soon!");
-          break;
-        case 'investments':
-          alert("Investments detail page coming soon!");
-          break;
-        default:
-          console.log("Unknown sub-account type:", accountType);
-      }
+    function openAccountTransactions(accountId) {
+      // For now, show an alert. Later you can create transaction pages
+      alert(`Opening transactions for ${accountId.replace('-', ' ')}`);
     }
 
     // Toggle kebab menu
@@ -213,15 +202,18 @@
     });
 
     // Toggle favorite functionality
-    function toggleFavorite(element) {
-      if (element.textContent === 'favorite_border') {
-        element.textContent = 'favorite';
-        element.style.color = '#ff6b6b';
-      } else {
-        element.textContent = 'favorite_border';
-        element.style.color = '#888';
-      }
-    }
+    document.querySelectorAll('.favorite-icon').forEach(icon => {
+      icon.addEventListener('click', function(event) {
+        event.stopPropagation(); // Prevent card click
+        if (this.textContent === 'favorite_border') {
+          this.textContent = 'favorite';
+          this.style.color = '#ff6b6b';
+        } else {
+          this.textContent = 'favorite_border';
+          this.style.color = '#888';
+        }
+      });
+    });
   </script>
 </body>
 
