@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Savings Account - Transactions</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon"
+    href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
+    type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="savings-account.css">
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
+      authDomain: "financial-summer-project.firebaseapp.com",
+      projectId: "financial-summer-project",
+      storageBucket: "financial-summer-project.firebasestorage.app",
+      messagingSenderId: "502346293460",
+      appId: "1:502346293460:web:379e8369eddfd47ce51b41",
+      measurementId: "G-9C8T2LGM4Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "login.html";
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <header class="top-bar savings-account-header">
+    <span class="material-icons back-btn" onclick="goBack()">menu</span>
+    
+    <div class="header-content">
+      <h1>Assets:Curre...gs Account</h1>
+      <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+    </div>
+
+    <div class="header-actions">
+      <span class="material-icons">favorite_border</span>
+      <div class="kebab-menu">
+        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
+        <div class="kebab-dropdown">
+          <div class="kebab-option edit">
+            <span class="material-icons">edit</span>
+            Edit Account
+          </div>
+          <div class="kebab-option delete">
+            <span class="material-icons">delete</span>
+            Delete Account
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="account-tabs">
+    <div class="tab" onclick="switchTab('sub-accounts')">SUB-ACCOUNTS</div>
+    <div class="tab active" onclick="switchTab('transactions')">TRANSACTIONS</div>
+  </nav>
+
+  <section class="transactions-content">
+    <div class="empty-state">
+      <div class="empty-message">No transactions to display</div>
+    </div>
+  </section>
+
+  <button class="fab" onclick="openCreateTransaction()">
+    <span class="material-icons">add</span>
+  </button>
+
+  <script>
+    function goBack() {
+      window.location.href = "current-assets.html";
+    }
+
+    function openCreateTransaction() {
+      alert("Create new transaction functionality coming soon!");
+    }
+
+    function switchTab(tabName) {
+      // Remove active class from all tabs
+      document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Add active class to clicked tab
+      event.target.classList.add('active');
+      
+      if (tabName === 'sub-accounts') {
+        // For now, just show an alert. Later you can implement sub-accounts view
+        alert("Sub-accounts view coming soon!");
+        // Reset to transactions tab
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        event.target.classList.remove('active');
+      }
+    }
+
+    // Toggle kebab menu
+    function toggleKebabMenu(element) {
+      const dropdown = element.nextElementSibling;
+      const isVisible = dropdown.classList.contains('show');
+      
+      // Close all other dropdowns
+      document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
+        menu.classList.remove('show');
+      });
+      
+      // Toggle current dropdown
+      if (!isVisible) {
+        dropdown.classList.add('show');
+      }
+    }
+
+    // Close kebab menus when clicking outside
+    document.addEventListener('click', function(event) {
+      if (!event.target.closest('.kebab-menu')) {
+        document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
+          menu.classList.remove('show');
+        });
+      }
+    });
+
+    // Toggle favorite functionality
+    document.querySelector('.header-actions .material-icons').addEventListener('click', function() {
+      if (this.textContent === 'favorite_border') {
+        this.textContent = 'favorite';
+        this.style.color = '#ff6b6b';
+      } else {
+        this.textContent = 'favorite_border';
+        this.style.color = 'white';
+      }
+    });
+  </script>
+</body>
+
+</html>
