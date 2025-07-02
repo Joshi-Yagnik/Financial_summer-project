@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #388e3c;
+      --icon-color: #555;
+      --bg-color: #f9f9f9;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+    }
+
+    :root {
+      --bg-color2: white;
+      --text-color: #333;
+    }
+
+    [data-theme="dark"] {
+      --bg-color2: #121212;
+      --text-color: rgb(71, 46, 46);
+    }
+
+
+
+    .icon-left {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 16px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-left .material-icons {
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 16px;
+    }
+
+    .setting-item {
+      display: flex;
+      align-items: center;
+      padding: 14px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .setting-item:hover {
+      background-color: #f1f1f1;
+    }
+
+    .setting-icon {
+      font-size: 24px;
+      margin-right: 16px;
+      color: var(--icon-color);
+      width: 30px;
+      text-align: center;
+    }
+
+    .setting-text {
+      font-size: 16px;
+    }
+
+    /* Desktop styles */
+    @media (min-width: 768px) {
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 24px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+      }
+
+      .setting-item {
+        border: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-color: #f5f5f5;
+        border-radius: 12px;
+        padding: 30px 10px;
+        transition: transform 0.2s;
+      }
+
+      .setting-item:hover {
+        transform: scale(1.03);
+        background-color: #e0f2f1;
+      }
+
+      .setting-icon {
+        font-size: 40px;
+        margin: 0 0 10px 0;
+        background-color: white;
+        border-radius: 12px;
+        padding: 15px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .setting-text {
+        font-size: 15px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="icon-left">
+    <span class="material-icons" id="backButton">arrow_back</span>
+    <span>Settings</span>
+  </div>
+
+  <div class="container">
+    <div class="setting-item" onclick="alert('General Settings')">
+      <span class="material-icons setting-icon">settings</span>
+      <a href="general.html"><span class="setting-text">General</span></a>
+    </div>
+    <div class="setting-item" onclick="alert('Manage Books')">
+      <span class="material-icons setting-icon">book</span>
+      <span class="setting-text">Manage Books</span>
+    </div>
+    <div class="setting-item" onclick="alert('Accounts')">
+      <span class="material-icons setting-icon">account_balance</span>
+      <span class="setting-text">Accounts</span>
+    </div>
+    <div class="setting-item" onclick="alert('Transactions')">
+      <span class="material-icons setting-icon">attach_money</span>
+      <span class="setting-text">Transactions</span>
+    </div>
+    <div class="setting-item" onclick="alert('Backup & export')">
+      <span class="material-icons setting-icon">cloud_upload</span>
+      <span class="setting-text">Backup & export</span>
+    </div>
+    <div class="setting-item" onclick="alert('About')">
+      <span class="material-icons setting-icon">info</span>
+      <span class="setting-text">About</span>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("backButton").addEventListener("click", function () {
+      // Redirect to All.html when the back button is clicked
+      window.location.href = "All.html";
+    });
+  </script>
+  <script src="theme.js"></script>
+
+</body>
+
+</html>

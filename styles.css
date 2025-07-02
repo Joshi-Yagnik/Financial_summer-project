@@ -4,6 +4,22 @@ body {
   background-color: #fff;
 }
 
+:root {
+  --bg-color: white;
+  --text-color: #333;
+}
+
+[data-theme="dark"] {
+  --bg-color: #121212;
+  --text-color: #e0e0e0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+
 
 /* menu bar  */
 /* Sidebar Container */
