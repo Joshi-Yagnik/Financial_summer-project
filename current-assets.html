@@ -172,8 +172,19 @@
     }
 
     function openAccountTransactions(accountId) {
-      // For now, show an alert. Later you can create transaction pages
-      alert(`Opening transactions for ${accountId.replace('-', ' ')}`);
+      switch(accountId) {
+        case 'cash-in-wallet':
+          window.location.href = "cash-in-wallet.html";
+          break;
+        case 'checking-account':
+          alert("Checking Account transactions page coming soon!");
+          break;
+        case 'savings-account':
+          alert("Savings Account transactions page coming soon!");
+          break;
+        default:
+          alert(`Opening transactions for ${accountId.replace('-', ' ')}`);
+      }
     }
 
     // Toggle kebab menu
