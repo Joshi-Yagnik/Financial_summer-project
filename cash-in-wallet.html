@@ -9,6 +9,7 @@
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
     type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cash-in-wallet.css">
 
   <script type="module">
@@ -49,24 +50,25 @@
     <div class="header-content">
       <h1>Assets:Curre...sh in Wallet</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
-    </div>
-
-    <div class="header-actions">
-      <span class="material-icons">favorite_border</span>
-      <div class="kebab-menu">
-        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
-        <div class="kebab-dropdown">
-          <div class="kebab-option edit">
-            <span class="material-icons">edit</span>
-            Edit Account
-          </div>
-          <div class="kebab-option delete">
-            <span class="material-icons">delete</span>
-            Delete Account
+      <div class="icons">
+          <span class="material-icons favorite-icon">favorite_border</span>
+          <div class="kebab-menu">
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <div class="kebab-dropdown">
+              <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
+                <span class="material-icons">edit</span>
+                Edit Account
+              </div>
+              <div class="kebab-option delete" onclick="deleteDefaultAccount('assets')">
+                <span class="material-icons">delete</span>
+                Delete Account
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
+
+    
   </header>
 
   <nav class="account-tabs">

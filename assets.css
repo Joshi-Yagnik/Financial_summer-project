@@ -1,15 +1,50 @@
-/* Assets Page Specific Styles */
+/* ----------  COLOR VARIABLES & DARK MODE  ---------- */
+:root {
+  --primary-bg: #f8f9fa;
+  --card-bg: #fff;
+  --text-primary: #333;
+  --text-secondary: #6c757d;
+  --accent-blue: #2196f3;
+  --accent-blue-dark: #1976d2;
+  --danger: #d32f2f;
+  --hover-red: #fff5f5;
+  --favorite-hover: #ff6b6b;
+}
+
+body.dark-mode {
+  --primary-bg: #1c1c1e;
+  --card-bg: #2c2c2e;
+  --text-primary: #f2f2f7;
+  --text-secondary: #a1a1aa;
+}
+
+/* ----------  GENERAL RESET  ---------- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: var(--primary-bg);
+  color: var(--text-primary);
+  line-height: 1.4;
+}
+
+/* ----------  TOP BAR  ---------- */
 .assets-header {
-  background: linear-gradient(135deg, #2196f3, #1976d2);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 16px 20px;
-  color: white;
+  color: #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.back-btn {
+.back-btn,
+.header-actions .material-icons {
   font-size: 24px;
   cursor: pointer;
   padding: 8px;
@@ -17,7 +52,8 @@
   transition: background-color 0.2s ease;
 }
 
-.back-btn:hover {
+.back-btn:hover,
+.header-actions .material-icons:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
@@ -30,7 +66,6 @@
 }
 
 .header-content h1 {
-  margin: 0;
   font-size: 20px;
   font-weight: 600;
 }
@@ -40,53 +75,39 @@
   opacity: 0.8;
 }
 
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.header-actions .material-icons {
-  font-size: 24px;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
-}
-
-.header-actions .material-icons:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
+/* ----------  SUB‑ACCOUNT LIST HEADER  ---------- */
 .sub-accounts-header {
-  background-color: #f8f9fa;
+  background: var(--primary-bg);
   padding: 16px 20px;
   border-bottom: 1px solid #e9ecef;
-}
-
-.sub-accounts-header h2 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #6c757d;
-  letter-spacing: 0.5px;
   text-align: center;
 }
 
+.sub-accounts-header h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+/* ----------  SUB‑ACCOUNT CARDS  ---------- */
 .sub-accounts-list {
   padding: 16px;
-  background-color: #f8f9fa;
   min-height: calc(100vh - 140px);
+  background: var(--primary-bg);
 }
 
 .sub-account-card {
   display: flex;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 12px;
-  overflow: hidden;
-  background-color: #fff;
+  border-radius: 12px;
+  background: var(--card-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: visible;
+  z-index: 1;
 }
 
 .sub-account-card:hover {
@@ -96,104 +117,154 @@
 
 .blue-bar {
   width: 6px;
-  background: linear-gradient(180deg, #2196f3, #1976d2);
+  background: linear-gradient(180deg, var(--accent-blue), var(--accent-blue-dark));
 }
 
-.sub-account-card .card-content {
+.card-content {
+  flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex: 1;
   padding: 16px 20px;
+  gap: 8px;
 }
 
-.sub-account-card .left .title {
+.left .title {
   font-size: 16px;
   font-weight: 600;
-  color: #333;
   margin-bottom: 4px;
 }
 
-.sub-account-card .left .subtitle {
+.left .subtitle {
   font-size: 13px;
-  color: #6c757d;
+  color: var(--text-secondary);
 }
 
-.sub-account-card .right {
+.right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
-.sub-account-card .amount {
+.amount {
   font-weight: 600;
   font-size: 16px;
-  color: #333;
   min-width: 80px;
   text-align: right;
 }
 
-.sub-account-card .favorite-icon {
+.favorite-icon {
   color: #888;
   cursor: pointer;
   transition: color 0.2s ease;
 }
 
-.sub-account-card .favorite-icon:hover {
-  color: #ff6b6b;
+.favorite-icon:hover {
+  color: var(--favorite-hover);
 }
 
-/* Kebab menu styles for assets page */
-.assets-header .kebab-dropdown {
-  background-color: white;
-  color: #333;
+/* ----------  KEBAB MENU  ---------- */
+.kebab-menu {
+  position: relative;
+  display: inline-block;
+  z-index: 2;
 }
 
-.assets-header .kebab-icon {
-  color: white;
+.kebab-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background-color: var(--card-bg);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 160px;
+  z-index: 9999;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-5px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.assets-header .kebab-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.kebab-dropdown.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
-/* Responsive design */
-@media (max-width: 480px) {
-  .assets-header {
-    padding: 12px 16px;
-  }
-  
-  .header-content h1 {
-    font-size: 18px;
-  }
-  
-  .header-actions {
-    gap: 12px;
-  }
-  
-  .sub-accounts-list {
-    padding: 12px;
-  }
-  
-  .sub-account-card .card-content {
-    padding: 14px 16px;
-  }
-  
-  .sub-account-card .right {
-    gap: 12px;
-  }
+.kebab-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: background 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-/* FAB positioning for assets page */
+.kebab-option:last-child {
+  border-bottom: none;
+}
+
+.kebab-option:hover {
+  background: #f1f1f1;
+}
+
+.kebab-option.edit .material-icons {
+  color: var(--accent-blue);
+}
+
+.kebab-option.delete .material-icons {
+  color: var(--danger);
+}
+
+.kebab-option.delete:hover {
+  background: var(--hover-red);
+  color: var(--danger);
+}
+
+/* ----------  ACCOUNT SUMMARY CARD  ---------- */
+.account-card {
+  width: 100%;
+  max-width: 350px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+.account-left,
+.account-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.material-icons {
+  font-size: 22px;
+  color: #666;
+  cursor: pointer;
+}
+
+/* ----------  FLOATING ACTION BUTTON  ---------- */
 .fab {
   position: fixed;
   bottom: 24px;
   right: 24px;
-  background: linear-gradient(135deg, #ff9800, #f57c00);
-  border: none;
-  border-radius: 50%;
   width: 56px;
   height: 56px;
+  border: none;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff9800, #f57c00);
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -204,7 +275,50 @@
   box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
 }
 
+.fab:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.4);
+}
+
 .fab .material-icons {
   font-size: 24px;
-  color: white;
+  color: #fff;
+}
+
+/* ----------  RESPONSIVE  ---------- */
+@media (max-width: 480px) {
+  .assets-header {
+    padding: 12px 16px;
+  }
+
+  .header-content h1 {
+    font-size: 18px;
+  }
+
+  .header-actions {
+    gap: 12px;
+  }
+
+  .sub-accounts-list {
+    padding: 12px;
+  }
+
+  .card-content {
+    padding: 14px 16px;
+  }
+
+  .right {
+    gap: 12px;
+  }
+
+  .account-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .account-right {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
