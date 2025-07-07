@@ -129,7 +129,7 @@
 
   <!-- Section Styling -->
   <section class="account-list">
-    <div class="card border-blue" data-id="assets" style="cursor: pointer;" >
+    <div class="card border-blue" data-id="assets" style="cursor: pointer;">
       <div class="card-left" onclick="openAccountDetail('assets')">
         <h2>Assets</h2>
         <p>3 sub-account</p>
@@ -139,7 +139,8 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
                 <span class="material-icons">edit</span>
@@ -155,17 +156,18 @@
       </div>
     </div>
 
-    <div class="card border-orange" data-id="equity" onclick="openAccountDetail('equity')">
-      <div class="card-left">
+    <div class="card border-orange" data-id="equity" style="cursor: pointer;">
+      <div class="card-left" onclick="openAccountDetail('Equity')">
         <h2>Equity</h2>
-        <!-- <p>1 sub-account</p> -->
+        <p>1 sub-account</p>
       </div>
       <div class="card-right">
         <p class="amount">₹0.00</p>
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('equity')">
                 <span class="material-icons">edit</span>
@@ -191,7 +193,8 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('expenses')">
                 <span class="material-icons">edit</span>
@@ -217,7 +220,8 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('income')">
                 <span class="material-icons">edit</span>
@@ -243,7 +247,8 @@
         <div class="icons">
           <span class="material-icons favorite-icon">favorite_border</span>
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span class="material-icons kebab-icon"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
             <div class="kebab-dropdown">
               <div class="kebab-option edit" onclick="editDefaultAccount('liabilities')">
                 <span class="material-icons">edit</span>
@@ -270,13 +275,13 @@
 
       // Open account detail page
       function openAccountDetail(accountType) {
-        switch(accountType) {
+        switch (accountType) {
           case 'assets':
             window.location.href = "assets.html";
             break;
-          case 'equity':
+          case 'Equity':
             // Create equity.html later
-            alert("Equity detail page coming soon!");
+            window.location.href = "Equity.html";
             break;
           case 'expenses':
             // Create expenses.html later
@@ -349,12 +354,12 @@
       function toggleKebabMenu(element) {
         const dropdown = element.nextElementSibling;
         const isVisible = dropdown.classList.contains('show');
-        
+
         // Close all other dropdowns
         document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
           menu.classList.remove('show');
         });
-        
+
         // Toggle current dropdown
         if (!isVisible) {
           dropdown.classList.add('show');
@@ -362,7 +367,7 @@
       }
 
       // Close kebab menus when clicking outside
-      document.addEventListener('click', function(event) {
+      document.addEventListener('click', function (event) {
         if (!event.target.closest('.kebab-menu')) {
           document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
             menu.classList.remove('show');
