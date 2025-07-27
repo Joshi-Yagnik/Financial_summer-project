@@ -523,3 +523,7 @@ body {
   cursor: pointer;
   color: #888;
 }
+
+.icon-clickable {
+    cursor: pointer;
+}

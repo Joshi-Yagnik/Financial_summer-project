@@ -26,6 +26,7 @@ body {
   .material-icons {
     font-size: 24px;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
   }
   
@@ -86,6 +87,7 @@ body {
     margin-bottom: 10px;
     font-weight: 500;
     cursor: pointer;
+    -webkit-user-select: none;
     user-select: none;
   }
   
@@ -157,4 +159,13 @@ body {
       padding: 20px;
     }
   }
-  
+
+  .label-notes {
+    color: #f5a000;
+}
+
+.hr-notes {
+    border: 1px solid #f5a000;
+    width: 100%;
+    margin: 10px 0;
+}
