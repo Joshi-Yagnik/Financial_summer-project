@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="M9IN5qGzk_KvP9RwCUs0UEFxINwvnDI3Y8ldBBHvJFA" />
   <title>GnuCash</title>
   <link rel="icon"
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
@@ -12,48 +13,7 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
-      authDomain: "financial-summer-project.firebaseapp.com",
-      projectId: "financial-summer-project",
-      storageBucket: "financial-summer-project.firebasestorage.app",
-      messagingSenderId: "502346293460",
-      appId: "1:502346293460:web:379e8369eddfd47ce51b41",
-      measurementId: "G-9C8T2LGM4Q"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html"; // redirect if not logged in
-      } else {
-        document.getElementById("userEmail").innerText = "Welcome, " + user.email;
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    });
-    // Logout
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      signOut(auth)
-        .then(() => {
-          window.location.href = "login.html";
-        })
-        .catch((error) => {
-          console.error("Logout Error:", error);
-        });
-    });
-  </script>
-
+  <script type="module" src="firebase.js" ></script>
 
 <body>
 
@@ -67,7 +27,7 @@
         <div class="menu-header">
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/50px-GnuCash_logo.svg.png"
-            class="logo">
+            class="logo" alt="GnuCash Logo">
           <span class="title">GnuCash</span>
         </div>
 
@@ -107,7 +67,7 @@
         <!-- Preferences -->
         <div class="menu-section">
           <p class="section-title">Preferences</p>
-          <a href="#"><span class="material-icons">settings</span> Settings</a>
+          <a href="settings.html"><span class="material-icons">settings</span> Settings</a>
         </div>
       </div>
     </nav>
@@ -134,6 +94,7 @@
 
 
   <script src="none.js"></script>
+  <script src="theme.js"></script>
 
 </body>
 

@@ -51,5 +51,5 @@ The **Financial_Summer-Project** explores foundational and advanced financial co
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/financial_summer-project.git
+   git clone https://github.com/Joshi-Yagnik/Financial_summer-project.git
    cd financial_summer-project

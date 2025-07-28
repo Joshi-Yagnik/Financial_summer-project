@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sub-Accounts</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Equity.css" />
+
+</head>
+
+<body>
+    <header class="top-bar">
+        <div class="left-icons">
+            <span class="material-icons">menu</span>
+        </div>
+
+        <div class="center-title" onclick="toggleDropdown()">
+            <h1>Accounts <span class="material-icons dropdown-icon">expand_more</span> </h1>
+        </div>
+        <div class="dropdown-list hidden" id="accountDropdown">
+            <div class="dropdown-item">Equity</div>
+            <div class="dropdown-item">Equity:Opening Balances</div>
+            <div class="dropdown-item">Expenses</div>
+            <div class="dropdown-item">Expenses:Adjustment</div>
+            <div class="dropdown-item">Expenses:Auto</div>
+            <div class="dropdown-item">Expenses:Auto:Fees</div>
+            <div class="dropdown-item">Expenses:Auto:Parking</div>
+            <div class="dropdown-item">Expenses:Auto:Petrol</div>
+            <div class="dropdown-item">Expenses:Auto:Repair and Maintenance</div>
+            <div class="dropdown-item">Expenses:Bank Service Charge</div>
+            <div class="dropdown-item">Expenses:Books</div>
+            <div class="dropdown-item">Expenses:Cable</div>
+            <div class="dropdown-item">Expenses:Charity</div>
+            <div class="dropdown-item">Expenses:Clothes</div>
+            <div class="dropdown-item">Expenses:Computer</div>
+            <div class="dropdown-item">Expenses:Dining</div>
+            <!-- Add more as needed -->
+        </div>
+
+        <div class="right-icons">
+            <span class="material-icons">favorite_border</span>
+            <!-- <span class="material-icons">more_vert</span> -->
+             <div class="menu-container">
+                <i class="material-icons kebab-icon" style="cursor: pointer;">more_vert</i>
+                <div class="popup-menu hidden">
+                    <button>Edit Account</button>
+                    <button>Delete Account</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="sub-header">SUB-ACCOUNTS</section>
+
+    <main class="card-container">
+        <div class="account-card">
+            <div class="left-border"></div>
+            <div class="account-content">
+                <h2>Opening Balances</h2>
+                <p>₹0.00</p>
+            </div>
+            <i class="material-icons heart-icon">favorite_border</i>
+            <i class="material-icons add-icon">add</i>
+            <div class="menu-container">
+                <i class="material-icons kebab-icon">more_vert</i>
+                <div class="popup-menu hidden">
+                    <button>Edit Account</button>
+                    <button>Delete Account</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <button class="fab" onclick="openCreateForm()">
+        <span class="material-icons">add</span>
+    </button>
+
+    <script src="Equity.js"></script>
+</body>
+
+</html>

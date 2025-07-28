@@ -27,21 +27,22 @@
         <input type="text" id="accountName" placeholder=" Enter account name" required>
 
         <label>Description</label>
-        <input type="text" id="description" placeholder="">
+        <input type="text" id="description" placeholder="Enter description" title="Enter a description for the account">
+
 
         <div class="row">
             <label>Parent account</label>
-            <label class="switch">
-                <input type="checkbox" id="parentToggle">
+            <label class="switch" title="Toggle to select a parent account">
+                <input type="checkbox" id="parentToggle" title="Toggle to select a parent account">
                 <span class="slider round"></span>
             </label>
         </div>
-        <select disabled id="parentAccount">
+        <select disabled id="parentAccount" aria-label="Parent account" title="Parent account">
             <option>Assets:Current Assets:Cash in Wallet</option>
         </select>
 
         <label>Type</label>
-        <select id="accountType">
+        <select id="accountType" title="Account type">
             <option>ASSET</option>
             <option>INCOME</option>
             <option>EXPENSE</option>
@@ -49,17 +50,17 @@
         </select>
 
         <label>Currency</label>
-        <select id="currency">
+        <select id="currency" title="Currency">
             <option>INR (Indian Rupee)</option>
             <option>USD (US Dollar)</option>
             <option>EUR (Euro)</option>
         </select>
 
         <label>Account Color</label>
-        <input type="color" id="accountColor">
+        <input type="color" id="accountColor" title="Choose account color">
 
-        <label style="color: #f5a000;">Notes</label>
-        <hr style="border: 1px solid #f5a000; width: 100%; margin: 10px 0;">
+        <label class="label-notes">Notes</label>
+        <hr class="hr-notes">
 
         <div class="checkbox-group">
             <label><input type="checkbox" id="placeholder"> Placeholder</label>
@@ -68,13 +69,13 @@
         </div>
 
         <div class="row">
-            <label>Default Transfer Account</label>
-            <label class="switch">
-                <input type="checkbox" id="transferToggle">
+            <label for="transferAccount">Default Transfer Account</label>
+            <label class="switch" title="Toggle to set as default transfer account">
+                <input type="checkbox" id="transferToggle" title="Toggle to set as default transfer account">
                 <span class="slider round"></span>
             </label>
         </div>
-        <select disabled id="transferAccount">
+        <select disabled id="transferAccount" title="Default Transfer Account">
             <option>Assets:Current Assets:Cash in Wallet</option>
         </select>
     </main>

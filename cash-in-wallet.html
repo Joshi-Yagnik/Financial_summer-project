@@ -12,35 +12,6 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cash-in-wallet.css">
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
-      authDomain: "financial-summer-project.firebaseapp.com",
-      projectId: "financial-summer-project",
-      storageBucket: "financial-summer-project.firebasestorage.app",
-      messagingSenderId: "502346293460",
-      appId: "1:502346293460:web:379e8369eddfd47ce51b41",
-      measurementId: "G-9C8T2LGM4Q"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    });
-  </script>
 </head>
 
 <body>
@@ -50,24 +21,25 @@
     <div class="header-content">
       <h1>Assets:Curre...sh in Wallet</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
-    </div>
-
-    <div class="header-actions">
-      <span class="material-icons">favorite_border</span>
-      <div class="kebab-menu">
-        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
-        <div class="kebab-dropdown">
-          <div class="kebab-option edit">
-            <span class="material-icons">edit</span>
-            Edit Account
-          </div>
-          <div class="kebab-option delete">
-            <span class="material-icons">delete</span>
-            Delete Account
+      <div class="icons">
+          <span class="material-icons favorite-icon">favorite_border</span>
+          <div class="kebab-menu">
+            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <div class="kebab-dropdown">
+              <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
+                <span class="material-icons">edit</span>
+                Edit Account
+              </div>
+              <div class="kebab-option delete" onclick="deleteDefaultAccount('assets')">
+                <span class="material-icons">delete</span>
+                Delete Account
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
+
+    
   </header>
 
   <nav class="account-tabs">

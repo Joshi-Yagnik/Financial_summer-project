@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <title>Assets - Sub-accounts</title>
@@ -9,44 +8,15 @@
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
     type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="assets.css">
-
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
-      authDomain: "financial-summer-project.firebaseapp.com",
-      projectId: "financial-summer-project",
-      storageBucket: "financial-summer-project.firebasestorage.app",
-      messagingSenderId: "502346293460",
-      appId: "1:502346293460:web:379e8369eddfd47ce51b41",
-      measurementId: "G-9C8T2LGM4Q"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-      }
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      });
-    });
-  </script>
+  
 </head>
 
 <body>
-  <header class="top-bar assets-header">
+  <!-- ----------  TOP BAR  ---------- -->
+    <header class="top-bar assets-header">
     <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
-    
+
     <div class="header-content">
       <h1>Assets</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
@@ -54,75 +24,111 @@
 
     <div class="header-actions">
       <span class="material-icons">favorite_border</span>
-      <span class="material-icons">visibility</span>
-      <div class="kebab-menu">
-        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
-        <div class="kebab-dropdown">
-          <div class="kebab-option edit">
-            <span class="material-icons">edit</span>
-            Edit Account
-          </div>
-          <div class="kebab-option delete">
-            <span class="material-icons">delete</span>
-            Delete Account
+      <div class="icons">
+        <div class="kebab-menu">
+          <span class="material-icons kebab-icon"
+            onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+          <div class="kebab-dropdown">
+            <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
+              <span class="material-icons">edit</span>
+              Edit Account
+            </div>
+            <div class="kebab-option delete" onclick="deleteDefaultAccount('assets')">
+              <span class="material-icons">delete</span>
+              Delete Account
+            </div>
           </div>
         </div>
       </div>
     </div>
+
   </header>
 
+  <!-- ----------  SUB‑ACCOUNTS TITLE  ---------- -->
   <nav class="sub-accounts-header">
-    <h2>SUB-ACCOUNTS</h2>
+    <h2>SUB‑ACCOUNTS</h2>
   </nav>
 
+  <!-- ----------  SUB‑ACCOUNTS LIST  ---------- -->
   <section class="sub-accounts-list">
+    <!-- Current Assets -->
     <div class="sub-account-card" onclick="openSubAccount('current-assets')">
-      <div class="color-bar blue-bar"></div>
+      <div class="blue-bar"></div>
+
       <div class="card-content">
         <div class="left">
-          <div class="title">Current Assets</div>
-          <div class="subtitle">3 sub-accounts</div>
+          <div class="title">Current Assets</div>
+          <div class="subtitle">3 sub‑accounts</div>
         </div>
+
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span
+            class="material-icons favorite-icon"
+            onclick="event.stopPropagation(); toggleFavorite(this)"
+            aria-label="Toggle favourite"
+          >favorite_border</span>
+
           <div class="amount">₹0.00</div>
+
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span
+              class="material-icons kebab-icon"
+              aria-label="More actions"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)"
+            >more_vert</span>
+
             <div class="kebab-dropdown">
               <div class="kebab-option edit">
                 <span class="material-icons">edit</span>
-                Edit Account
+                Edit Account
               </div>
               <div class="kebab-option delete">
                 <span class="material-icons">delete</span>
-                Delete Account
+                Delete Account
               </div>
             </div>
           </div>
+        
         </div>
       </div>
+      
     </div>
+    
 
+    <!-- Fixed Assets -->
     <div class="sub-account-card" onclick="openSubAccount('fixed-assets')">
-      <div class="color-bar blue-bar"></div>
+      <div class="blue-bar"></div>
+
       <div class="card-content">
         <div class="left">
-          <div class="title">Fixed Assets</div>
-          <div class="subtitle">2 sub-accounts</div>
+          <div class="title">Fixed Assets</div>
+          <div class="subtitle">2 sub‑accounts</div>
         </div>
+
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span
+            class="material-icons favorite-icon"
+            onclick="event.stopPropagation(); toggleFavorite(this)"
+            aria-label="Toggle favourite"
+          >favorite_border</span>
+
           <div class="amount">₹0.00</div>
+
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span
+              class="material-icons kebab-icon"
+              aria-label="More actions"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)"
+            >more_vert</span>
+
             <div class="kebab-dropdown">
               <div class="kebab-option edit">
                 <span class="material-icons">edit</span>
-                Edit Account
+                Edit Account
               </div>
               <div class="kebab-option delete">
                 <span class="material-icons">delete</span>
-                Delete Account
+                Delete Account
               </div>
             </div>
           </div>
@@ -130,18 +136,32 @@
       </div>
     </div>
 
+    <!-- Investments -->
     <div class="sub-account-card" onclick="openSubAccount('investments')">
-      <div class="color-bar blue-bar"></div>
+      <div class="blue-bar"></div>
+
       <div class="card-content">
         <div class="left">
           <div class="title">Investments</div>
-          <div class="subtitle">1 sub-account</div>
+          <div class="subtitle">1 sub‑account</div>
         </div>
+
         <div class="right">
-          <span class="material-icons favorite-icon" onclick="event.stopPropagation(); toggleFavorite(this)">favorite_border</span>
+          <span
+            class="material-icons favorite-icon"
+            onclick="event.stopPropagation(); toggleFavorite(this)"
+            aria-label="Toggle favourite"
+          >favorite_border</span>
+
           <div class="amount">₹0.00</div>
+
           <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+            <span
+              class="material-icons kebab-icon"
+              aria-label="More actions"
+              onclick="event.stopPropagation(); toggleKebabMenu(this)"
+            >more_vert</span>
+
             <div class="kebab-dropdown">
               <div class="kebab-option edit">
                 <span class="material-icons">edit</span>
@@ -158,70 +178,49 @@
     </div>
   </section>
 
-  <button class="fab" onclick="openCreateForm()">
+  <!-- ----------  ADD BUTTON  ---------- -->
+  <button class="fab" onclick="openCreateForm()" aria-label="Add sub-account">
     <span class="material-icons">add</span>
   </button>
 
+  <!-- ----------  SCRIPTS  ---------- -->
   <script>
-    function goBack() {
-      window.location.href = "All.html";
+    /* --------  NAVIGATION  -------- */
+    function goBack() { window.location.href = "All.html"; }
+    function openCreateForm() { window.location.href = "CreateAccount.html"; }
+    function openSubAccount(type) {
+      if (type === "current-assets")      window.location.href = "current-assets.html";
+      else if (type === "fixed-assets")   alert("Fixed Assets detail page coming soon!");
+      else if (type === "investments")    alert("Investments detail page coming soon!");
     }
 
-    function openCreateForm() {
-      window.location.href = "CreateAccount.html";
-    }
+    /* --------  KEBAB MENU  -------- */
+    function toggleKebabMenu(el) {
+      const dropdown = el.nextElementSibling;
+      const open = dropdown.classList.contains("show");
 
-    function openSubAccount(accountType) {
-      switch(accountType) {
-        case 'current-assets':
-          window.location.href = "current-assets.html";
-          break;
-        case 'fixed-assets':
-          alert("Fixed Assets detail page coming soon!");
-          break;
-        case 'investments':
-          alert("Investments detail page coming soon!");
-          break;
-        default:
-          console.log("Unknown sub-account type:", accountType);
-      }
+      document.querySelectorAll(".kebab-dropdown.show").forEach(d => d.classList.remove("show"));
+      if (!open) dropdown.classList.add("show");
     }
-
-    // Toggle kebab menu
-    function toggleKebabMenu(element) {
-      const dropdown = element.nextElementSibling;
-      const isVisible = dropdown.classList.contains('show');
-      
-      // Close all other dropdowns
-      document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-        menu.classList.remove('show');
-      });
-      
-      // Toggle current dropdown
-      if (!isVisible) {
-        dropdown.classList.add('show');
-      }
-    }
-
-    // Close kebab menus when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!event.target.closest('.kebab-menu')) {
-        document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-          menu.classList.remove('show');
-        });
-      }
+    document.addEventListener("click", e => {
+      if (!e.target.closest(".kebab-menu"))
+        document.querySelectorAll(".kebab-dropdown.show").forEach(d => d.classList.remove("show"));
     });
 
-    // Toggle favorite functionality
-    function toggleFavorite(element) {
-      if (element.textContent === 'favorite_border') {
-        element.textContent = 'favorite';
-        element.style.color = '#ff6b6b';
+    /* --------  FAVOURITES  -------- */
+    function toggleFavorite(el) {
+      if (el.textContent.trim() === "favorite_border") {
+        el.textContent = "favorite";
+        el.style.color = "var(--favorite-hover)";
       } else {
-        element.textContent = 'favorite_border';
-        element.style.color = '#888';
+        el.textContent = "favorite_border";
+        el.style.color = "#888";
       }
     }
+
+    /* --------  STUBS FOR DEMO (prevent JS errors)  -------- */
+    function editDefaultAccount(ctx)   { console.log("Edit default account:", ctx); }
+    function deleteDefaultAccount(ctx) { alert("Delete action for '" + ctx + "' goes here"); }
   </script>
 </body>
 
