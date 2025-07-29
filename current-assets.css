@@ -1,194 +1,141 @@
-/* Current Assets Page Specific Styles */
-.current-assets-header {
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: #f8f9fa;
+}
+
+.top-bar {
   background: linear-gradient(135deg, #2196f3, #1976d2);
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  position: relative;
+}
+
+.header-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
-  color: white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  font-size: 16px;
+  gap: 4px;
+}
+
+.header-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .back-btn {
-  font-size: 24px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
 }
 
-.back-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.kebab-menu {
+  position: relative;
 }
 
-.header-content {
+.dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 36px;
+  background: white;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  z-index: 100;
+  width: 140px;
+}
+
+.dropdown.show {
+  display: block;
+}
+
+.dropdown-item {
+  padding: 10px;
   display: flex;
-  align-items: center;
-  flex: 1;
-  justify-content: center;
   gap: 8px;
-}
-
-.header-content h1 {
-  margin: 0;
-  font-size: 20px;
-  font-weight: 600;
-}
-
-.dropdown-icon {
-  font-size: 20px;
-  opacity: 0.8;
-}
-
-.header-actions {
-  display: flex;
   align-items: center;
-  gap: 16px;
-}
-
-.header-actions .material-icons {
-  font-size: 24px;
   cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
 }
 
-.header-actions .material-icons:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.dropdown-item:hover {
+  background-color: #f1f1f1;
 }
 
-.sub-accounts-header {
-  background-color: #f8f9fa;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e9ecef;
-}
-
-.sub-accounts-header h2 {
-  margin: 0;
-  font-size: 14px;
-  font-weight: 600;
-  color: #6c757d;
-  letter-spacing: 0.5px;
+.sub-header {
   text-align: center;
+  font-size: 14px;
+  padding: 12px;
+  color: #6c757d;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
 }
 
-.sub-accounts-list {
+.accounts {
   padding: 16px;
-  background-color: #f8f9fa;
-  min-height: calc(100vh - 140px);
 }
 
-.sub-account-card {
-  display: flex;
-  border-radius: 12px;
+.card {
+  background: white;
+  border-radius: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   margin-bottom: 12px;
   overflow: hidden;
-  background-color: #fff;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
   cursor: pointer;
 }
 
-.sub-account-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-}
-
-.blue-bar {
-  width: 6px;
+.bar {
+  width: 5px;
   background: linear-gradient(180deg, #2196f3, #1976d2);
 }
 
-.sub-account-card .card-content {
+.content {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 14px 16px;
   flex: 1;
-  padding: 16px 20px;
 }
 
-.sub-account-card .left .title {
-  font-size: 16px;
+.title {
   font-weight: 600;
-  color: #333;
+  font-size: 16px;
   margin-bottom: 4px;
 }
 
-.sub-account-card .left .subtitle {
-  font-size: 13px;
-  color: #6c757d;
+.amount {
+  font-weight: bold;
+  font-size: 15px;
 }
 
-.sub-account-card .right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.sub-account-card .amount {
-  font-weight: 600;
-  font-size: 16px;
-  color: #333;
-  min-width: 80px;
-  text-align: right;
-}
-
-.sub-account-card .favorite-icon {
+.favorite-icon {
   color: #888;
   cursor: pointer;
-  transition: color 0.2s ease;
-  padding: 4px;
-  border-radius: 50%;
+  margin-right: 6px;
 }
 
-.sub-account-card .favorite-icon:hover {
+.favorite-icon.active {
   color: #ff6b6b;
-  background-color: rgba(255, 107, 107, 0.1);
 }
 
-/* Kebab menu styles for current assets page */
-.current-assets-header .kebab-dropdown {
-  background-color: white;
-  color: #333;
+.right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.current-assets-header .kebab-icon {
-  color: white;
+.more {
+  cursor: pointer;
 }
 
-.current-assets-header .kebab-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-/* Responsive design */
-@media (max-width: 480px) {
-  .current-assets-header {
-    padding: 12px 16px;
-  }
-  
-  .header-content h1 {
-    font-size: 18px;
-  }
-  
-  .header-actions {
-    gap: 12px;
-  }
-  
-  .sub-accounts-list {
-    padding: 12px;
-  }
-  
-  .sub-account-card .card-content {
-    padding: 14px 16px;
-  }
-  
-  .sub-account-card .right {
-    gap: 12px;
-  }
-}
-
-/* FAB positioning for current assets page */
 .fab {
   position: fixed;
   bottom: 24px;
@@ -198,17 +145,14 @@
   border-radius: 50%;
   width: 56px;
   height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
 }
 
 .fab .material-icons {
-  font-size: 24px;
   color: white;
+  font-size: 24px;
 }

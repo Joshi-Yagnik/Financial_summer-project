@@ -15,135 +15,86 @@
 </head>
 
 <body>
-  <header class="top-bar current-assets-header">
-    <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
-    
-    <div class="header-content">
-      <h1>Current Assets</h1>
-      <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+  <header class="top-bar">
+    <span class="material-icons back-btn" onclick="goBack()">menu</span>
+    <div class="header-title">
+      <span class="title-text">Assets:Current Assets</span>
+      <span class="material-icons">keyboard_arrow_down</span>
     </div>
-
-    <div class="header-actions">
+    <div class="header-icons">
       <span class="material-icons">favorite_border</span>
-      <span class="material-icons">visibility</span>
       <div class="kebab-menu">
-        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
-        <div class="kebab-dropdown">
-          <div class="kebab-option edit">
-            <span class="material-icons">edit</span>
-            Edit Account
-          </div>
-          <div class="kebab-option delete">
-            <span class="material-icons">delete</span>
-            Delete Account
-          </div>
+        <span class="material-icons" onclick="toggleMenu(this)">more_vert</span>
+        <div class="dropdown">
+          <div class="dropdown-item"><span class="material-icons">edit</span>Edit Account</div>
+          <div class="dropdown-item"><span class="material-icons">delete</span>Delete Account</div>
         </div>
       </div>
     </div>
   </header>
 
-  <nav class="sub-accounts-header">
-    <h2>SUB-ACCOUNTS</h2>
-  </nav>
+  <div class="sub-header">SUB-ACCOUNTS</div>
 
-  <section class="sub-accounts-list">
-    <div class="sub-account-card" onclick="openAccountTransactions('cash-in-wallet')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+  <section class="accounts">
+    <div class="card" onclick="openAccount('cash-in-wallet')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Cash in Wallet</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
-          </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
         </div>
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openAccountTransactions('checking-account')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+    <div class="card" onclick="openAccount('checking-account')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Checking Account</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
-          </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
         </div>
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openAccountTransactions('savings-account')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+    <div class="card" onclick="openAccount('savings-account')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Savings Account</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
-          </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
         </div>
       </div>
     </div>
   </section>
 
-  <button class="fab" onclick="openCreateForm()">
+  <button class="fab" onclick="createAccount()">
     <span class="material-icons">add</span>
   </button>
+
 
   <script>
     function goBack() {
       window.location.href = "assets.html";
     }
 
-    function openCreateForm() {
+    function createAccount() {
       window.location.href = "CreateAccount.html";
     }
 
-    function openAccountTransactions(accountId) {
-      switch(accountId) {
+    function openAccount(accountId) {
+      switch (accountId) {
         case 'cash-in-wallet':
           window.location.href = "cash-in-wallet.html";
           break;
@@ -159,41 +110,65 @@
     }
 
     // Toggle kebab menu
-    function toggleKebabMenu(element) {
-      const dropdown = element.nextElementSibling;
-      const isVisible = dropdown.classList.contains('show');
-      
-      // Close all other dropdowns
-      document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-        menu.classList.remove('show');
-      });
-      
-      // Toggle current dropdown
-      if (!isVisible) {
-        dropdown.classList.add('show');
-      }
+    // function toggleKebabMenu(element) {
+    //   const dropdown = element.nextElementSibling;
+    //   const isVisible = dropdown.classList.contains('show');
+
+    //   // Close all other dropdowns
+    //   document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
+    //     menu.classList.remove('show');
+    //   });
+
+    //   // Toggle current dropdown
+    //   if (!isVisible) {
+    //     dropdown.classList.add('show');
+    //   }
+    // }
+
+    function toggleMenu(icon) {
+      const dropdown = icon.nextElementSibling;
+      const allDropdowns = document.querySelectorAll('.dropdown');
+      allDropdowns.forEach(d => d.classList.remove('show'));
+      dropdown.classList.toggle('show');
     }
 
+    function toggleCardMenu(icon) {
+      // For future card-specific dropdowns
+      alert("Card menu clicked");
+    }
     // Close kebab menus when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!event.target.closest('.kebab-menu')) {
-        document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-          menu.classList.remove('show');
-        });
+    // document.addEventListener('click', function(event) {
+    //   if (!event.target.closest('.kebab-menu')) {
+    //     document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
+    //       menu.classList.remove('show');
+    //     });
+    //   }
+    // });
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.kebab-menu')) {
+        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
       }
     });
 
     // Toggle favorite functionality
+    // document.querySelectorAll('.favorite-icon').forEach(icon => {
+    //   icon.addEventListener('click', function(event) {
+    //     event.stopPropagation(); // Prevent card click
+    //     if (this.textContent === 'favorite_border') {
+    //       this.textContent = 'favorite';
+    //       this.style.color = '#ff6b6b';
+    //     } else {
+    //       this.textContent = 'favorite_border';
+    //       this.style.color = '#888';
+    //     }
+    //   });
+    // });
+
     document.querySelectorAll('.favorite-icon').forEach(icon => {
-      icon.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent card click
-        if (this.textContent === 'favorite_border') {
-          this.textContent = 'favorite';
-          this.style.color = '#ff6b6b';
-        } else {
-          this.textContent = 'favorite_border';
-          this.style.color = '#888';
-        }
+      icon.addEventListener('click', function (e) {
+        e.stopPropagation();
+        this.classList.toggle('active');
+        this.textContent = this.classList.contains('active') ? 'favorite' : 'favorite_border';
       });
     });
   </script>
