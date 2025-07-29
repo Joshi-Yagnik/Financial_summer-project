@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Account Preferences - GnuCash</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #2d2d2d;
+      color: white;
+    }
+
+    .header {
+      background-color: #388e3c;
+      color: white;
+      padding: 16px;
+      font-size: 20px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+
+    .header .back {
+      margin-right: 12px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 12px;
+    }
+
+    .option {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px;
+      background-color: #3a3a3a;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .option:hover {
+      background-color: #4a4a4a;
+    }
+
+    .icon {
+      font-size: 20px;
+      margin-top: 2px;
+    }
+
+    .option-text {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .option-title {
+      font-weight: bold;
+      color: white;
+    }
+
+    .option-sub {
+      font-size: 14px;
+      color: #cccccc;
+      margin-top: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="back" onclick="goBack()">←</div>
+    Account Preferences
+  </div>
+
+  <div class="container">
+    <div class="option" onclick="alert('Change Default Currency')">
+      <div class="icon">💱</div>
+      <div class="option-text">
+        <div class="option-title">Default currency</div>
+        <div class="option-sub">INR (Indian Rupee)</div>
+      </div>
+    </div>
+
+    <div class="option" onclick="alert('Create default accounts')">
+      <div class="icon">🗂️</div>
+      <div class="option-text">
+        <div class="option-title">Create default accounts</div>
+        <div class="option-sub">Creates default GnuCash commonly-used account structure</div>
+      </div>
+    </div>
+
+    <div class="option" onclick="alert('Import GnuCash XML')">
+      <div class="icon">📁</div>
+      <div class="option-text">
+        <div class="option-title">Import GnuCash XML</div>
+        <div class="option-sub">Import account structure from GnuCash XML</div>
+      </div>
+    </div>
+
+    <div class="option" onclick="alert('Export as CSV')">
+      <div class="icon">☁️</div>
+      <div class="option-text">
+        <div class="option-title">Export as CSV</div>
+        <div class="option-sub">Export all accounts (without transactions) to CSV</div>
+      </div>
+    </div>
+
+    <div class="option" onclick="alert('Delete all accounts')">
+      <div class="icon">🗑️</div>
+      <div class="option-text">
+        <div class="option-title">Delete all accounts</div>
+        <div class="option-sub">Delete all accounts in the database. All transactions will be deleted as well.</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function goBack() {
+      alert("Going back to previous screen...");
+    }
+  </script>
+
+</body>
+</html>
