@@ -1,17 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Current Assets - Sub-accounts</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon"
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="icon"
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
-    type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="current-assets.css">
-  <!-- <link rel="stylesheet" href="styles.css"> -->
-  <link rel="stylesheet" href="assets.css">
+    type="image/x-icon"
+  />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="current-assets.css" />
 </head>
 
 <body>
@@ -24,7 +23,7 @@
     <div class="header-icons">
       <span class="material-icons">favorite_border</span>
       <div class="kebab-menu">
-        <span class="material-icons" onclick="toggleMenu(this)">more_vert</span>
+        <span class="material-icons more" onclick="toggleDropdown(this)">more_vert</span>
         <div class="dropdown">
           <div class="dropdown-item"><span class="material-icons">edit</span>Edit Account</div>
           <div class="dropdown-item"><span class="material-icons">delete</span>Delete Account</div>
@@ -45,7 +44,11 @@
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
           <span class="amount">₹0.00</span>
-          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('cash-in-wallet')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('cash-in-wallet')"><span class="material-icons">delete</span>Delete Account</div>
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +62,11 @@
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
           <span class="amount">₹0.00</span>
-          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('checking-account')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('checking-account')"><span class="material-icons">delete</span>Delete Account</div>
+          </div>
         </div>
       </div>
     </div>
@@ -73,7 +80,11 @@
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
           <span class="amount">₹0.00</span>
-          <span class="material-icons more" onclick="event.stopPropagation(); toggleCardMenu(this)">more_vert</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('savings-account')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('savings-account')"><span class="material-icons">delete</span>Delete Account</div>
+          </div>
         </div>
       </div>
     </div>
@@ -83,95 +94,6 @@
     <span class="material-icons">add</span>
   </button>
 
-
-  <script>
-    function goBack() {
-      window.location.href = "assets.html";
-    }
-
-    function createAccount() {
-      window.location.href = "CreateAccount.html";
-    }
-
-    function openAccount(accountId) {
-      switch (accountId) {
-        case 'cash-in-wallet':
-          window.location.href = "cash-in-wallet.html";
-          break;
-        case 'checking-account':
-          window.location.href = "checking-account.html";
-          break;
-        case 'savings-account':
-          alert("Savings Account transactions page coming soon!");
-          break;
-        default:
-          alert(`Opening transactions for ${accountId.replace('-', ' ')}`);
-      }
-    }
-
-    // Toggle kebab menu
-    // function toggleKebabMenu(element) {
-    //   const dropdown = element.nextElementSibling;
-    //   const isVisible = dropdown.classList.contains('show');
-
-    //   // Close all other dropdowns
-    //   document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-    //     menu.classList.remove('show');
-    //   });
-
-    //   // Toggle current dropdown
-    //   if (!isVisible) {
-    //     dropdown.classList.add('show');
-    //   }
-    // }
-
-    function toggleMenu(icon) {
-      const dropdown = icon.nextElementSibling;
-      const allDropdowns = document.querySelectorAll('.dropdown');
-      allDropdowns.forEach(d => d.classList.remove('show'));
-      dropdown.classList.toggle('show');
-    }
-
-    function toggleCardMenu(icon) {
-      // For future card-specific dropdowns
-      alert("Card menu clicked");
-    }
-    // Close kebab menus when clicking outside
-    // document.addEventListener('click', function(event) {
-    //   if (!event.target.closest('.kebab-menu')) {
-    //     document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-    //       menu.classList.remove('show');
-    //     });
-    //   }
-    // });
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('.kebab-menu')) {
-        document.querySelectorAll('.dropdown').forEach(d => d.classList.remove('show'));
-      }
-    });
-
-    // Toggle favorite functionality
-    // document.querySelectorAll('.favorite-icon').forEach(icon => {
-    //   icon.addEventListener('click', function(event) {
-    //     event.stopPropagation(); // Prevent card click
-    //     if (this.textContent === 'favorite_border') {
-    //       this.textContent = 'favorite';
-    //       this.style.color = '#ff6b6b';
-    //     } else {
-    //       this.textContent = 'favorite_border';
-    //       this.style.color = '#888';
-    //     }
-    //   });
-    // });
-
-    document.querySelectorAll('.favorite-icon').forEach(icon => {
-      icon.addEventListener('click', function (e) {
-        e.stopPropagation();
-        this.classList.toggle('active');
-        this.textContent = this.classList.contains('active') ? 'favorite' : 'favorite_border';
-      });
-    });
-  </script>
+  <script src="current-assets.js"></script>
 </body>
-
 </html>
