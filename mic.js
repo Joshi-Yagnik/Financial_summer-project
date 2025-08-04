@@ -91,6 +91,18 @@ function handleCommand(cmd) {
         speak("Opening main page");
         window.location.href = "All.html";
 
+    } else if (cmd.includes("open Transactions") || cmd.includes("open transaction ")) {
+        speak("Opening Transactions page");
+        window.location.href = "gnuTransactions.html"
+
+    } else if (cmd.includes("open Backup & export") || cmd.includes("open backup and export") || cmd.includes("open backup")) {
+        speak("Opening Backup & export page");
+        window.location.href = "gnuBACKUPPrefernces.html"
+
+    } else if (cmd.includes("open About GnuCash") || cmd.includes("open about gnu cash") || cmd.includes("open about")) {
+        speak("Opening About GnuCash page");
+        window.location.href = "AboutGnuCash.html"
+
     } else if (cmd.includes("go back") || cmd.includes("back to main page")) {
         speak("Going back");
         window.history.back(); // ← GO BACK TO PREVIOUS PAGE
