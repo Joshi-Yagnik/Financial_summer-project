@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About GnuCash</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Roboto, Arial, sans-serif;
+      background-color: #1f1f1f;
+      color: white;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      background-color: #2e7d32;
+      padding: 16px;
+      color: white;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .header span {
+      margin-right: 16px;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    .container {
+      padding: 0 16px;
+    }
+
+    .section-title {
+      margin-top: 24px;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: orange;
+    }
+
+    .list-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #333;
+      cursor: pointer;
+    }
+
+    .list-item-title {
+      font-weight: bold;
+    }
+
+    .list-item-subtitle {
+      font-size: 14px;
+      color: #bbb;
+    }
+
+    .switch-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 42px;
+      height: 24px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      border-radius: 24px;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #4caf50;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(18px);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <span onclick="history.back()">←</span>
+    About GnuCash
+  </div>
+
+  <div class="container">
+    <div class="section-title">Help Improve GnuCash</div>
+
+    <div class="list-item" onclick="openPlayStore()">
+      <div class="list-item-title">Recommend in Play Store</div>
+    </div>
+
+    <div class="list-item" onclick="openGitHub()">
+      <div class="list-item-title">GitHub Discussions</div>
+      <div class="list-item-subtitle">Share ideas, discuss changes or report problems</div>
+    </div>
+
+    <div class="list-item" onclick="toggleSwitch()">
+      <div class="switch-container">
+        <div>
+          <div class="list-item-title">Enable Crash Logging</div>
+          <div class="list-item-subtitle">Helps developers fix bugs and improve the app</div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="crashToggle">
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="section-title">Others</div>
+
+    <div class="list-item" onclick="openCrowdin()">
+      <div class="list-item-title">Translate GnuCash</div>
+    </div>
+
+    <div class="list-item">
+      <div class="list-item-title">License</div>
+    </div>
+  </div>
+
+  <script>
+    function openPlayStore() {
+      window.open('https://play.google.com/store/apps/details?id=org.gnucash.pocket.pnemonic', '_blank');
+    }
+
+    function openGitHub() {
+      window.open('https://github.com/GnuCash-Pocket/gnucash-android/discussions', '_blank');
+    }
+
+    function openCrowdin() {
+      window.open('https://crowdin.com/project/gnucash-pocket', '_blank');
+    }
+
+    function toggleSwitch() {
+      const checkbox = document.getElementById('crashToggle');
+      checkbox.checked = !checkbox.checked;
+    }
+  </script>
+</body>
+
+</html>

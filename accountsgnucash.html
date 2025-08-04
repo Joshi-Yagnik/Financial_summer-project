@@ -1,126 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Account Preferences - GnuCash</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Preferences</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #2d2d2d;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
       color: white;
     }
-
-    .header {
-      background-color: #388e3c;
-      color: white;
+    header {
+      background-color: #2e7d32;
       padding: 16px;
-      font-size: 20px;
-      font-weight: bold;
       display: flex;
       align-items: center;
     }
-
-    .header .back {
-      margin-right: 12px;
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      margin-left: 16px;
+    }
+    .back-arrow {
       font-size: 20px;
       cursor: pointer;
     }
-
     .container {
-      padding: 12px;
+      padding: 16px;
     }
-
     .option {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 16px;
-      background-color: #3a3a3a;
-      border-radius: 8px;
-      margin-bottom: 10px;
+      align-items: center;
+      margin-bottom: 20px;
       cursor: pointer;
-      transition: background-color 0.2s ease;
     }
-
-    .option:hover {
-      background-color: #4a4a4a;
+    .option-icon {
+      font-size: 24px;
+      margin-right: 16px;
     }
-
-    .icon {
-      font-size: 20px;
-      margin-top: 2px;
-    }
-
     .option-text {
-      display: flex;
-      flex-direction: column;
+      flex-grow: 1;
     }
-
     .option-title {
+      font-size: 16px;
       font-weight: bold;
-      color: white;
     }
-
-    .option-sub {
+    .option-description {
       font-size: 14px;
       color: #cccccc;
       margin-top: 4px;
     }
+    .divider {
+      border-bottom: 1px solid #333;
+      margin: 10px 0;
+    }
+
+    /* Modal Styling */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background-color: #2e2e2e;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      color: white;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .currency-list label {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .currency-list input[type="radio"] {
+      margin-right: 8px;
+    }
+    .modal-footer {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .cancel-button {
+      color: orange;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .checkbox {
+      margin-top: 10px;
+    }
+    .delete-button {
+      color: grey;
+      cursor: not-allowed;
+      font-weight: bold;
+      font-size: 14px;
+    }
+    .delete-button.enabled {
+      color: orange;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-
-  <div class="header">
-    <div class="back" onclick="goBack()">←</div>
-    Account Preferences
-  </div>
+  <header>
+    <span class="back-arrow" onclick="goBack()">&#8592;</span>
+    <h1>Account Preferences</h1>
+  </header>
 
   <div class="container">
-    <div class="option" onclick="alert('Change Default Currency')">
-      <div class="icon">💱</div>
+    <div class="option" onclick="openCurrencyModal()">
+      <span class="option-icon">&#128179;</span>
       <div class="option-text">
         <div class="option-title">Default currency</div>
-        <div class="option-sub">INR (Indian Rupee)</div>
+        <div class="option-description" id="selectedCurrency">INR (Indian Rupee)</div>
       </div>
     </div>
+    <div class="divider"></div>
 
-    <div class="option" onclick="alert('Create default accounts')">
-      <div class="icon">🗂️</div>
+    <div class="option" onclick="openCreateModal()">
+      <span class="option-icon">&#128736;</span>
       <div class="option-text">
         <div class="option-title">Create default accounts</div>
-        <div class="option-sub">Creates default GnuCash commonly-used account structure</div>
+        <div class="option-description">Creates default GnuCash commonly-used account structure</div>
       </div>
     </div>
+    <div class="divider"></div>
 
-    <div class="option" onclick="alert('Import GnuCash XML')">
-      <div class="icon">📁</div>
+    <div class="option" onclick="importFromDrive()">
+      <span class="option-icon">&#128194;</span>
       <div class="option-text">
         <div class="option-title">Import GnuCash XML</div>
-        <div class="option-sub">Import account structure from GnuCash XML</div>
+        <div class="option-description">Import account structure from GnuCash XML</div>
       </div>
     </div>
+    <div class="divider"></div>
 
-    <div class="option" onclick="alert('Export as CSV')">
-      <div class="icon">☁️</div>
+    <div class="option" onclick="exportToDrive()">
+      <span class="option-icon">&#9729;</span>
       <div class="option-text">
         <div class="option-title">Export as CSV</div>
-        <div class="option-sub">Export all accounts (without transactions) to CSV</div>
+        <div class="option-description">Export all accounts (without transactions) to CSV</div>
       </div>
     </div>
+    <div class="divider"></div>
 
-    <div class="option" onclick="alert('Delete all accounts')">
-      <div class="icon">🗑️</div>
+    <div class="option" onclick="openDeleteModal()">
+      <span class="option-icon">&#128465;</span>
       <div class="option-text">
         <div class="option-title">Delete all accounts</div>
-        <div class="option-sub">Delete all accounts in the database. All transactions will be deleted as well.</div>
+        <div class="option-description">Delete all accounts in the database. All transactions will be deleted as well.</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="currencyModal" class="modal">
+    <div class="modal-content">
+      <h2>Choose default currency</h2>
+      <form id="currencyForm" class="currency-list">
+        <label><input type="radio" name="currency" value="INR (Indian Rupee)" checked> INR (Indian Rupee)</label>
+        <label><input type="radio" name="currency" value="USD (US Dollar)"> USD (US Dollar)</label>
+      </form>
+      <div class="modal-footer">
+        <span class="cancel-button" onclick="closeCurrencyModal()">CANCEL</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="createModal" class="modal">
+    <div class="modal-content">
+      <h2 style="display: flex; align-items: center;">&#9888;&nbsp;Create default accounts</h2>
+      <p>A new book will be opened with the default accounts</p>
+      <p>Your current accounts and transactions will not be modified!</p>
+      <div class="modal-footer">
+        <span class="cancel-button" onclick="closeCreateModal()">CANCEL</span>
+        &nbsp;&nbsp;&nbsp;
+        <span class="cancel-button" style="color: orange;" onclick="confirmCreate()">CREATE ACCOUNTS</span>
+      </div>
+    </div>
+  </div>
+
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h2 style="display: flex; align-items: center;">&#9888;&nbsp;Confirm delete</h2>
+      <p>Are you sure you want to delete all accounts and transactions?</p>
+      <p>This operation cannot be undone!</p>
+      <label class="checkbox">
+        <input type="checkbox" id="confirmCheckbox" onclick="toggleDeleteButton()"> Yes, I'm sure
+      </label>
+      <div class="modal-footer">
+        <span class="cancel-button" onclick="closeDeleteModal()">CANCEL</span>
+        &nbsp;&nbsp;&nbsp;
+        <span id="deleteBtn" class="delete-button">DELETE</span>
       </div>
     </div>
   </div>
 
   <script>
+    const currencyModal = document.getElementById('currencyModal');
+    const createModal = document.getElementById('createModal');
+    const deleteModal = document.getElementById('deleteModal');
+    const selectedCurrency = document.getElementById('selectedCurrency');
+    const currencyForm = document.getElementById('currencyForm');
+    const deleteBtn = document.getElementById('deleteBtn');
+
     function goBack() {
+      history.back();
+    }
+
+    function openCurrencyModal() {
+      currencyModal.style.display = 'block';
+    }
+
+    function closeCurrencyModal() {
+      currencyModal.style.display = 'none';
+    }
+
+    function openCreateModal() {
+      createModal.style.display = 'block';
+    }
+
+    function closeCreateModal() {
+      createModal.style.display = 'none';
+    }
+
+    function openDeleteModal() {
+      deleteModal.style.display = 'block';
+    }
+
+    function closeDeleteModal() {
+      deleteModal.style.display = 'none';
+    }
+
+    function toggleDeleteButton() {
+      const checkbox = document.getElementById('confirmCheckbox');
+      if (checkbox.checked) {
+        deleteBtn.classList.add('enabled');
+        deleteBtn.onclick = confirmDelete;
+      } else {
+        deleteBtn.classList.remove('enabled');
+        deleteBtn.onclick = null;
+      }
+    }
+
+    function confirmCreate() {
+      closeCreateModal();
+      window.location.href = "accounts.html";
+    }
+
+    function confirmDelete() {
+      closeDeleteModal();
+      alert("All accounts and transactions deleted!");
+    }
+
+    currencyForm.addEventListener('change', (e) => {
+      selectedCurrency.textContent = e.target.value;
+      closeCurrencyModal();
+    });
+
+    window.onclick = function(event) {
+      if (event.target == currencyModal) closeCurrencyModal();
+      if (event.target == createModal) closeCreateModal();
+      if (event.target == deleteModal) closeDeleteModal();
+    }
+
+    function importFromDrive() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.xml,image/*';
+      input.click();
+      input.onchange = () => {
+        const file = input.files[0];
+        if (file) {
+          alert(`Selected file: ${file.name}`);
+        }
+      };
+    }
+
+    function exportToDrive() {
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = '.csv';
+      input.click();
+      input.onchange = () => {
+        const file = input.files[0];
+        if (file) {
+          alert(`Export file selected: ${file.name}`);
+        }
+      };
+    }
+  </script>
+
     window.location.href = 'settings.html';
 }
   </script>
