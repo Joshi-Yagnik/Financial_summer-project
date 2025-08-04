@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Books - GnuCash</title>
   <style>
     body {
@@ -71,26 +73,31 @@
       display: none;
       position: fixed;
       z-index: 10;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
       background-color: rgba(0, 0, 0, 0.6);
       justify-content: center;
       align-items: center;
     }
 
     .modal-content {
-        background-color: #3a3a3a;
-        padding: 20px;
-        width: 90%;
-        max-width: 400px;
-        border-radius: 8px;
-        max-height: 80vh;           /* Viewport-based height limit */
-        overflow-y: auto;           /* Enables vertical scrolling */
-        box-sizing: border-box;
-        /* scroll-behaviour: smooth; */
-}
-;
-    
+      background-color: #3a3a3a;
+      padding: 20px;
+      width: 90%;
+      max-width: 400px;
+      border-radius: 8px;
+      max-height: 80vh;
+      /* Viewport-based height limit */
+      overflow-y: auto;
+      /* Enables vertical scrolling */
+      box-sizing: border-box;
+      /* scroll-behaviour: smooth; */
+    }
+
+    ;
+
 
     .modal h3 {
       font-size: 20px;
@@ -120,6 +127,7 @@
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
@@ -131,18 +139,18 @@
     </div>
   </div>
   <!-- Folder Options Modal -->
-<div class="modal" id="folderModal">
-  <div class="modal-content" style="max-width: 300px;">
-    <h3>Open From</h3>
-    <div class="account-option" onclick="openRecentFiles()">
-      <div class="account-title">📂 Recent Files</div>
+  <div class="modal" id="folderModal">
+    <div class="modal-content" style="max-width: 300px;">
+      <h3>Open From</h3>
+      <div class="account-option" onclick="openRecentFiles()">
+        <div class="account-title">📂 Recent Files</div>
+      </div>
+      <div class="account-option" onclick="openGoogleDrive()">
+        <div class="account-title">🔗 Google Drive</div>
+      </div>
+      <div class="cancel-btn" onclick="closeFolderModal()">CANCEL</div>
     </div>
-    <div class="account-option" onclick="openGoogleDrive()">
-      <div class="account-title">🔗 Google Drive</div>
-    </div>
-    <div class="cancel-btn" onclick="closeFolderModal()">CANCEL</div>
   </div>
-</div>
 
 
   <!-- Book Card -->
@@ -158,7 +166,8 @@
       <h3>Create default accounts</h3>
       <div class="account-option">
         <div class="account-desc">Investment Accounts</div>
-        <div class="account-desc">Brokerage account with related investment accounts (stock, bond, mutual fund, index fund, interest, dividend)</div>
+        <div class="account-desc">Brokerage account with related investment accounts (stock, bond, mutual fund, index
+          fund, interest, dividend)</div>
       </div>
       <div class="account-option">
         <div class="account-desc">Business Accounts</div>
@@ -257,25 +266,26 @@
       alert("Book 1:\n65 accounts\n5 transactions\nLast Exported: 2025-05-28 02:01:29.892");
     }
     function openFolder() {
-  window.open("https://drive.google.com/drive/my-drive", "_blank");
-    }  
-
-function closeFolderModal() {
-  document.getElementById('folderModal').style.display = 'none';
+      window.open("https://drive.google.com/drive/my-drive", "_blank");
     }
 
-function openRecentFiles() {
-  alert("Opening recent files...");
-  closeFolderModal();
-   }
+    function closeFolderModal() {
+      document.getElementById('folderModal').style.display = 'none';
+    }
 
-function openGoogleDrive() {
-  alert("Redirecting to Google Drive...");
-  // window.open("https://drive.google.com", "_blank"); // Uncomment to actually open
-  closeFolderModal();
-   }
+    function openRecentFiles() {
+      alert("Opening recent files...");
+      closeFolderModal();
+    }
+
+    function openGoogleDrive() {
+      alert("Redirecting to Google Drive...");
+      // window.open("https://drive.google.com", "_blank"); // Uncomment to actually open
+      closeFolderModal();
+    }
 
   </script>
 
 </body>
+
 </html>

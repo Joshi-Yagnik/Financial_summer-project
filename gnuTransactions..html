@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Transaction Preferences</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+    }
+    header {
+      background-color: #2e7d32;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+    }
+    header h1 {
+      font-size: 20px;
+      margin: 0;
+      margin-left: 16px;
+    }
+    .back-arrow {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .container {
+      padding: 16px;
+    }
+    .option {
+      margin-bottom: 20px;
+      cursor: pointer;
+    }
+    .option-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+    }
+    .option-description {
+      font-size: 14px;
+      color: #cccccc;
+      margin-top: 4px;
+    }
+    .divider {
+      border-bottom: 1px solid #333;
+      margin: 10px 0;
+    }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      float: right;
+    }
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #888;
+      transition: .4s;
+      border-radius: 20px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 16px; width: 16px;
+      left: 2px; bottom: 2px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+    input:checked + .slider {
+      background-color: orange;
+    }
+    input:checked + .slider:before {
+      transform: translateX(20px);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 10;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background-color: #2e2e2e;
+      margin: 30% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 400px;
+      color: white;
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+    .modal-footer {
+      text-align: right;
+      margin-top: 10px;
+    }
+    .cancel-button, .confirm-button {
+      color: orange;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+    .radio-group label {
+      display: block;
+      margin: 10px 0;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .radio-group input[type="radio"] {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="back-arrow" onclick="history.back()">&#8592;</span>
+    <h1>Transaction Preferences</h1>
+  </header>
+
+  <div class="container">
+    <div class="option" onclick="openTransactionTypeModal()">
+      <div class="option-title">Default Transaction Type</div>
+      <div class="option-description" id="transactionTypeDisplay">Debit</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="option" onclick="toggleCheckbox('doubleEntryToggle')">
+      <div class="option-title">
+        Activate Double Entry
+        <label class="toggle-switch">
+          <input type="checkbox" id="doubleEntryToggle" onchange="toggleState('doubleEntry')">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="option-description">All transactions will be a transfer from one account to another</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="option" onclick="toggleCheckbox('compactViewToggle')">
+      <div class="option-title">
+        Enable compact view
+        <label class="toggle-switch">
+          <input type="checkbox" id="compactViewToggle" onchange="toggleState('compactView')">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="option-description">Enable to always use compact view for transactions list</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="option" onclick="toggleCheckbox('openingBalanceToggle')">
+      <div class="option-title">
+        Save account opening balances
+        <label class="toggle-switch">
+          <input type="checkbox" id="openingBalanceToggle" onchange="toggleState('openingBalance')">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="option-description">Enable to save the current account balance (before deleting transactions) as new opening balance after deleting transactions</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="option">
+      <div class="option-title" style="cursor: pointer;" onclick="openDeleteModal()">
+        Delete all transactions
+      </div>
+      <div class="option-description">All transactions in all accounts will be deleted!</div>
+    </div>
+  </div>
+
+  <!-- Modal for Transaction Type -->
+  <div id="transactionTypeModal" class="modal">
+    <div class="modal-content">
+      <h2>Default Transaction Type</h2>
+      <form class="radio-group">
+        <label><input type="radio" name="transactionType" value="Credit"> Credit</label>
+        <label><input type="radio" name="transactionType" value="Debit" checked> Debit</label>
+      </form>
+      <div class="modal-footer">
+        <span class="cancel-button" onclick="closeTransactionTypeModal()">CANCEL</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for Delete Confirmation -->
+  <div id="deleteModal" class="modal">
+    <div class="modal-content">
+      <h2>Confirm delete</h2>
+      <p>Are you sure you want to delete ALL transactions?</p>
+      <label><input type="checkbox" id="confirmDeleteCheckbox"> Yes, I'm sure</label>
+      <div class="modal-footer">
+        <span class="cancel-button" onclick="closeDeleteModal()">CANCEL</span>
+        <span class="confirm-button" onclick="deleteTransactions()" id="deleteButton" style="opacity:0.5;pointer-events:none;">DELETE</span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const transactionTypeModal = document.getElementById('transactionTypeModal');
+    const transactionTypeDisplay = document.getElementById('transactionTypeDisplay');
+
+    function openTransactionTypeModal() {
+      transactionTypeModal.style.display = 'block';
+    }
+
+    function closeTransactionTypeModal() {
+      transactionTypeModal.style.display = 'none';
+    }
+
+    document.querySelectorAll('input[name="transactionType"]').forEach((elem) => {
+      elem.addEventListener('change', function(event) {
+        transactionTypeDisplay.textContent = event.target.value;
+        closeTransactionTypeModal();
+      });
+    });
+
+    window.onclick = function(event) {
+      if (event.target == transactionTypeModal) closeTransactionTypeModal();
+      if (event.target == deleteModal) closeDeleteModal();
+    }
+
+    function toggleState(setting) {
+      const toggle = document.getElementById(setting + 'Toggle');
+      console.log(`${setting} is now ${toggle.checked ? 'enabled' : 'disabled'}`);
+    }
+
+    function toggleCheckbox(id) {
+      const checkbox = document.getElementById(id);
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event('change'));
+    }
+
+    const deleteModal = document.getElementById('deleteModal');
+    const confirmDeleteCheckbox = document.getElementById('confirmDeleteCheckbox');
+    const deleteButton = document.getElementById('deleteButton');
+
+    function openDeleteModal() {
+      deleteModal.style.display = 'block';
+    }
+
+    function closeDeleteModal() {
+      deleteModal.style.display = 'none';
+      confirmDeleteCheckbox.checked = false;
+      deleteButton.style.opacity = 0.5;
+      deleteButton.style.pointerEvents = 'none';
+    }
+
+    confirmDeleteCheckbox.addEventListener('change', function() {
+      if (this.checked) {
+        deleteButton.style.opacity = 1;
+        deleteButton.style.pointerEvents = 'auto';
+      } else {
+        deleteButton.style.opacity = 0.5;
+        deleteButton.style.pointerEvents = 'none';
+      }
+    });
+
+    function deleteTransactions() {
+      alert("All transactions have been deleted.");
+      closeDeleteModal();
+    }
+  </script>
+</body>
+</html>
