@@ -1,202 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Current Assets - Sub-accounts</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon"
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+    rel="icon"
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
-    type="image/x-icon" />
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="current-assets.css">
-  <!-- <link rel="stylesheet" href="styles.css"> -->
-  <link rel="stylesheet" href="assets.css">
+    type="image/x-icon"
+  />
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="current-assets.css" />
 </head>
 
 <body>
-  <header class="top-bar current-assets-header">
-    <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
-    
-    <div class="header-content">
-      <h1>Current Assets</h1>
-      <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+  <header class="top-bar">
+    <span class="material-icons back-btn" onclick="goBack()">menu</span>
+    <div class="header-title">
+      <span class="title-text">Assets:Current Assets</span>
+      <span class="material-icons">keyboard_arrow_down</span>
     </div>
-
-    <div class="header-actions">
+    <div class="header-icons">
       <span class="material-icons">favorite_border</span>
-      <span class="material-icons">visibility</span>
       <div class="kebab-menu">
-        <span class="material-icons kebab-icon" onclick="toggleKebabMenu(this)">more_vert</span>
-        <div class="kebab-dropdown">
-          <div class="kebab-option edit">
-            <span class="material-icons">edit</span>
-            Edit Account
-          </div>
-          <div class="kebab-option delete">
-            <span class="material-icons">delete</span>
-            Delete Account
-          </div>
+        <span class="material-icons more" onclick="toggleDropdown(this)">more_vert</span>
+        <div class="dropdown">
+          <div class="dropdown-item"><span class="material-icons">edit</span>Edit Account</div>
+          <div class="dropdown-item"><span class="material-icons">delete</span>Delete Account</div>
         </div>
       </div>
     </div>
   </header>
 
-  <nav class="sub-accounts-header">
-    <h2>SUB-ACCOUNTS</h2>
-  </nav>
+  <div class="sub-header">SUB-ACCOUNTS</div>
 
-  <section class="sub-accounts-list">
-    <div class="sub-account-card" onclick="openAccountTransactions('cash-in-wallet')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+  <section class="accounts">
+    <div class="card" onclick="openAccount('cash-in-wallet')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Cash in Wallet</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('cash-in-wallet')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('cash-in-wallet')"><span class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openAccountTransactions('checking-account')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+    <div class="card" onclick="openAccount('checking-account')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Checking Account</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('checking-account')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('checking-account')"><span class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="sub-account-card" onclick="openAccountTransactions('savings-account')">
-      <div class="color-bar blue-bar"></div>
-      <div class="card-content">
-        <div class="left">
+    <div class="card" onclick="openAccount('savings-account')">
+      <div class="bar"></div>
+      <div class="content">
+        <div>
           <div class="title">Savings Account</div>
-          <div class="subtitle">0 transactions</div>
         </div>
         <div class="right">
           <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="amount">₹0.00</div>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
-            </div>
+          <span class="amount">₹0.00</span>
+          <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
+          <div class="dropdown">
+            <div class="dropdown-item" onclick="editAccount('savings-account')"><span class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('savings-account')"><span class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <button class="fab" onclick="openCreateForm()">
+  <button class="fab" onclick="createAccount()">
     <span class="material-icons">add</span>
   </button>
 
-  <script>
-    function goBack() {
-      window.location.href = "assets.html";
-    }
-
-    function openCreateForm() {
-      window.location.href = "CreateAccount.html";
-    }
-
-    function openAccountTransactions(accountId) {
-      switch(accountId) {
-        case 'cash-in-wallet':
-          window.location.href = "cash-in-wallet.html";
-          break;
-        case 'checking-account':
-          window.location.href = "checking-account.html";
-          break;
-        case 'savings-account':
-          alert("Savings Account transactions page coming soon!");
-          break;
-        default:
-          alert(`Opening transactions for ${accountId.replace('-', ' ')}`);
-      }
-    }
-
-    // Toggle kebab menu
-    function toggleKebabMenu(element) {
-      const dropdown = element.nextElementSibling;
-      const isVisible = dropdown.classList.contains('show');
-      
-      // Close all other dropdowns
-      document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-        menu.classList.remove('show');
-      });
-      
-      // Toggle current dropdown
-      if (!isVisible) {
-        dropdown.classList.add('show');
-      }
-    }
-
-    // Close kebab menus when clicking outside
-    document.addEventListener('click', function(event) {
-      if (!event.target.closest('.kebab-menu')) {
-        document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
-          menu.classList.remove('show');
-        });
-      }
-    });
-
-    // Toggle favorite functionality
-    document.querySelectorAll('.favorite-icon').forEach(icon => {
-      icon.addEventListener('click', function(event) {
-        event.stopPropagation(); // Prevent card click
-        if (this.textContent === 'favorite_border') {
-          this.textContent = 'favorite';
-          this.style.color = '#ff6b6b';
-        } else {
-          this.textContent = 'favorite_border';
-          this.style.color = '#888';
-        }
-      });
-    });
-  </script>
+  <script src="current-assets.js"></script>
+  <script src="mic.js"></script>
 </body>
-
 </html>
