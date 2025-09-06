@@ -28,6 +28,7 @@
       font-family: 'Roboto', sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
 
     .header {
@@ -131,9 +132,7 @@
 
 <body data-theme="default">
   <div class="header">
-    <!-- <span class="material-icons" onclick="window">arrow_back</span> -->
     <span class="material-icons" id="backButton">arrow_back</span>
-
     <span>General Preferences</span>
   </div>
 
@@ -148,7 +147,7 @@
           <div class="setting-subtext" id="themeModeLabel">Auto (time-based)</div>
         </div>
       </div>
-      <select onchange="changeTheme(this.value)" title="Select theme">
+      <select id="themeSelect" onchange="changeTheme(this.value)" title="Select theme">
         <option value="default">Default</option>
         <option value="light">Light Mode</option>
         <option value="dark">Dark Mode</option>
@@ -175,65 +174,85 @@
     <div class="section-title">Report Preferences</div>
     <div class="setting">
       <div class="setting-icon">
-        <span class="material-icons">palette</span>
+        <span class="material-icons">bar_chart</span>
         <div>
           <div>Account color in reports</div>
           <div class="setting-subtext">Use account color in the bar/pie chart</div>
         </div>
       </div>
-      <div class="toggle" onclick="toggleSwitch(this)"></div>
+      <div class="toggle" id="toggleReports" onclick="toggleSwitch(this)"></div>
     </div>
   </div>
 
   <script>
+    // Back button navigation
     document.getElementById("backButton").addEventListener("click", function () {
-      window.location.href = "All.html";
-    }
-    );
+      // window.location.href = "All.html"; // Adjust this as needed
+      window.history.back();
+    });
+
+    // Toggle switches
     function toggleSwitch(el) {
       el.classList.toggle('active');
+
       if (el.id === 'togglePasscode') {
         const changePassRow = document.getElementById('changePasscodeRow');
         changePassRow.classList.toggle('disabled');
+        localStorage.setItem("passcodeEnabled", el.classList.contains("active"));
+      }
+
+      if (el.id === 'toggleReports') {
+        localStorage.setItem("reportColorEnabled", el.classList.contains("active"));
       }
     }
 
-    // function changeTheme(value) {
-    //   const body = document.body;
-    //   const label = document.getElementById('themeModeLabel');
-    //   if (value === 'default') {
-    //     const hour = new Date().getHours();
-    //     if (hour >= 19 || hour < 7) {
-    //       body.setAttribute('data-theme', 'dark');
-    //       label.innerText = 'Auto (Dark)';
-    //     } else {
-    //       body.setAttribute('data-theme', 'light');
-    //       label.innerText = 'Auto (Light)';
-    //     }
-    //   } else {
-    //     body.setAttribute('data-theme', value);
-    //     label.innerText = value === 'light' ? 'Light Mode' : 'Dark Mode';
-    //   }
-    // }
+    // Apply theme
+    function applyTheme(theme) {
+      const body = document.body;
+      const label = document.getElementById("themeModeLabel");
 
+      if (theme === "default") {
+        const hour = new Date().getHours();
+        if (hour >= 19 || hour < 7) {
+          body.setAttribute("data-theme", "dark");
+          label.innerText = "Auto (Dark)";
+        } else {
+          body.setAttribute("data-theme", "light");
+          label.innerText = "Auto (Light)";
+        }
+      } else {
+        body.setAttribute("data-theme", theme);
+        label.innerText = theme === "light" ? "Light Mode" : "Dark Mode";
+      }
+    }
+
+    // Save theme selection
     function changeTheme(value) {
-      localStorage.setItem("theme", value); // save to localStorage
+      localStorage.setItem("theme", value);
       applyTheme(value);
     }
 
-    window.onload = () => {
+    // Restore preferences on load
+    window.addEventListener("DOMContentLoaded", () => {
+      // Restore theme
       const savedTheme = localStorage.getItem("theme") || "default";
-      document.querySelector("select").value = savedTheme; // set dropdown
-      applyTheme(savedTheme); // apply saved or default
-    };
+      document.getElementById("themeSelect").value = savedTheme;
+      applyTheme(savedTheme);
 
+      // Restore passcode toggle
+      const passcodeEnabled = localStorage.getItem("passcodeEnabled") === "true";
+      if (passcodeEnabled) {
+        document.getElementById("togglePasscode").classList.add("active");
+        document.getElementById("changePasscodeRow").classList.remove("disabled");
+      }
 
-    // Initialize default theme on load
-    // window.onload = () => changeTheme('default');
+      // Restore report toggle
+      const reportEnabled = localStorage.getItem("reportColorEnabled") === "true";
+      if (reportEnabled) {
+        document.getElementById("toggleReports").classList.add("active");
+      }
+    });
   </script>
-  <script src="theme.js"></script>
-  <script src="mic.js"></script>
-
 </body>
 
 </html>

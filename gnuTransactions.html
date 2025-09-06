@@ -3,50 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Transaction Preferences</title>
+  <title>Preferences</title>
   <style>
+    :root {
+      --bg-color: #1e1e1e;
+      --text-color: #ffffff;
+      --secondary-text: #cccccc;
+      --card-bg: #2e2e2e;
+      --divider: #333;
+      --accent: orange;
+      --header-bg: #2e7d32;
+    }
+
+    body.light {
+      --bg-color: #f9f9f9;
+      --text-color: #111111;
+      --secondary-text: #555555;
+      --card-bg: #ffffff;
+      --divider: #ddd;
+      --accent: #2e7d32;
+      --header-bg: #4caf50;
+    }
+
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #1e1e1e;
-      color: white;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
+
     header {
-      background-color: #2e7d32;
+      background-color: var(--header-bg);
       padding: 16px;
       display: flex;
       align-items: center;
     }
+
     header h1 {
       font-size: 20px;
       margin: 0;
       margin-left: 16px;
     }
+
     .back-arrow {
       font-size: 20px;
       cursor: pointer;
+      color: var(--text-color);
     }
+
     .container {
       padding: 16px;
     }
+
+    h2.section-title {
+      font-size: 18px;
+      margin: 20px 0 10px;
+      color: var(--accent);
+    }
+
     .option {
       margin-bottom: 20px;
       cursor: pointer;
     }
+
     .option-title {
       font-size: 16px;
       font-weight: bold;
-      color: white;
+      color: var(--text-color);
     }
+
     .option-description {
       font-size: 14px;
-      color: #cccccc;
+      color: var(--secondary-text);
       margin-top: 4px;
     }
+
     .divider {
-      border-bottom: 1px solid #333;
+      border-bottom: 1px solid var(--divider);
       margin: 10px 0;
     }
+
     .toggle-switch {
       position: relative;
       display: inline-block;
@@ -54,11 +91,13 @@
       height: 20px;
       float: right;
     }
+
     .toggle-switch input {
       opacity: 0;
       width: 0;
       height: 0;
     }
+
     .slider {
       position: absolute;
       cursor: pointer;
@@ -68,6 +107,7 @@
       transition: .4s;
       border-radius: 20px;
     }
+
     .slider:before {
       position: absolute;
       content: "";
@@ -77,12 +117,15 @@
       transition: .4s;
       border-radius: 50%;
     }
+
     input:checked + .slider {
-      background-color: orange;
+      background-color: var(--accent);
     }
+
     input:checked + .slider:before {
       transform: translateX(20px);
     }
+
     .modal {
       display: none;
       position: fixed;
@@ -94,37 +137,44 @@
       overflow: auto;
       background-color: rgba(0,0,0,0.6);
     }
+
     .modal-content {
-      background-color: #2e2e2e;
+      background-color: var(--card-bg);
       margin: 30% auto;
       padding: 20px;
       border-radius: 8px;
       width: 90%;
       max-width: 400px;
-      color: white;
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
+
     .modal-content h2 {
       margin-top: 0;
       margin-bottom: 10px;
       font-size: 18px;
     }
+
     .modal-footer {
       text-align: right;
       margin-top: 10px;
     }
+
     .cancel-button, .confirm-button {
-      color: orange;
+      color: var(--accent);
       cursor: pointer;
       font-weight: bold;
       font-size: 14px;
       margin-left: 10px;
     }
+
     .radio-group label {
       display: block;
       margin: 10px 0;
       font-size: 16px;
       cursor: pointer;
     }
+
     .radio-group input[type="radio"] {
       margin-right: 8px;
     }
@@ -133,10 +183,38 @@
 <body>
   <header>
     <span class="back-arrow" onclick="history.back()">&#8592;</span>
-    <h1>Transaction Preferences</h1>
+    <h1>Preferences</h1>
   </header>
 
   <div class="container">
+    <!-- General Preferences -->
+    <!-- <h2 class="section-title">General Preferences</h2>
+    <div class="option" onclick="toggleCheckbox('themeToggle')">
+      <div class="option-title">
+        Dark Mode
+        <label class="toggle-switch">
+          <input type="checkbox" id="themeToggle" onchange="toggleTheme()">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="option-description">Enable dark mode for the app interface</div>
+    </div>
+    <div class="divider"></div>
+
+    <div class="option" onclick="toggleCheckbox('notificationsToggle')">
+      <div class="option-title">
+        Notifications
+        <label class="toggle-switch">
+          <input type="checkbox" id="notificationsToggle" onchange="toggleState('notifications')">
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="option-description">Receive alerts about account activity and updates</div>
+    </div>
+    <div class="divider"></div> -->
+
+    <!-- Transaction Preferences -->
+    <h2 class="section-title">Transaction Preferences</h2>
     <div class="option" onclick="openTransactionTypeModal()">
       <div class="option-title">Default Transaction Type</div>
       <div class="option-description" id="transactionTypeDisplay">Debit</div>
@@ -175,7 +253,7 @@
           <span class="slider"></span>
         </label>
       </div>
-      <div class="option-description">Enable to save the current account balance (before deleting transactions) as new opening balance after deleting transactions</div>
+      <div class="option-description">Save current balance as new opening balance after deleting transactions</div>
     </div>
     <div class="divider"></div>
 
@@ -187,7 +265,7 @@
     </div>
   </div>
 
-  <!-- Modal for Transaction Type -->
+  <!-- Transaction Type Modal -->
   <div id="transactionTypeModal" class="modal">
     <div class="modal-content">
       <h2>Default Transaction Type</h2>
@@ -201,7 +279,7 @@
     </div>
   </div>
 
-  <!-- Modal for Delete Confirmation -->
+  <!-- Delete Confirmation Modal -->
   <div id="deleteModal" class="modal">
     <div class="modal-content">
       <h2>Confirm delete</h2>
@@ -217,46 +295,14 @@
   <script>
     const transactionTypeModal = document.getElementById('transactionTypeModal');
     const transactionTypeDisplay = document.getElementById('transactionTypeDisplay');
-
-    function openTransactionTypeModal() {
-      transactionTypeModal.style.display = 'block';
-    }
-
-    function closeTransactionTypeModal() {
-      transactionTypeModal.style.display = 'none';
-    }
-
-    document.querySelectorAll('input[name="transactionType"]').forEach((elem) => {
-      elem.addEventListener('change', function(event) {
-        transactionTypeDisplay.textContent = event.target.value;
-        closeTransactionTypeModal();
-      });
-    });
-
-    window.onclick = function(event) {
-      if (event.target == transactionTypeModal) closeTransactionTypeModal();
-      if (event.target == deleteModal) closeDeleteModal();
-    }
-
-    function toggleState(setting) {
-      const toggle = document.getElementById(setting + 'Toggle');
-      console.log(`${setting} is now ${toggle.checked ? 'enabled' : 'disabled'}`);
-    }
-
-    function toggleCheckbox(id) {
-      const checkbox = document.getElementById(id);
-      checkbox.checked = !checkbox.checked;
-      checkbox.dispatchEvent(new Event('change'));
-    }
-
     const deleteModal = document.getElementById('deleteModal');
     const confirmDeleteCheckbox = document.getElementById('confirmDeleteCheckbox');
     const deleteButton = document.getElementById('deleteButton');
 
-    function openDeleteModal() {
-      deleteModal.style.display = 'block';
-    }
-
+    // Open/close modals
+    function openTransactionTypeModal() { transactionTypeModal.style.display = 'block'; }
+    function closeTransactionTypeModal() { transactionTypeModal.style.display = 'none'; }
+    function openDeleteModal() { deleteModal.style.display = 'block'; }
     function closeDeleteModal() {
       deleteModal.style.display = 'none';
       confirmDeleteCheckbox.checked = false;
@@ -264,19 +310,40 @@
       deleteButton.style.pointerEvents = 'none';
     }
 
+    // Transaction type
+    document.querySelectorAll('input[name="transactionType"]').forEach((elem) => {
+      elem.addEventListener('change', function(event) {
+        transactionTypeDisplay.textContent = event.target.value;
+        closeTransactionTypeModal();
+      });
+    });
+
+    // Delete confirmation
     confirmDeleteCheckbox.addEventListener('change', function() {
-      if (this.checked) {
-        deleteButton.style.opacity = 1;
-        deleteButton.style.pointerEvents = 'auto';
-      } else {
-        deleteButton.style.opacity = 0.5;
-        deleteButton.style.pointerEvents = 'none';
-      }
+      deleteButton.style.opacity = this.checked ? 1 : 0.5;
+      deleteButton.style.pointerEvents = this.checked ? 'auto' : 'none';
     });
 
     function deleteTransactions() {
       alert("All transactions have been deleted.");
       closeDeleteModal();
+    }
+
+    // Toggle states
+    function toggleState(setting) {
+      const toggle = document.getElementById(setting + 'Toggle');
+      console.log(`${setting} is now ${toggle.checked ? 'enabled' : 'disabled'}`);
+    }
+    function toggleCheckbox(id) {
+      const checkbox = document.getElementById(id);
+      checkbox.checked = !checkbox.checked;
+      checkbox.dispatchEvent(new Event('change'));
+    }
+
+    // Theme toggle
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      console.log("Theme switched to " + (document.body.classList.contains('light') ? "Light" : "Dark"));
     }
   </script>
 </body>

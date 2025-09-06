@@ -5,26 +5,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Manage Books - GnuCash</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <style>
+    :root {
+      --primary-color: #388e3c;
+      --text-color: #333;
+      --subtext-color: #666;
+      --bg-color: #ffffff;
+      --card-bg: #f5f5f5;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --subtext-color: #b0b0b0;
+      --card-bg: #1e1e1e;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: #2d2d2d;
-      color: white;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      transition: background 0.3s, color 0.3s;
     }
 
     .header {
-      background-color: #388e3c;
+      background-color: var(--primary-color);
       color: white;
       padding: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
     }
 
     .title {
       font-size: 20px;
       font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
 
     .icons {
@@ -35,12 +56,10 @@
     .icon {
       font-size: 24px;
       cursor: pointer;
-      -webkit-user-select: none;
-      user-select: none;
     }
 
     .book-card {
-      background-color: #424242;
+      background-color: var(--card-bg);
       margin: 20px;
       padding: 16px;
       border-radius: 8px;
@@ -49,24 +68,24 @@
     }
 
     .book-card:hover {
-      background-color: #555;
+      opacity: 0.9;
     }
 
     .book-title {
-      color: #66bb6a;
+      color: var(--primary-color);
       font-size: 18px;
       font-weight: bold;
     }
 
     .book-info {
       margin-top: 4px;
-      color: #cfcfcf;
+      color: var(--subtext-color);
     }
 
     .book-export {
       margin-top: 8px;
       font-size: 12px;
-      color: #bdbdbd;
+      color: var(--subtext-color);
     }
 
     /* Modal styles */
@@ -84,21 +103,15 @@
     }
 
     .modal-content {
-      background-color: #3a3a3a;
+      background-color: var(--card-bg);
       padding: 20px;
       width: 90%;
       max-width: 400px;
       border-radius: 8px;
       max-height: 80vh;
-      /* Viewport-based height limit */
       overflow-y: auto;
-      /* Enables vertical scrolling */
       box-sizing: border-box;
-      /* scroll-behaviour: smooth; */
     }
-
-    ;
-
 
     .modal h3 {
       font-size: 20px;
@@ -111,12 +124,12 @@
 
     .account-title {
       font-weight: bold;
-      color: white;
+      color: var(--text-color);
     }
 
     .account-desc {
       font-size: 14px;
-      color: #cccccc;
+      color: var(--subtext-color);
     }
 
     .cancel-btn {
@@ -129,30 +142,19 @@
   </style>
 </head>
 
-<body>
+<body data-theme="default">
 
   <!-- Header -->
   <div class="header">
-    <div class="title">Manage Books</div>
+    <div class="title">
+      <span class="material-icons" onclick="goBack()" style="cursor: pointer;">arrow_back</span>
+      Manage Books
+    </div>
     <div class="icons">
-      <span class="icon" onclick="openAddModal()"><b>+</b></span>
-      <span class="icon" onclick="openFolder()">📁</span>
+      <span class="icon material-icons" onclick="openAddModal()">add</span>
+      <span class="icon material-icons" onclick="openFolder()">folder</span>
     </div>
   </div>
-  <!-- Folder Options Modal -->
-  <div class="modal" id="folderModal">
-    <div class="modal-content" style="max-width: 300px;">
-      <h3>Open From</h3>
-      <div class="account-option" onclick="openRecentFiles()">
-        <div class="account-title">📂 Recent Files</div>
-      </div>
-      <div class="account-option" onclick="openGoogleDrive()">
-        <div class="account-title">🔗 Google Drive</div>
-      </div>
-      <div class="cancel-btn" onclick="closeFolderModal()">CANCEL</div>
-    </div>
-  </div>
-
 
   <!-- Book Card -->
   <div class="book-card" onclick="viewBookDetails()">
@@ -161,93 +163,17 @@
     <div class="book-export">Last Exported: 2025-05-28 02:01:29.892</div>
   </div>
 
-  <!-- Modal -->
+  <!-- Add Modal -->
   <div class="modal" id="addModal">
     <div class="modal-content">
       <h3>Create default accounts</h3>
       <div class="account-option">
         <div class="account-desc">Investment Accounts</div>
-        <div class="account-desc">Brokerage account with related investment accounts (stock, bond, mutual fund, index
-          fund, interest, dividend)</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Business Accounts</div>
-        <div class="account-desc">Full chart of accounts for a business.</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Car Loan</div>
-        <div class="account-desc">Accounts for car loan and associated interest</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">CD and Money Market</div>
-        <div class="account-desc">Accounts for CD and money market investments</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">A Simple Checkbook</div>
-        <div class="account-desc">The minimal set of accounts to use GnuCash.</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Childcare Expenses</div>
-        <div class="account-desc">An account for tracking childcare costs</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Common Accounts</div>
-        <div class="account-desc">A basic set of accounts most commonly used</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Education Loan</div>
-        <div class="account-desc">Accounts for school loan and associated interest</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Fixed Assets</div>
-        <div class="account-desc">Accounts for tracking large fixed assets</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Full chart</div>
-        <div class="account-desc">full chart of accounts contain all default accounts</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Home Mortgage Loan</div>
-        <div class="account-desc">Accounts for home loan and associated interest</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Homeowner Expenses</div>
-        <div class="account-desc">Expenses associated with owning a home</div>
-      </div>
-
-
-
-      <div class="account-option">
-        <div class="account-desc">Other loans</div>
-        <div class="account-desc">Accounts for tracking other loans and associated interest</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">Renter Expenses</div>
-        <div class="account-desc">Expenses associated with renting a home</div>
-      </div>
-
-      <div class="account-option">
-        <div class="account-desc">Retirement Accounts</div>
-        <div class="account-desc">Retirement account with related investment subaccounts</div>
-      </div>
-
-      <div class="account-option">
-        <div class="account-desc">Spouse Income</div>
-        <div class="account-desc">Accounts for tracking spouse's income separately</div>
-      </div>
-
-      <div class="account-option">
-        <div class="account-desc">Spouse Retirement Accounts</div>
-        <div class="account-desc">Retirement account with related investment accounts for spouse</div>
-      </div>
-      <div class="account-option">
-        <div class="account-desc">GST Indian Business</div>
-        <div class="account-desc">Business accounts for India with GST</div>
+        <div class="account-desc">Brokerage account with related investment accounts...</div>
       </div>
       <div class="cancel-btn" onclick="closeAddModal()">CANCEL</div>
     </div>
   </div>
-
 
   <!-- JS Logic -->
   <script>
@@ -260,34 +186,39 @@
     }
 
     function openFolder() {
-      alert("Open Folder clicked!");
+      window.open("https://drive.google.com/drive/my-drive", "_blank");
     }
 
     function viewBookDetails() {
       alert("Book 1:\n65 accounts\n5 transactions\nLast Exported: 2025-05-28 02:01:29.892");
     }
-    function openFolder() {
-      window.open("https://drive.google.com/drive/my-drive", "_blank");
+
+    function goBack() {
+      // window.location.href = "preferences.html"; // goes back to preferences page
+      window.history.back(); // goes back to previous page
     }
 
-    function closeFolderModal() {
-      document.getElementById('folderModal').style.display = 'none';
+    // ✅ Apply saved theme from localStorage
+    function applyTheme(theme) {
+      const body = document.body;
+      const hour = new Date().getHours();
+      if (theme === "default") {
+        if (hour >= 19 || hour < 7) {
+          body.setAttribute("data-theme", "dark");
+        } else {
+          body.setAttribute("data-theme", "light");
+        }
+      } else {
+        body.setAttribute("data-theme", theme);
+      }
     }
 
-    function openRecentFiles() {
-      alert("Opening recent files...");
-      closeFolderModal();
-    }
-
-    function openGoogleDrive() {
-      alert("Redirecting to Google Drive...");
-      // window.open("https://drive.google.com", "_blank"); // Uncomment to actually open
-      closeFolderModal();
-    }
-
+    window.onload = () => {
+      const savedTheme = localStorage.getItem("theme") || "default";
+      applyTheme(savedTheme);
+    };
   </script>
-  <script src="mic.js"></script>
-
+  <script src="theme.js"></script>
 </body>
 
 </html>
