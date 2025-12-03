@@ -1,324 +1,436 @@
-/* ----------  COLOR VARIABLES & DARK MODE  ---------- */
+/* ============================
+   styles.css — Improved version
+   Replace your old CSS with this file
+   ============================ */
+
+/* ----------  COLOR VARIABLES & THEMING  ---------- */
 :root {
-  --primary-bg: #f8f9fa;
-  --card-bg: #fff;
-  --text-primary: #333;
-  --text-secondary: #6c757d;
+  --bg: #f8f9fa;
+  --card: #ffffff;
+  --surface-2: #f1f5f9;
+  --text: #1f2937;
+  --muted: #6b7280;
   --accent-blue: #2196f3;
-  --accent-blue-dark: #1976d2;
+  --accent-blue-600: #1976d2;
   --danger: #d32f2f;
+  --favorite: #ff6b6b;
   --hover-red: #fff5f5;
-  --favorite-hover: #ff6b6b;
+
+  --shadow-sm: 0 2px 6px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 20px rgba(16, 24, 40, 0.08);
+
+  --radius-lg: 12px;
+  --gap-sm: 8px;
+  --gap-md: 16px;
+
+  --max-width: 1100px;
+
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* System dark-mode preference fallback */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light-mode) {
+    --bg: #0b0b0c;
+    --card: #121214;
+    --surface-2: #1a1a1b;
+    --text: #e6eef5;
+    --muted: #9aa6b2;
+    --accent-blue: #0ea5a4;
+    --accent-blue-600: #06b6d4;
+    --shadow-sm: none;
+    --shadow-md: none;
+  }
+}
+
+/* explicit dark-mode toggle */
 body.dark-mode {
-  --primary-bg: #1c1c1e;
-  --card-bg: #2c2c2e;
-  --text-primary: #f2f2f7;
-  --text-secondary: #a1a1aa;
+  --bg: #0b0b0c;
+  --card: #121214;
+  --surface-2: #1a1a1b;
+  --text: #e6eef5;
+  --muted: #9aa6b2;
 }
 
-/* ----------  GENERAL RESET  ---------- */
+/* ----------  RESET & BASE  ---------- */
 * {
   box-sizing: border-box;
   margin: 0;
-  padding: 0;
+  padding: 0
+}
+
+html,
+body {
+  height: 100%
 }
 
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  background: var(--primary-bg);
-  color: var(--text-primary);
-  line-height: 1.4;
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Utility */
+.container {
+  max-width: var(--max-width);
+  margin: 20px auto;
+  padding: 12px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
 }
 
 /* ----------  TOP BAR  ---------- */
 .assets-header {
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-dark));
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px;
+  gap: 12px;
+  padding: 35px 18px;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-blue-600));
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-sm);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
-.back-btn,
-.header-actions .material-icons {
-  font-size: 24px;
+/* icon buttons consistent */
+.icon {
+  display: inline-grid;
+  place-items: center;
+  border-radius: 10px;
+  padding: 6px;
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background-color 0.2s ease;
+  /* transition: background .14s ease, transform .08s ease; */
 }
 
-.back-btn:hover,
-.header-actions .material-icons:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.icon:focus {
+  outline: 3px solid rgba(255, 255, 255, 0.12);
+  outline-offset: 2px
 }
 
+.icon:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* header content centers title on large screens, left-align small screens */
 .header-content {
+  flex: 1;
   display: flex;
   align-items: center;
-  flex: 1;
   justify-content: center;
   gap: 8px;
 }
 
 .header-content h1 {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+  letter-spacing: 0.2px
 }
 
-.dropdown-icon {
-  font-size: 20px;
-  opacity: 0.8;
+.header-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center
 }
 
-/* ----------  SUB‑ACCOUNT LIST HEADER  ---------- */
+/* ----------  SUB-ACCOUNTS HEADER  ---------- */
 .sub-accounts-header {
-  background: var(--primary-bg);
-  padding: 16px 20px;
-  border-bottom: 1px solid #e9ecef;
+  background: transparent ;
+  background-color: #06b6d4;
+  padding: 12px 18px;
   text-align: center;
+  margin-top: 6px;
 }
 
 .sub-accounts-header h2 {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  letter-spacing: 0.5px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 1.2px;
 }
 
-/* ----------  SUB‑ACCOUNT CARDS  ---------- */
+/* ----------  LIST AREA ---------- */
 .sub-accounts-list {
-  padding: 16px;
-  min-height: calc(100vh - 140px);
-  background: var(--primary-bg);
+  padding: var(--gap-md);
+  min-height: calc(100vh - 180px);
+  margin-bottom: 24px;
 }
 
+/* ----------  CARD (single item) ---------- */
 .sub-account-card {
   display: flex;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  background: var(--card-bg);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  position: relative;
+  gap: 12px;
+  background: var(--card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: visible;
-  z-index: 1;
+  cursor: pointer;
+  transition: transform .14s ease, box-shadow .14s ease;
+  align-items: stretch;
+  margin-bottom: 12px;
+}
+
+.sub-account-card:active {
+  transform: translateY(1px)
 }
 
 .sub-account-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(16, 24, 40, 0.08);
 }
 
+/* thin left accent */
 .blue-bar {
   width: 6px;
-  background: linear-gradient(180deg, var(--accent-blue), var(--accent-blue-dark));
+  border-top-left-radius: var(--radius-lg);
+  border-bottom-left-radius: var(--radius-lg);
+  background: linear-gradient(180deg, var(--accent-blue), var(--accent-blue-600));
 }
 
+/* card content layout */
 .card-content {
   flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  gap: 8px;
+  padding: 14px 18px;
+  gap: 12px;
+  min-height: 72px;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
 }
 
 .left .title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 700
 }
 
 .left .subtitle {
   font-size: 13px;
-  color: var(--text-secondary);
+  color: var(--muted)
 }
 
+/* right side actions */
 .right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 12px
 }
 
 .amount {
-  font-weight: 600;
-  font-size: 16px;
-  min-width: 80px;
+  min-width: 92px;
   text-align: right;
+  font-weight: 700;
+  color: var(--accent-blue-600)
 }
 
+.small-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 8px;
+  background: transparent;
+  border: 0;
+  cursor: pointer
+}
+
+.small-icon:focus {
+  outline: 3px solid rgba(14, 165, 164, 0.12);
+  outline-offset: 2px
+}
+
+/* favourite styles */
 .favorite-icon {
-  color: #888;
-  cursor: pointer;
-  transition: color 0.2s ease;
+  color: var(--muted);
+  transition: color .14s ease, transform .12s ease
 }
 
 .favorite-icon:hover {
-  color: var(--favorite-hover);
+  color: var(--favorite)
 }
 
-/* ----------  KEBAB MENU  ---------- */
+.favorite-icon.active {
+  color: var(--favorite);
+  transform: scale(1.03)
+}
+
+/* ----------  KEBAB DROPDOWN  ---------- */
 .kebab-menu {
   position: relative;
-  display: inline-block;
-  z-index: 2;
+  display: inline-block
 }
 
 .kebab-dropdown {
-  display: none;
+  display: block;
   position: absolute;
   right: 0;
-  top: 36px;
-  background-color: var(--card-bg);
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  top: 44px;
   min-width: 160px;
-  z-index: 9999;
-  overflow: hidden;
+  background: var(--card);
+  border-radius: 10px;
+  box-shadow: 0 12px 30px rgba(16, 24, 40, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 6px 6px;
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(-6px) scale(.995);
   pointer-events: none;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: opacity .16s ease, transform .16s ease;
+  z-index: 50;
+  overflow: hidden;
 }
 
 .kebab-dropdown.show {
-  display: block;
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
 }
 
+/* menu item */
 .kebab-option {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 16px;
-  font-size: 14px;
+  padding: 10px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  color: var(--text-primary);
-  transition: background 0.2s ease;
-  border-bottom: 1px solid #f0f0f0;
+  color: var(--text);
 }
 
-.kebab-option:last-child {
-  border-bottom: none;
+.kebab-option+.kebab-option {
+  border-top: 1px solid rgba(0, 0, 0, 0.03)
 }
 
 .kebab-option:hover {
-  background: #f1f1f1;
+  background: var(--surface-2)
+}
+
+.kebab-option .material-icons {
+  font-size: 18px
 }
 
 .kebab-option.edit .material-icons {
-  color: var(--accent-blue);
+  color: var(--accent-blue)
 }
 
 .kebab-option.delete .material-icons {
-  color: var(--danger);
+  color: var(--danger)
 }
 
+/* subtle hover for delete */
 .kebab-option.delete:hover {
   background: var(--hover-red);
-  color: var(--danger);
+  color: var(--danger)
 }
 
-/* ----------  ACCOUNT SUMMARY CARD  ---------- */
+/* ---------- ACCOUNT SUMMARY (optional small card) ---------- */
 .account-card {
-  width: 100%;
-  max-width: 350px;
-  background: var(--card-bg);
-  border-radius: 12px;
-  padding: 16px 20px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  max-width: 360px;
+  background: var(--card);
+  padding: 12px;
+  border-radius: 10px;
+  box-shadow: var(--shadow-sm);
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
+  gap: 12px;
+  align-items: center
 }
 
-.account-left,
-.account-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.material-icons {
-  font-size: 22px;
-  color: #666;
-  cursor: pointer;
-}
-
-/* ----------  FLOATING ACTION BUTTON  ---------- */
+/* ---------- FAB  ---------- */
 .fab {
   position: fixed;
-  bottom: 24px;
-  right: 24px;
+  right: 20px;
+  bottom: 20px;
   width: 56px;
   height: 56px;
-  border: none;
   border-radius: 50%;
-  background: linear-gradient(135deg, #ff9800, #f57c00);
-  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  color: #fff;
+  border: 0;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: linear-gradient(135deg, #06b6d4, #0891b2);
+  box-shadow: 0 12px 36px rgba(3, 105, 120, 0.18);
+  transition: transform .12s ease, box-shadow .12s ease;
 }
 
 .fab:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 46px rgba(3, 105, 120, 0.18)
 }
 
 .fab:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.4);
+  outline: 3px solid rgba(6, 182, 212, 0.16);
+  outline-offset: 4px
 }
 
-.fab .material-icons {
-  font-size: 24px;
-  color: #fff;
+/* ---------- ACCESSIBILITY (keyboard focus) ---------- */
+:focus {
+  outline: none
 }
 
-/* ----------  RESPONSIVE  ---------- */
-@media (max-width: 480px) {
-  .assets-header {
-    padding: 12px 16px;
+button:focus,
+.icon:focus,
+.small-icon:focus {
+  outline: 3px solid rgba(14, 165, 164, 0.12);
+  outline-offset: 2px;
+  border-radius: 8px
+}
+
+/* ---------- EMPTY / PLACEHOLDER AREA ---------- */
+.empty-space {
+  height: 320px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.02), transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted)
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media (max-width:900px) {
+  .header-content {
+    justify-content: flex-start
   }
 
-  .header-content h1 {
-    font-size: 18px;
+  .container {
+    padding: 10px
+  }
+}
+
+@media (max-width:480px) {
+  .card-content {
+    padding: 12px
   }
 
-  .header-actions {
-    gap: 12px;
+  .amount {
+    min-width: 64px
+  }
+
+  .left .title {
+    font-size: 14px
   }
 
   .sub-accounts-list {
-    padding: 12px;
-  }
-
-  .card-content {
-    padding: 14px 16px;
-  }
-
-  .right {
-    gap: 12px;
-  }
-
-  .account-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .account-right {
-    width: 100%;
-    justify-content: space-between;
+    padding: 10px
   }
 }
