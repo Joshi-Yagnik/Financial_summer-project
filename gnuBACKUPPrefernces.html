@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -127,11 +128,11 @@
       transition: .4s;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
       background-color: orange;
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
       transform: translateX(16px);
     }
 
@@ -168,7 +169,7 @@
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     .modal-content {
@@ -206,6 +207,7 @@
     }
   </style>
 </head>
+
 <body data-theme="default">
   <div class="header">
     <span class="material-icons" id="backButton" style="cursor: pointer;">arrow_back</span>
@@ -411,4 +413,5 @@
 
   <script src="theme.js"></script>
 </body>
+
 </html>

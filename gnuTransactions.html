@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preferences</title>
   <style>
     :root {
@@ -101,8 +102,10 @@
     .slider {
       position: absolute;
       cursor: pointer;
-      top: 0; left: 0;
-      right: 0; bottom: 0;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
       background-color: #888;
       transition: .4s;
       border-radius: 20px;
@@ -111,18 +114,20 @@
     .slider:before {
       position: absolute;
       content: "";
-      height: 16px; width: 16px;
-      left: 2px; bottom: 2px;
+      height: 16px;
+      width: 16px;
+      left: 2px;
+      bottom: 2px;
       background-color: white;
       transition: .4s;
       border-radius: 50%;
     }
 
-    input:checked + .slider {
+    input:checked+.slider {
       background-color: var(--accent);
     }
 
-    input:checked + .slider:before {
+    input:checked+.slider:before {
       transform: translateX(20px);
     }
 
@@ -135,7 +140,7 @@
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0,0,0,0.6);
+      background-color: rgba(0, 0, 0, 0.6);
     }
 
     .modal-content {
@@ -160,7 +165,8 @@
       margin-top: 10px;
     }
 
-    .cancel-button, .confirm-button {
+    .cancel-button,
+    .confirm-button {
       color: var(--accent);
       cursor: pointer;
       font-weight: bold;
@@ -180,6 +186,7 @@
     }
   </style>
 </head>
+
 <body>
   <header>
     <span class="back-arrow" onclick="history.back()">&#8592;</span>
@@ -287,7 +294,8 @@
       <label><input type="checkbox" id="confirmDeleteCheckbox"> Yes, I'm sure</label>
       <div class="modal-footer">
         <span class="cancel-button" onclick="closeDeleteModal()">CANCEL</span>
-        <span class="confirm-button" onclick="deleteTransactions()" id="deleteButton" style="opacity:0.5;pointer-events:none;">DELETE</span>
+        <span class="confirm-button" onclick="deleteTransactions()" id="deleteButton"
+          style="opacity:0.5;pointer-events:none;">DELETE</span>
       </div>
     </div>
   </div>
@@ -312,14 +320,14 @@
 
     // Transaction type
     document.querySelectorAll('input[name="transactionType"]').forEach((elem) => {
-      elem.addEventListener('change', function(event) {
+      elem.addEventListener('change', function (event) {
         transactionTypeDisplay.textContent = event.target.value;
         closeTransactionTypeModal();
       });
     });
 
     // Delete confirmation
-    confirmDeleteCheckbox.addEventListener('change', function() {
+    confirmDeleteCheckbox.addEventListener('change', function () {
       deleteButton.style.opacity = this.checked ? 1 : 0.5;
       deleteButton.style.pointerEvents = this.checked ? 'auto' : 'none';
     });
@@ -347,4 +355,5 @@
     }
   </script>
 </body>
+
 </html>

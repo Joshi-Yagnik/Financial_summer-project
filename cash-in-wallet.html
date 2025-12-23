@@ -17,29 +17,30 @@
 <body>
   <header class="top-bar cash-wallet-header">
     <span class="material-icons back-btn" onclick="goBack()">menu</span>
-    
+
     <div class="header-content">
       <h1>Assets:Curre...sh in Wallet</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
       <div class="icons">
-          <span class="material-icons favorite-icon">favorite_border</span>
-          <div class="kebab-menu">
-            <span class="material-icons kebab-icon" onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
-            <div class="kebab-dropdown">
-              <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
-                <span class="material-icons">edit</span>
-                Edit Account
-              </div>
-              <div class="kebab-option delete" onclick="deleteDefaultAccount('assets')">
-                <span class="material-icons">delete</span>
-                Delete Account
-              </div>
+        <span class="material-icons favorite-icon">favorite_border</span>
+        <div class="kebab-menu">
+          <span class="material-icons kebab-icon"
+            onclick="event.stopPropagation(); toggleKebabMenu(this)">more_vert</span>
+          <div class="kebab-dropdown">
+            <div class="kebab-option edit" onclick="editDefaultAccount('assets')">
+              <span class="material-icons">edit</span>
+              Edit Account
+            </div>
+            <div class="kebab-option delete" onclick="deleteDefaultAccount('assets')">
+              <span class="material-icons">delete</span>
+              Delete Account
             </div>
           </div>
         </div>
+      </div>
     </div>
 
-    
+
   </header>
 
   <nav class="account-tabs">
@@ -71,10 +72,10 @@
       document.querySelectorAll('.tab').forEach(tab => {
         tab.classList.remove('active');
       });
-      
+
       // Add active class to clicked tab
       event.target.classList.add('active');
-      
+
       if (tabName === 'sub-accounts') {
         // For now, just show an alert. Later you can implement sub-accounts view
         alert("Sub-accounts view coming soon!");
@@ -88,12 +89,12 @@
     function toggleKebabMenu(element) {
       const dropdown = element.nextElementSibling;
       const isVisible = dropdown.classList.contains('show');
-      
+
       // Close all other dropdowns
       document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
         menu.classList.remove('show');
       });
-      
+
       // Toggle current dropdown
       if (!isVisible) {
         dropdown.classList.add('show');
@@ -101,7 +102,7 @@
     }
 
     // Close kebab menus when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
       if (!event.target.closest('.kebab-menu')) {
         document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
           menu.classList.remove('show');
@@ -110,7 +111,7 @@
     });
 
     // Toggle favorite functionality
-    document.querySelector('.header-actions .material-icons').addEventListener('click', function() {
+    document.querySelector('.header-actions .material-icons').addEventListener('click', function () {
       if (this.textContent === 'favorite_border') {
         this.textContent = 'favorite';
         this.style.color = '#ff6b6b';

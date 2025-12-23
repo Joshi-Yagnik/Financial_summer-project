@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Current Assets - Sub-accounts</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link
-    rel="icon"
+  <link rel="icon"
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
-    type="image/x-icon"
-  />
+    type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
   <link rel="stylesheet" href="current-assets.css" />
 </head>
@@ -21,7 +20,7 @@
       <span class="material-icons">keyboard_arrow_down</span>
     </div>
     <div class="header-icons">
-      <span class="material-icons">favorite_border</span>
+      <span class="material-icons favorite-icon" data-account-id="current-assets-header">favorite_border</span>
       <div class="kebab-menu">
         <span class="material-icons more" onclick="toggleDropdown(this)">more_vert</span>
         <div class="dropdown">
@@ -42,12 +41,14 @@
           <div class="title">Cash in Wallet</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon">favorite_border</span>
+          <span class="material-icons favorite-icon" data-account-id="cash-in-wallet">favorite_border</span>
           <span class="amount">₹0.00</span>
           <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
           <div class="dropdown">
-            <div class="dropdown-item" onclick="editAccount('cash-in-wallet')"><span class="material-icons">edit</span>Edit Account</div>
-            <div class="dropdown-item" onclick="deleteAccount('cash-in-wallet')"><span class="material-icons">delete</span>Delete Account</div>
+            <div class="dropdown-item" onclick="editAccount('cash-in-wallet')"><span
+                class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('cash-in-wallet')"><span
+                class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
@@ -60,12 +61,14 @@
           <div class="title">Checking Account</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon">favorite_border</span>
+          <span class="material-icons favorite-icon" data-account-id="checking-account">favorite_border</span>
           <span class="amount">₹0.00</span>
           <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
           <div class="dropdown">
-            <div class="dropdown-item" onclick="editAccount('checking-account')"><span class="material-icons">edit</span>Edit Account</div>
-            <div class="dropdown-item" onclick="deleteAccount('checking-account')"><span class="material-icons">delete</span>Delete Account</div>
+            <div class="dropdown-item" onclick="editAccount('checking-account')"><span
+                class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('checking-account')"><span
+                class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
@@ -78,12 +81,14 @@
           <div class="title">Savings Account</div>
         </div>
         <div class="right">
-          <span class="material-icons favorite-icon">favorite_border</span>
+          <span class="material-icons favorite-icon" data-account-id="savings-account">favorite_border</span>
           <span class="amount">₹0.00</span>
           <span class="material-icons more" onclick="event.stopPropagation(); toggleDropdown(this)">more_vert</span>
           <div class="dropdown">
-            <div class="dropdown-item" onclick="editAccount('savings-account')"><span class="material-icons">edit</span>Edit Account</div>
-            <div class="dropdown-item" onclick="deleteAccount('savings-account')"><span class="material-icons">delete</span>Delete Account</div>
+            <div class="dropdown-item" onclick="editAccount('savings-account')"><span
+                class="material-icons">edit</span>Edit Account</div>
+            <div class="dropdown-item" onclick="deleteAccount('savings-account')"><span
+                class="material-icons">delete</span>Delete Account</div>
           </div>
         </div>
       </div>
@@ -97,4 +102,5 @@
   <script src="current-assets.js"></script>
   <script src="mic.js"></script>
 </body>
+
 </html>
