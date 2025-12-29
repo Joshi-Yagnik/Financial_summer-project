@@ -2,7 +2,12 @@
 
 # 💼 Financial_Summer-Project
 
-This project presents a structured analysis of financial topics, performance metrics, and decision-making tools in the domain of finance. Designed as a summer learning and development initiative, the project is built using modern web technologies like HTML, CSS, and JavaScript.
+**Financial_Summer-Project** is a day-to-day personal finance management web application.
+It helps users track **income, expenses, assets, liabilities, and equity** in a clean,
+structured, and user-friendly interface.
+
+This project is developed as part of a **Summer Internship / Academic Learning Project**
+using modern web technologies like **HTML, CSS, and JavaScript , Firebase**.
 
 ---
 
@@ -13,26 +18,40 @@ This project presents a structured analysis of financial topics, performance met
 - [Technologies Used](#technologies-used)
 - [How to Run](#how-to-run)
 - [Project Structure](#project-structure)
-- [Screenshots (optional)](#screenshots-optional)
+- [Screenshots (Optional)](#screenshots-optional)
 - [Credits](#credits)
 
 ---
 
 ## 📘 Project Overview
 
-The **Financial_Summer-Project** explores foundational and advanced financial concepts through an interactive and visual web interface. It is designed for educational purposes to help users understand financial performance analysis, charts, and key indicators, using static and dynamic content.
+The **Financial_Summer-Project** focuses on managing daily financial activities
+by organizing money into different account categories such as **Assets, Income,
+Expenses, Liabilities, and Equity**.
+
+Users can create **sub-accounts**, view totals, and manage financial data through
+a dashboard-style interface.  
+The project mainly focuses on **frontend UI design and financial data structuring**,
+with backend and database integration planned for future development.
 
 ---
 
 ## ✨ Key Features
 
+- Dashboard with **Recent, All, and Favorites** views
+- Main account categories:
+  - Assets
+  - Income
+  - Expenses
+  - Liabilities
+  - Equity
+- Sub-account creation under each category
+- Automatic total calculation per account
 - Clean and responsive UI
-- Interactive charts or visuals (if added)
-- Dynamic content loading using JavaScript
-- Organized content section-wise (like chapters)
+- Dark & Light mode support (theme applied across the site)
+- JavaScript-based dynamic interactions
 - Footer with copyright
-- Greeting messages based on user time (like “Good Morning!”)
-- Optional Firebase login integration (if added)
+- Time-based greeting messages (e.g., *Good Morning!*)
 
 ---
 
@@ -41,9 +60,12 @@ The **Financial_Summer-Project** explores foundational and advanced financial co
 - HTML5
 - CSS3
 - JavaScript (Vanilla JS)
-- [Optional] Firebase (for login/signup or data storage)
-- [Optional] Chart.js / Google Charts (for graphing)
+- Bootstrap (for responsive UI)
 - GitHub (for version control)
+
+**Planned / Optional**
+- Firebase (authentication & data storage)
+- Chart.js / Google Charts (financial graphs & reports)
 
 ---
 
@@ -52,4 +74,3 @@ The **Financial_Summer-Project** explores foundational and advanced financial co
 1. Clone the repository:
    ```bash
    git clone https://github.com/Joshi-Yagnik/Financial_summer-project.git
-   cd financial_summer-project
