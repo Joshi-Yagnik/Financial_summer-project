@@ -1,0 +1,533 @@
+/**
+ * Global Dark Mode Theme System
+ * This file provides comprehensive dark mode support for the entire application
+ */
+
+/* ============================================
+   CSS CUSTOM PROPERTIES (VARIABLES)
+   ============================================ */
+
+:root {
+  /* Light Mode Colors (Default) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-modal: #ffffff;
+  --bg-input: #ffffff;
+  --bg-hover: #f5f5f5;
+  --bg-active: #e8e8e8;
+  
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --text-inverse: #ffffff;
+  
+  --border-color: #e5e7eb;
+  --border-light: #f3f4f6;
+  --border-dark: #d1d5db;
+  
+  --accent-blue: #2196f3;
+  --accent-blue-dark: #1976d2;
+  --accent-green: #4caf50;
+  --accent-red: #f44336;
+  --accent-orange: #ff9800;
+  --accent-purple: #9c27b0;
+  
+  --shadow-sm: 0 2px 6px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 8px 20px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 12px 32px rgba(16, 24, 40, 0.12);
+  
+  --overlay: rgba(0, 0, 0, 0.5);
+  
+  /* Header & Navigation */
+  --header-bg: #2e7d32;
+  --header-text: #ffffff;
+  --tab-bg: #388e3c;
+  --tab-active: #ff9800;
+  
+  /* Status Colors */
+  --success: #4caf50;
+  --error: #f44336;
+  --warning: #ff9800;
+  --info: #2196f3;
+}
+
+/* Dark Mode Colors */
+[data-theme="dark"] {
+  --bg-primary: #121212;
+  --bg-secondary: #1e1e1e;
+  --bg-tertiary: #2c2c2c;
+  --bg-card: #1e1e1e;
+  --bg-modal: #2c2c2c;
+  --bg-input: #1e1e1e;
+  --bg-hover: #2c2c2c;
+  --bg-active: #3a3a3a;
+  
+  --text-primary: #e6eef5;
+  --text-secondary: #b0b8c4;
+  --text-muted: #6b7280;
+  --text-inverse: #1f2937;
+  
+  --border-color: #3a3a3a;
+  --border-light: #2c2c2c;
+  --border-dark: #4a4a4a;
+  
+  --accent-blue: #42a5f5;
+  --accent-blue-dark: #2196f3;
+  --accent-green: #66bb6a;
+  --accent-red: #ef5350;
+  --accent-orange: #ffa726;
+  --accent-purple: #ab47bc;
+  
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 8px 20px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
+  
+  --overlay: rgba(0, 0, 0, 0.7);
+  
+  /* Header & Navigation - Dark Mode */
+  --header-bg: #1b5e20;
+  --header-text: #ffffff;
+  --tab-bg: #2e7d32;
+  --tab-active: #ff9800;
+  
+  /* Status Colors - Dark Mode */
+  --success: #66bb6a;
+  --error: #ef5350;
+  --warning: #ffa726;
+  --info: #42a5f5;
+}
+
+/* ============================================
+   BASE ELEMENTS
+   ============================================ */
+
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ============================================
+   CARDS & CONTAINERS
+   ============================================ */
+
+.card,
+.account-card {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover,
+.account-card:hover {
+  background-color: var(--bg-hover);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================
+   MODALS & OVERLAYS
+   ============================================ */
+
+.modal-overlay {
+  background-color: var(--overlay);
+}
+
+.modal-content {
+  background-color: var(--bg-modal);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  border-bottom-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+.modal-header h2 {
+  color: var(--text-primary);
+}
+
+.close-btn {
+  color: var(--text-secondary);
+}
+
+.close-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-hover);
+}
+
+/* ============================================
+   FORMS & INPUTS
+   ============================================ */
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+input[type="email"],
+input[type="password"],
+select,
+textarea {
+  background-color: var(--bg-input);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="date"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+  background-color: var(--bg-input);
+  border-color: var(--accent-blue);
+  outline: none;
+}
+
+input::placeholder {
+  color: var(--text-muted);
+}
+
+label {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+button,
+.btn-submit,
+.btn-cancel,
+.retry-btn,
+.add-transaction-btn {
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-submit {
+  background: linear-gradient(135deg, var(--accent-orange), #f57c00);
+  color: var(--text-inverse);
+}
+
+.btn-cancel {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.btn-cancel:hover {
+  background-color: var(--bg-hover);
+}
+
+.retry-btn {
+  background: linear-gradient(135deg, var(--accent-orange), #f57c00);
+  color: var(--text-inverse);
+}
+
+.add-transaction-btn {
+  background: linear-gradient(135deg, var(--accent-orange), #f57c00);
+  color: var(--text-inverse);
+}
+
+/* ============================================
+   HEADERS & NAVIGATION
+   ============================================ */
+
+.top-bar,
+.cash-wallet-header,
+.assets-header {
+  background: linear-gradient(135deg, var(--header-bg), #1b5e20);
+  color: var(--header-text);
+}
+
+.account-tabs {
+  background-color: var(--tab-bg);
+  color: var(--header-text);
+}
+
+.account-tabs .tab.active {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.account-tabs .tab.active::after {
+  background-color: var(--tab-active);
+}
+
+/* ============================================
+   SIDEBAR & MENU
+   ============================================ */
+
+.side-menu {
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-md);
+}
+
+.menu-body {
+  background-color: var(--bg-card);
+}
+
+.menu-section {
+  border-top-color: var(--border-color);
+}
+
+.side-menu a {
+  color: var(--text-primary);
+}
+
+.side-menu a:hover {
+  background-color: var(--bg-hover);
+}
+
+.section-title {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   DROPDOWNS & MENUS
+   ============================================ */
+
+.dropdown,
+.kebab-dropdown {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-md);
+}
+
+.dropdown-item,
+.kebab-option {
+  color: var(--text-primary);
+  border-bottom-color: var(--border-light);
+}
+
+.dropdown-item:hover,
+.kebab-option:hover {
+  background-color: var(--bg-hover);
+}
+
+.kebab-option .material-icons {
+  color: var(--text-secondary);
+}
+
+/* ============================================
+   TRANSACTIONS & LISTS
+   ============================================ */
+
+.transactions-content,
+.sub-accounts-content {
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+}
+
+.transaction-item {
+  background-color: var(--bg-card);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.transaction-item:hover {
+  background-color: var(--bg-hover);
+  box-shadow: var(--shadow-md);
+}
+
+.transaction-date {
+  color: var(--text-secondary);
+}
+
+.transaction-description {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   EMPTY STATES & LOADING
+   ============================================ */
+
+.empty-state {
+  color: var(--accent-orange);
+}
+
+.empty-message {
+  color: var(--text-secondary);
+}
+
+.loading-state {
+  color: var(--accent-orange);
+}
+
+.error-state {
+  color: var(--error);
+}
+
+.error-icon {
+  color: var(--error);
+}
+
+/* ============================================
+   FAVORITES & ICONS
+   ============================================ */
+
+.favorite-icon {
+  color: var(--text-secondary);
+  transition: color 0.3s ease;
+}
+
+.favorite-icon.active,
+.favorite-icon:hover {
+  color: var(--accent-red);
+}
+
+.material-icons {
+  color: inherit;
+}
+
+/* ============================================
+   FAB (FLOATING ACTION BUTTON)
+   ============================================ */
+
+.fab {
+  background: linear-gradient(135deg, var(--accent-orange), #f57c00);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+.fab:hover {
+  box-shadow: 0 6px 16px rgba(255, 152, 0, 0.5);
+}
+
+.fab .material-icons {
+  color: var(--text-inverse);
+}
+
+/* ============================================
+   TABLES (if any)
+   ============================================ */
+
+table {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+}
+
+th {
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+td {
+  border-color: var(--border-color);
+}
+
+tr:hover {
+  background-color: var(--bg-hover);
+}
+
+/* ============================================
+   SCROLLBARS
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-dark);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-primary {
+  color: var(--text-primary);
+}
+
+.text-secondary {
+  color: var(--text-secondary);
+}
+
+.text-muted {
+  color: var(--text-muted);
+}
+
+.bg-primary {
+  background-color: var(--bg-primary);
+}
+
+.bg-secondary {
+  background-color: var(--bg-secondary);
+}
+
+.bg-card {
+  background-color: var(--bg-card);
+}
+
+.border-color {
+  border-color: var(--border-color);
+}
+
+/* ============================================
+   SPECIFIC COMPONENT OVERRIDES
+   ============================================ */
+
+/* Amount displays */
+.amount {
+  color: var(--text-primary);
+}
+
+.amount.income {
+  color: var(--accent-green);
+}
+
+.amount.expense {
+  color: var(--accent-red);
+}
+
+/* Balance display */
+.balance-display {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-inverse);
+}
+
+[data-theme="dark"] .balance-display {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Form actions */
+.form-actions {
+  border-top-color: var(--border-color);
+}
+
+/* Account tabs */
+.sub-header {
+  background-color: var(--bg-card);
+  border-bottom-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+/* Cards with bars */
+.bar {
+  background: linear-gradient(180deg, var(--accent-blue), var(--accent-blue-dark));
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .modal-content {
+    background-color: var(--bg-modal);
+  }
+}
+

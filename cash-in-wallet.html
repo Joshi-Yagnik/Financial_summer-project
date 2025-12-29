@@ -9,9 +9,11 @@
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
     type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="theme-global.css">
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cash-in-wallet.css">
-
+  <script src="theme.js"></script>
+  <script type="module" src="firebase.js"></script>
 </head>
 
 <body>
@@ -21,6 +23,7 @@
     <div class="header-content">
       <h1>Assets:Curre...sh in Wallet</h1>
       <span class="material-icons dropdown-icon">keyboard_arrow_down</span>
+      <div class="balance-display" id="balanceDisplay" style="display: none;">₹0.00</div>
       <div class="icons">
         <span class="material-icons favorite-icon">favorite_border</span>
         <div class="kebab-menu">
@@ -48,58 +51,433 @@
     <div class="tab active" onclick="switchTab('transactions')">TRANSACTIONS</div>
   </nav>
 
-  <section class="transactions-content">
-    <div class="empty-state">
+  <!-- Transactions Tab Content -->
+  <section class="transactions-content" id="transactionsContent">
+    <div class="loading-state" id="loadingState" style="display: none;">
+      <div class="loading-spinner"></div>
+      <div class="loading-message">Loading transactions...</div>
+    </div>
+
+    <div class="error-state" id="errorState" style="display: none;">
+      <span class="material-icons error-icon">error_outline</span>
+      <div class="error-message" id="errorMessage">Failed to load transactions</div>
+      <button class="retry-btn" onclick="loadTransactions()">Retry</button>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <span class="material-icons empty-icon">account_balance_wallet</span>
       <div class="empty-message">No transactions to display</div>
+      <button class="add-transaction-btn" onclick="openCreateTransaction()">
+        <span class="material-icons">add</span>
+        Add Your First Transaction
+      </button>
+    </div>
+
+    <div class="transactions-list" id="transactionsList" style="display: none;"></div>
+  </section>
+
+  <!-- Sub-Accounts Tab Content -->
+  <section class="sub-accounts-content" id="subAccountsContent" style="display: none;">
+    <div class="empty-state">
+      <span class="material-icons empty-icon">folder</span>
+      <div class="empty-message">No sub-accounts available</div>
     </div>
   </section>
+
+  <!-- Transaction Modal -->
+  <div class="modal-overlay" id="transactionModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Add Transaction</h2>
+        <span class="material-icons close-btn" onclick="closeTransactionModal()">close</span>
+      </div>
+      <form id="transactionForm" onsubmit="handleSubmitTransaction(event)">
+        <div class="form-group">
+          <label for="transactionDate">Date</label>
+          <input type="date" id="transactionDate" required>
+        </div>
+        <div class="form-group">
+          <label for="transactionDescription">Description</label>
+          <input type="text" id="transactionDescription" placeholder="Enter description" required>
+        </div>
+        <div class="form-group">
+          <label for="transactionAmount">Amount (₹)</label>
+          <input type="number" id="transactionAmount" step="0.01" placeholder="0.00" required>
+        </div>
+        <div class="form-group">
+          <label for="transactionType">Type</label>
+          <select id="transactionType" required>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-cancel" onclick="closeTransactionModal()">Cancel</button>
+          <button type="submit" class="btn-submit">Add Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <button class="fab" onclick="openCreateTransaction()">
     <span class="material-icons">add</span>
   </button>
 
-  <script>
-    function goBack() {
-      window.location.href = "current-assets.html";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      where,
+      getDocs,
+      orderBy,
+      onSnapshot,
+      Timestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
+      authDomain: "financial-summer-project.firebaseapp.com",
+      projectId: "financial-summer-project",
+      storageBucket: "financial-summer-project.firebasestorage.app",
+      messagingSenderId: "502346293460",
+      appId: "1:502346293460:web:379e8369eddfd47ce51b41",
+      measurementId: "G-9C8T2LGM4Q"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Account identifiers
+    // Data Structure in Firestore:
+    // Collection: 'transactions'
+    // Each document contains:
+    //   - userId: Current logged-in user's UID
+    //   - accountId: 'assets' (parent account)
+    //   - subAccountId: 'cash-in-wallet' (this sub-account)
+    //   - date: Transaction date (Timestamp)
+    //   - description: Transaction description
+    //   - amount: Transaction amount (number)
+    //   - type: 'income' or 'expense'
+    //   - createdAt: When the transaction was created (Timestamp)
+    //
+    // Firestore Path: transactions/{auto-generated-id}
+    // All transactions are filtered by userId, accountId, and subAccountId
+    // to ensure users only see their own transactions for this specific account
+    
+    const accountId = 'assets';
+    const subAccountId = 'cash-in-wallet';
+    let currentUser = null;
+    let unsubscribeTransactions = null;
+
+    // Initialize on auth state change
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      } else {
+        currentUser = user;
+        loadTransactions();
+      }
+    });
+
+    // Load transactions from Firestore
+    window.loadTransactions = function () {
+      if (!currentUser) return;
+
+      const loadingState = document.getElementById('loadingState');
+      const errorState = document.getElementById('errorState');
+      const emptyState = document.getElementById('emptyState');
+      const transactionsList = document.getElementById('transactionsList');
+
+      // Show loading state
+      loadingState.style.display = 'flex';
+      errorState.style.display = 'none';
+      emptyState.style.display = 'none';
+      transactionsList.style.display = 'none';
+
+      try {
+        // Unsubscribe from previous listener if exists
+        if (unsubscribeTransactions) {
+          unsubscribeTransactions();
+        }
+
+        const transactionsRef = collection(db, 'transactions');
+        // Query without orderBy to avoid index requirement - we'll sort in JavaScript
+        const q = query(
+          transactionsRef,
+          where('userId', '==', currentUser.uid),
+          where('accountId', '==', accountId),
+          where('subAccountId', '==', subAccountId)
+        );
+
+        // Set up real-time listener
+        unsubscribeTransactions = onSnapshot(
+          q,
+          (snapshot) => {
+            loadingState.style.display = 'none';
+            errorState.style.display = 'none';
+
+            const transactions = [];
+            snapshot.forEach((doc) => {
+              const data = doc.data();
+              transactions.push({
+                id: doc.id,
+                ...data,
+                date: data.date?.toDate ? data.date.toDate() : new Date(data.date)
+              });
+            });
+
+            // Sort by date descending (newest first)
+            transactions.sort((a, b) => b.date - a.date);
+
+            // Always update balance (even if 0)
+            updateBalance(transactions);
+
+            if (transactions.length === 0) {
+              emptyState.style.display = 'flex';
+              transactionsList.style.display = 'none';
+            } else {
+              emptyState.style.display = 'none';
+              transactionsList.style.display = 'block';
+              displayTransactions(transactions);
+            }
+          },
+          (error) => {
+            console.error('Error loading transactions:', error);
+            loadingState.style.display = 'none';
+            errorState.style.display = 'flex';
+            document.getElementById('errorMessage').textContent =
+              'Failed to load transactions. Please try again.';
+            emptyState.style.display = 'none';
+            transactionsList.style.display = 'none';
+          }
+        );
+      } catch (error) {
+        console.error('Error setting up transaction listener:', error);
+        loadingState.style.display = 'none';
+        errorState.style.display = 'flex';
+        document.getElementById('errorMessage').textContent =
+          'Failed to load transactions. Please try again.';
+      }
+    };
+
+    // Display transactions
+    function displayTransactions(transactions) {
+      const transactionsList = document.getElementById('transactionsList');
+      transactionsList.innerHTML = '';
+
+      transactions.forEach((transaction) => {
+        const transactionItem = document.createElement('div');
+        transactionItem.className = 'transaction-item';
+
+        const date = transaction.date.toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric'
+        });
+
+        const amount = parseFloat(transaction.amount);
+        const isIncome = transaction.type === 'income';
+        const amountClass = isIncome ? 'amount income' : 'amount expense';
+        const amountPrefix = isIncome ? '+' : '-';
+
+        transactionItem.innerHTML = `
+          <div class="transaction-left">
+            <div class="transaction-date">${date}</div>
+            <div class="transaction-description">${transaction.description || 'No description'}</div>
+          </div>
+          <div class="transaction-right">
+            <div class="${amountClass}">${amountPrefix}₹${Math.abs(amount).toFixed(2)}</div>
+          </div>
+        `;
+
+        transactionsList.appendChild(transactionItem);
+      });
     }
 
-    function openCreateTransaction() {
-      alert("Create new transaction functionality coming soon!");
-    }
-
-    function switchTab(tabName) {
-      // Remove active class from all tabs
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
+    // Update balance
+    function updateBalance(transactions) {
+      let balance = 0;
+      transactions.forEach((transaction) => {
+        const amount = parseFloat(transaction.amount);
+        if (transaction.type === 'income') {
+          balance += amount;
+        } else {
+          balance -= amount;
+        }
       });
 
-      // Add active class to clicked tab
-      event.target.classList.add('active');
-
-      if (tabName === 'sub-accounts') {
-        // For now, just show an alert. Later you can implement sub-accounts view
-        alert("Sub-accounts view coming soon!");
-        // Reset to transactions tab
-        document.querySelectorAll('.tab')[1].classList.add('active');
-        event.target.classList.remove('active');
+      // Update balance in header
+      const balanceDisplay = document.getElementById('balanceDisplay');
+      if (balanceDisplay) {
+        balanceDisplay.textContent = `₹${balance.toFixed(2)}`;
+        balanceDisplay.style.display = 'block';
       }
     }
 
-    // Toggle kebab menu
-    function toggleKebabMenu(element) {
+    // Open transaction modal
+    window.openCreateTransaction = function () {
+      const modal = document.getElementById('transactionModal');
+      const form = document.getElementById('transactionForm');
+
+      // Set today's date as default
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('transactionDate').value = today;
+
+      // Reset form
+      form.reset();
+      document.getElementById('transactionDate').value = today;
+
+      modal.style.display = 'flex';
+    };
+
+    // Close transaction modal
+    window.closeTransactionModal = function () {
+      const modal = document.getElementById('transactionModal');
+      modal.style.display = 'none';
+    };
+
+    // Handle form submission
+    window.handleSubmitTransaction = async function (event) {
+      event.preventDefault();
+
+      if (!currentUser) {
+        alert('You must be logged in to add transactions');
+        return;
+      }
+
+      const submitBtn = event.target.querySelector('.btn-submit');
+      const originalText = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Adding...';
+
+      try {
+        const date = document.getElementById('transactionDate').value;
+        const description = document.getElementById('transactionDescription').value.trim();
+        const amount = parseFloat(document.getElementById('transactionAmount').value);
+        const type = document.getElementById('transactionType').value;
+
+        if (isNaN(amount) || amount <= 0) {
+          alert('Please enter a valid amount');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          return;
+        }
+
+        // Validate date
+        const dateObj = new Date(date);
+        if (isNaN(dateObj.getTime())) {
+          alert('Please enter a valid date');
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalText;
+          return;
+        }
+
+        const transactionData = {
+          userId: currentUser.uid,
+          accountId: accountId,
+          subAccountId: subAccountId,
+          date: Timestamp.fromDate(dateObj),
+          description: description,
+          amount: amount,
+          type: type,
+          createdAt: Timestamp.now()
+        };
+
+        console.log('Adding transaction to Firestore:', {
+          collection: 'transactions',
+          data: transactionData,
+          userId: currentUser.uid,
+          accountId: accountId,
+          subAccountId: subAccountId
+        });
+
+        await addDoc(collection(db, 'transactions'), transactionData);
+
+        console.log('Transaction added successfully!');
+        
+        // Close modal
+        closeTransactionModal();
+      } catch (error) {
+        console.error('Error adding transaction:', error);
+        console.error('Error code:', error.code);
+        console.error('Error message:', error.message);
+        
+        // Show detailed error message
+        let errorMessage = 'Failed to add transaction.\n\n';
+        if (error.code === 'permission-denied') {
+          errorMessage += '❌ Permission Denied\n';
+          errorMessage += 'Your Firestore security rules are blocking this write.\n\n';
+          errorMessage += 'Please update your Firestore security rules to allow writes:\n';
+          errorMessage += 'Collection: transactions\n';
+          errorMessage += 'Rule needed: Allow authenticated users to write their own data';
+        } else if (error.code === 'unavailable') {
+          errorMessage += '❌ Network Error\n';
+          errorMessage += 'Please check your internet connection and try again.';
+        } else if (error.message) {
+          errorMessage += `Error: ${error.message}\n\n`;
+          errorMessage += 'Check the browser console (F12) for more details.';
+        } else {
+          errorMessage += 'Please check the browser console (F12) for error details.';
+        }
+        
+        alert(errorMessage);
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    };
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function (event) {
+      const modal = document.getElementById('transactionModal');
+      if (event.target === modal) {
+        closeTransactionModal();
+      }
+    });
+
+    // Tab switching
+    window.switchTab = function (tabName) {
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => tab.classList.remove('active'));
+
+      event.target.classList.add('active');
+
+      const transactionsContent = document.getElementById('transactionsContent');
+      const subAccountsContent = document.getElementById('subAccountsContent');
+
+      if (tabName === 'transactions') {
+        transactionsContent.style.display = 'block';
+        subAccountsContent.style.display = 'none';
+        if (currentUser) {
+          loadTransactions();
+        }
+      } else if (tabName === 'sub-accounts') {
+        transactionsContent.style.display = 'none';
+        subAccountsContent.style.display = 'block';
+      }
+    };
+
+    // Other functions
+    window.goBack = function () {
+      window.location.href = "current-assets.html";
+    };
+
+    window.toggleKebabMenu = function (element) {
       const dropdown = element.nextElementSibling;
       const isVisible = dropdown.classList.contains('show');
 
-      // Close all other dropdowns
       document.querySelectorAll('.kebab-dropdown.show').forEach(menu => {
         menu.classList.remove('show');
       });
 
-      // Toggle current dropdown
       if (!isVisible) {
         dropdown.classList.add('show');
       }
-    }
+    };
 
     // Close kebab menus when clicking outside
     document.addEventListener('click', function (event) {
@@ -111,13 +489,18 @@
     });
 
     // Toggle favorite functionality
-    document.querySelector('.header-actions .material-icons').addEventListener('click', function () {
-      if (this.textContent === 'favorite_border') {
-        this.textContent = 'favorite';
-        this.style.color = '#ff6b6b';
-      } else {
-        this.textContent = 'favorite_border';
-        this.style.color = 'white';
+    document.addEventListener('DOMContentLoaded', function () {
+      const favoriteIcon = document.querySelector('.favorite-icon');
+      if (favoriteIcon) {
+        favoriteIcon.addEventListener('click', function () {
+          if (this.textContent === 'favorite_border') {
+            this.textContent = 'favorite';
+            this.style.color = '#ff6b6b';
+          } else {
+            this.textContent = 'favorite_border';
+            this.style.color = 'white';
+          }
+        });
       }
     });
   </script>

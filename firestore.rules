@@ -1,0 +1,209 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================
+    // HELPER FUNCTIONS - STRICT VALIDATION
+    // ============================================
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null && request.auth.uid != null;
+    }
+    
+    // Helper function to check if user owns the resource
+    function isOwner(userId) {
+      return isAuthenticated() && 
+             userId is string && 
+             userId.size() > 0 && 
+             request.auth.uid == userId;
+    }
+    
+    // Helper function to validate userId in request - STRICT
+    function isValidUserId(userId) {
+      return isAuthenticated() &&
+             userId is string && 
+             userId.size() > 0 && 
+             userId == request.auth.uid;
+    }
+    
+    // Helper function to ensure userId is present and matches auth
+    function hasValidUserId(data) {
+      return 'userId' in data &&
+             data.userId is string &&
+             data.userId.size() > 0 &&
+             data.userId == request.auth.uid;
+    }
+    
+    // Helper function to validate amount
+    function isValidAmount(amount) {
+      return amount is number && amount > 0;
+    }
+    
+    // Helper function to validate account type
+    function isValidAccountType(type) {
+      return type in ['Asset', 'Liability', 'Income', 'Expense', 'Equity'];
+    }
+    
+    // Helper function to validate transaction type
+    function isValidTransactionType(type) {
+      return type in ['Income', 'Expense', 'Transfer'];
+    }
+    
+    // ============================================
+    // USERS COLLECTION
+    // ============================================
+    match /users/{userId} {
+      // Users can read and write their own profile
+      allow read, write: if isOwner(userId);
+      
+      // Prevent users from creating profiles for other users
+      allow create: if isAuthenticated() && 
+                       request.resource.data.userId == request.auth.uid &&
+                       request.resource.data.email is string;
+    }
+    
+    // ============================================
+    // ACCOUNTS COLLECTION
+    // ============================================
+    match /accounts/{accountId} {
+      // Users can read their own accounts ONLY
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create accounts for themselves ONLY
+      // STRICT: userId must be present and match authenticated user
+      allow create: if isAuthenticated() &&
+                       hasValidUserId(request.resource.data) &&
+                       isValidAccountType(request.resource.data.accountType) &&
+                       request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.totalBalance is number &&
+                       request.resource.data.totalBalance >= 0 &&
+                       request.resource.data.isFavorite is bool;
+      
+      // Users can update their own accounts ONLY
+      // STRICT: userId cannot be changed
+      allow update: if isOwner(resource.data.userId) &&
+                       hasValidUserId(request.resource.data) &&
+                       isValidAccountType(request.resource.data.accountType) &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own accounts ONLY
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // SUB-ACCOUNTS COLLECTION
+    // ============================================
+    match /subAccounts/{subAccountId} {
+      // Users can read their own sub-accounts ONLY
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create sub-accounts for their own accounts ONLY
+      // STRICT: userId must be present and match authenticated user
+      allow create: if isAuthenticated() &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.accountId is string &&
+                       request.resource.data.accountId.size() > 0 &&
+                       request.resource.data.name is string &&
+                       request.resource.data.name.size() > 0 &&
+                       request.resource.data.balance is number &&
+                       request.resource.data.balance >= 0 &&
+                       request.resource.data.isFavorite is bool &&
+                       (!('color' in request.resource.data) || request.resource.data.color is string);
+      
+      // Users can update their own sub-accounts ONLY
+      // STRICT: userId and accountId cannot be changed
+      allow update: if isOwner(resource.data.userId) &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.userId == request.auth.uid &&
+                       request.resource.data.accountId == resource.data.accountId &&
+                       (!('name' in request.resource.data) || (request.resource.data.name is string && request.resource.data.name.size() > 0)) &&
+                       (!('balance' in request.resource.data) || (request.resource.data.balance is number && request.resource.data.balance >= 0)) &&
+                       (!('isFavorite' in request.resource.data) || request.resource.data.isFavorite is bool) &&
+                       (!('color' in request.resource.data) || request.resource.data.color is string);
+      
+      // Users can delete their own sub-accounts ONLY
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // TRANSACTIONS COLLECTION
+    // ============================================
+    match /transactions/{transactionId} {
+      // Users can read their own transactions ONLY
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create transactions for their own accounts ONLY
+      // STRICT: userId must be present and match authenticated user
+      allow create: if isAuthenticated() &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.accountId is string &&
+                       request.resource.data.accountId.size() > 0 &&
+                       request.resource.data.subAccountId is string &&
+                       request.resource.data.subAccountId.size() > 0 &&
+                       isValidTransactionType(request.resource.data.transactionType) &&
+                       isValidAmount(request.resource.data.amount) &&
+                       request.resource.data.description is string &&
+                       request.resource.data.transactionDate is timestamp;
+      
+      // Users can update their own transactions ONLY
+      // STRICT: userId, accountId, and subAccountId cannot be changed
+      allow update: if isOwner(resource.data.userId) &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.userId == request.auth.uid &&
+                       request.resource.data.accountId == resource.data.accountId &&
+                       request.resource.data.subAccountId == resource.data.subAccountId &&
+                       isValidTransactionType(request.resource.data.transactionType) &&
+                       isValidAmount(request.resource.data.amount);
+      
+      // Users can delete their own transactions ONLY
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // FAVORITES COLLECTION
+    // ============================================
+    match /favorites/{favoriteId} {
+      // Users can read their own favorites ONLY
+      allow read: if isAuthenticated() && 
+                     resource.data.userId == request.auth.uid;
+      
+      // Users can create favorites for their own accounts/sub-accounts ONLY
+      // STRICT: userId must be present and match authenticated user
+      allow create: if isAuthenticated() &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.favoriteType in ['account', 'subAccount'] &&
+                       ((request.resource.data.favoriteType == 'account' && 
+                         request.resource.data.accountId is string &&
+                         request.resource.data.accountId.size() > 0) ||
+                        (request.resource.data.favoriteType == 'subAccount' && 
+                         request.resource.data.subAccountId is string &&
+                         request.resource.data.subAccountId.size() > 0));
+      
+      // Users can update their own favorites ONLY
+      // STRICT: userId cannot be changed
+      allow update: if isOwner(resource.data.userId) &&
+                       hasValidUserId(request.resource.data) &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.userId == request.auth.uid;
+      
+      // Users can delete their own favorites ONLY
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // DENY ALL OTHER ACCESS
+    // ============================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

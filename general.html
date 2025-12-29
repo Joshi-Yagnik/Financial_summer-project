@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>General Preferences</title>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link rel="stylesheet" href="theme-global.css">
+  <script src="theme.js"></script>
   <style>
     :root {
       --primary-color: #388e3c;
@@ -206,22 +208,36 @@
       }
     }
 
-    // Apply theme
+    // Apply theme using ThemeManager
     function applyTheme(theme) {
-      const body = document.body;
       const label = document.getElementById("themeModeLabel");
 
+      if (window.ThemeManager) {
+        // Use global ThemeManager if available
+        window.ThemeManager.setTheme(theme);
+      } else {
+        // Fallback to local implementation
+        const body = document.body;
+        if (theme === "default") {
+          const hour = new Date().getHours();
+          if (hour >= 19 || hour < 7) {
+            body.setAttribute("data-theme", "dark");
+            label.innerText = "Auto (Dark)";
+          } else {
+            body.setAttribute("data-theme", "light");
+            label.innerText = "Auto (Light)";
+          }
+        } else {
+          body.setAttribute("data-theme", theme);
+          label.innerText = theme === "light" ? "Light Mode" : "Dark Mode";
+        }
+      }
+
+      // Update label
       if (theme === "default") {
         const hour = new Date().getHours();
-        if (hour >= 19 || hour < 7) {
-          body.setAttribute("data-theme", "dark");
-          label.innerText = "Auto (Dark)";
-        } else {
-          body.setAttribute("data-theme", "light");
-          label.innerText = "Auto (Light)";
-        }
+        label.innerText = (hour >= 19 || hour < 7) ? "Auto (Dark)" : "Auto (Light)";
       } else {
-        body.setAttribute("data-theme", theme);
         label.innerText = theme === "light" ? "Light Mode" : "Dark Mode";
       }
     }
@@ -230,6 +246,11 @@
     function changeTheme(value) {
       localStorage.setItem("theme", value);
       applyTheme(value);
+      
+      // Also use ThemeManager if available
+      if (window.ThemeManager) {
+        window.ThemeManager.setTheme(value);
+      }
     }
 
     // Restore preferences on load
