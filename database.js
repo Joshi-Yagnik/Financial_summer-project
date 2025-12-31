@@ -5,7 +5,7 @@
  * with proper user isolation, validation, and balance calculations.
  */
 
-import { 
+import {
   getFirestore,
   collection,
   doc,
@@ -48,21 +48,21 @@ function validateUserId(userId, currentUserId = null) {
   if (!userId) {
     throw new Error('userId is required and cannot be null or undefined');
   }
-  
+
   if (typeof userId !== 'string') {
     throw new Error(`Invalid userId: expected string, got ${typeof userId}`);
   }
-  
+
   const trimmed = userId.trim();
   if (trimmed === '') {
     throw new Error('userId cannot be an empty string');
   }
-  
+
   // If currentUserId is provided, ensure they match (security check)
   if (currentUserId && trimmed !== currentUserId) {
     throw new Error('Security violation: userId does not match authenticated user');
   }
-  
+
   return trimmed;
 }
 
@@ -196,12 +196,12 @@ export async function getAccount(db, userId, accountId) {
   }
 
   const accountData = accountSnap.data();
-  
+
   // STRICT ownership verification
   if (!accountData.userId) {
     throw new Error('Security error: Account missing userId field');
   }
-  
+
   if (accountData.userId !== validatedUserId) {
     throw new Error('Unauthorized: Account does not belong to authenticated user');
   }
@@ -272,7 +272,7 @@ export async function deleteAccount(db, userId, accountId) {
 
   // Get all sub-accounts (uses validated userId)
   const subAccounts = await getSubAccountsByAccount(db, validatedUserId, accountId);
-  
+
   // Delete all transactions for each sub-account
   for (const subAccount of subAccounts) {
     const transactions = await getTransactionsBySubAccount(db, validatedUserId, subAccount.subAccountId);
@@ -399,12 +399,12 @@ export async function getSubAccount(db, userId, subAccountId) {
   }
 
   const subAccountData = subAccountSnap.data();
-  
+
   // STRICT ownership verification
   if (!subAccountData.userId) {
     throw new Error('Security error: Sub-account missing userId field');
   }
-  
+
   if (subAccountData.userId !== validatedUserId) {
     throw new Error('Unauthorized: Sub-account does not belong to authenticated user');
   }
@@ -492,7 +492,7 @@ export async function deleteSubAccount(db, userId, subAccountId) {
   // Recalculate parent account balance (get accountId from sub-account before deletion)
   const subAccount = await getSubAccount(db, validatedUserId, subAccountId);
   const parentAccountId = subAccount.accountId;
-  
+
   // Note: We get accountId before deletion, so we can still recalculate
   await recalculateAccountBalance(db, validatedUserId, parentAccountId);
 }
@@ -519,7 +519,7 @@ export async function createTransaction(db, userId, transactionData) {
   if (!transactionData.accountId || typeof transactionData.accountId !== 'string' || transactionData.accountId.trim() === '') {
     throw new Error('accountId is required and must be a non-empty string');
   }
-  
+
   if (!transactionData.subAccountId || typeof transactionData.subAccountId !== 'string' || transactionData.subAccountId.trim() === '') {
     throw new Error('subAccountId is required and must be a non-empty string');
   }
@@ -664,12 +664,12 @@ export async function getTransaction(db, userId, transactionId) {
   }
 
   const transactionData = transactionSnap.data();
-  
+
   // STRICT ownership verification
   if (!transactionData.userId) {
     throw new Error('Security error: Transaction missing userId field');
   }
-  
+
   if (transactionData.userId !== validatedUserId) {
     throw new Error('Unauthorized: Transaction does not belong to authenticated user');
   }
@@ -781,10 +781,10 @@ export async function recalculateSubAccountBalance(db, userId, subAccountId) {
 
   // Verify sub-account exists and belongs to user
   const subAccount = await getSubAccount(db, validatedUserId, subAccountId);
-  
+
   // Get transactions (uses validated userId)
   const transactions = await getTransactionsBySubAccount(db, validatedUserId, subAccountId);
-  
+
   let balance = 0.00;
   transactions.forEach(txn => {
     const amount = parseFloat(txn.amount);
@@ -826,10 +826,10 @@ export async function recalculateAccountBalance(db, userId, accountId) {
 
   // Verify account exists and belongs to user
   const account = await getAccount(db, validatedUserId, accountId);
-  
+
   // Get sub-accounts (uses validated userId)
   const subAccounts = await getSubAccountsByAccount(db, validatedUserId, accountId);
-  
+
   let totalBalance = 0.00;
   subAccounts.forEach(subAccount => {
     totalBalance += parseFloat(subAccount.balance || 0);
@@ -939,12 +939,12 @@ export async function removeFavorite(db, userId, favoriteId) {
   }
 
   const favoriteData = favoriteSnap.data();
-  
+
   // STRICT ownership verification
   if (!favoriteData.userId) {
     throw new Error('Security error: Favorite missing userId field');
   }
-  
+
   if (favoriteData.userId !== validatedUserId) {
     throw new Error('Unauthorized: Favorite does not belong to authenticated user');
   }

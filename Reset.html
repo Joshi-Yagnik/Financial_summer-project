@@ -5,21 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Reset Password</title>
-    <link rel="stylesheet" href="login.css">
+
+    <link rel="stylesheet" href="login.css" />
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import {
-            getAuth,
-            sendPasswordResetEmail
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import {
-            getFirestore,
-            collection,
-            query,
-            where,
-            getDocs
-        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+        import { getAuth, sendPasswordResetEmail } from
+            "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBvU2bIQsg7LoWkDfjTpMHU-WTrEBalMuw",
@@ -33,62 +25,61 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app);
 
-        window.resetPassword = async function () {
-            const number = document.getElementById("resetNumber").value.trim();
-            const msg = document.getElementById("message");
+        window.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("resetBtn").addEventListener("click", async () => {
+                const email = document.getElementById("resetEmail").value.trim();
+                const msg = document.getElementById("message");
+                const box = document.querySelector(".container");
 
-            msg.innerText = "Checking number...";
-            msg.style.color = "black";
+                msg.innerText = "";
 
-            try {
-                const usersRef = collection(db, "users");
-                const q = query(usersRef, where("number", "==", number));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    msg.innerText = "Mobile number not found.";
+                if (!email) {
+                    shakeBox();
+                    msg.innerText = "Please enter your email address.";
                     msg.style.color = "red";
                     return;
                 }
 
-                let email = null;
-                querySnapshot.forEach((doc) => {
-                    const userData = doc.data();
-                    email = userData.email;
-                });
-
-                if (email) {
+                try {
                     await sendPasswordResetEmail(auth, email);
-                    msg.innerText = `Password reset email sent to ${email} 📧`;
+                    msg.innerText = "Password reset email sent 📧 Please check your inbox.";
                     msg.style.color = "green";
-                } else {
-                    msg.innerText = "Email not found for the given number.";
+                } catch (error) {
+                    shakeBox();
+                    msg.innerText = error.message;
                     msg.style.color = "red";
                 }
-            } catch (error) {
-                msg.innerText = `Error: ${error.message}`;
-                msg.style.color = "red";
-            }
-        };
+
+                function shakeBox() {
+                    box.classList.add("shake");
+                    setTimeout(() => box.classList.remove("shake"), 400);
+                }
+            });
+        });
     </script>
 </head>
 
 <body>
+
     <div class="container">
         <h2>Reset Password</h2>
-        <input type="tel" id="resetNumber" placeholder="Enter your mobile number" />
-        <button onclick="resetPassword()">Reset Password</button>
+
+        <input type="email" id="resetEmail" placeholder="Enter your registered email" />
+
+        <button id="resetBtn">Send Reset Link</button>
+
         <p id="message"></p>
+
         <div class="link">
-            Already have an account? <a href="login.html">Login</a>
+            Remembered your password? <a href="login.html">Login</a>
         </div>
     </div>
 
     <div class="footer">
         <p>&copy; 2025 Financial Summer Project</p>
     </div>
+
 </body>
 
 </html>

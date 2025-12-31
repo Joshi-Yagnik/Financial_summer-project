@@ -5,7 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Signup</title>
-    <link rel="stylesheet" href="login.css">
+
+    <link rel="stylesheet" href="login.css" />
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -26,45 +27,80 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        document.getElementById("signupBtn").addEventListener("click", async () => {
-            const name = document.getElementById("name").value.trim();
-            const age = parseInt(document.getElementById("age").value);
-            const number = document.getElementById("number").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value;
+        window.addEventListener("DOMContentLoaded", () => {
 
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
+            document.getElementById("signupBtn").addEventListener("click", async () => {
+                const name = document.getElementById("name").value.trim();
+                const age = document.getElementById("age").value.trim();
+                const number = document.getElementById("number").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const password = document.getElementById("password").value.trim();
+                const box = document.querySelector(".container");
 
-                // Save additional user data to Firestore
-                await setDoc(doc(db, "users", user.uid), {
-                    name: name,
-                    age: age,
-                    number: number,
-                    email: email
-                });
+                if (!name || !email || !password) {
+                    shakeBox();
+                    alert("Please fill all required fields");
+                    return;
+                }
 
-                alert("Signup Successful ✅");
-                speakGreeting(); // Optional: Voice greeting like Jarvis
-                window.location.href = "login.html";
+                if (password.length < 6) {
+                    shakeBox();
+                    alert("Password must be at least 6 characters");
+                    return;
+                }
 
-            } catch (error) {
-                alert("Error: " + error.message);
-            }
+                try {
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+                    await setDoc(doc(db, "users", userCredential.user.uid), {
+                        name,
+                        age,
+                        number,
+                        email,
+                        createdAt: new Date()
+                    });
+
+                    alert("Signup successful ✅");
+
+                    setTimeout(() => {
+                        speakGreeting(name);
+                    }, 400);
+
+                    window.location.href = "login.html";
+
+                } catch (error) {
+                    shakeBox();
+                    if (error.code === "auth/email-already-in-use") {
+                        alert("Account already exists. Please login.");
+                        window.location.href = "login.html";
+                    } else {
+                        alert(error.message);
+                    }
+                }
+
+                function shakeBox() {
+                    box.classList.add("shake");
+                    setTimeout(() => box.classList.remove("shake"), 400);
+                }
+            });
+
         });
     </script>
 </head>
 
 <body>
+
     <div class="container">
         <h2>Signup</h2>
-        <input type="text" id="name" placeholder="Name">
-        <input type="number" id="age" placeholder="Age">
-        <input type="tel" id="number" placeholder="Mobile Number">
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button id="signupBtn" ondblclick="speakGreeting()">Sign Up</button>
+
+        <input type="text" id="name" placeholder="Name" />
+        <input type="number" id="age" placeholder="Age" />
+        <input type="tel" id="number" placeholder="Mobile Number" />
+        <input type="email" id="email" placeholder="Email" />
+        <input type="password" id="password" placeholder="Password" />
+
+        <button id="signupBtn">Sign Up</button>
+
         <div class="link">
             Already have an account? <a href="login.html">Login</a>
         </div>
@@ -74,13 +110,15 @@
         <p>&copy; 2025 Financial Summer Project</p>
     </div>
 
+    <!-- 🎧 Voice Greeting -->
     <script>
-        // Function to speak a greeting message
-        function speakGreeting() {
-            const name = document.getElementById("name").value;
-            const message = `Welcome to the Financial Summer Project ${name}. You are now logged in.`;
+        function speakGreeting(name) {
+            const message = `Welcome to the Financial Summer Project ${name}`;
             const utterance = new SpeechSynthesisUtterance(message);
             utterance.lang = "en-US";
+            utterance.rate = 1;
+            utterance.pitch = 1;
+            utterance.volume = 1;
             speechSynthesis.speak(utterance);
         }
     </script>
