@@ -42,66 +42,76 @@ recognition.onerror = function (event) {
     toggleListening(false);
 };
 
+const isPagesDir = window.location.pathname.includes('/pages/');
+
+function navigateTo(page) {
+    if (isPagesDir) {
+        window.location.href = page;
+    } else {
+        window.location.href = "pages/" + page;
+    }
+}
+
 function handleCommand(cmd) {
     if (cmd.includes("add account")) {
         speak("Opening create account form");
-        window.location.href = "CreateAccount.html";
+        navigateTo("CreateAccount.html");
 
     } else if (cmd.includes("open assets")) {
         speak("Opening assets page");
-        window.location.href = "assets.html";
+        navigateTo("assets.html");
 
     } else if (cmd.includes("open equity")) {
         speak("Opening equity page");
-        window.location.href = "Equity.html";
+        navigateTo("Equity.html");
 
     } else if (cmd.includes("open favorites") || cmd.includes("open favorit")) {
         speak("Opening favorites page");
-        window.location.href = "favorites.html";
+        navigateTo("favorites.html");
 
     } else if (cmd.includes("open settings")) {
         speak("Opening settings page");
-        window.location.href = "settings.html";
+        navigateTo("settings.html");
 
     } else if (cmd.includes("open savings account")) {
         speak("Opening savings-account page");
-        window.location.href = "savings-account.html"
+        navigateTo("savings-account.html");
 
     } else if (cmd.includes("open cash in wallet")) {
         speak("Opening cash-in-wallet page");
-        window.location.href = "cash-in-wallet.html"
+        navigateTo("cash-in-wallet.html");
 
     } else if (cmd.includes("open checking account")) {
         speak("Opening checking-account page");
-        window.location.href = "checking-account.html"
+        navigateTo("checking-account.html");
 
     } else if (cmd.includes("open general")) {
         speak("Opening general page");
-        window.location.href = "general.html"
+        navigateTo("general.html");
 
     } else if (cmd.includes("open accounts")) {
         speak("Opening accounts page");
-        window.location.href = "accountsgnucash.html"
+        navigateTo("accountsgnucash.html");
 
     } else if (cmd.includes("open manage books")) {
         speak("Opening managebooks page");
-        window.location.href = "gnumanagebooks.html"
+        navigateTo("gnumanagebooks.html");
 
     } else if (cmd.includes("open main page") || cmd.includes("main menu")) {
         speak("Opening main page");
-        window.location.href = "All.html";
+        navigateTo("All.html");
 
     } else if (cmd.includes("open Transactions") || cmd.includes("open transaction ")) {
         speak("Opening Transactions page");
-        window.location.href = "gnuTransactions.html"
+        navigateTo("gnuTransactions.html");
 
     } else if (cmd.includes("open Backup & export") || cmd.includes("open backup and export") || cmd.includes("open backup")) {
         speak("Opening Backup & export page");
-        window.location.href = "gnuBACKUPPrefernces.html"
+        navigateTo("gnuBACKUPPrefernces.html");
 
     } else if (cmd.includes("open About GnuCash") || cmd.includes("open about gnu cash") || cmd.includes("open about")) {
         speak("Opening About GnuCash page");
-        window.location.href = "AboutGnuCash.html"
+        navigateTo("AboutGnuCash.html");
 
     } else if (cmd.includes("go back") || cmd.includes("back to main page")) {
         speak("Going back");

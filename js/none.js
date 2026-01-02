@@ -38,9 +38,15 @@ function selectBook(bookName) {
   document.getElementById("bookList").style.display = "none";
 }
 
+
 function openCreateForm() {
   // Redirect to another page
-  window.location.href = "CreateAccount.html";
+  const isPagesDir = window.location.pathname.includes('/pages/');
+  if (isPagesDir) {
+    window.location.href = "CreateAccount.html";
+  } else {
+    window.location.href = "pages/CreateAccount.html";
+  }
 }
 
 // Toggle the visibility of the menu

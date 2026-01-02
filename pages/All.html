@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,10 +9,10 @@
     href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/GnuCash_logo.svg/1200px-GnuCash_logo.svg.png"
     type="image/x-icon" />
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" href="theme-global.css">
-  <link rel="stylesheet" href="styles.css" />
-  <script src="theme.js"></script>
-  <script type="module" src="firebase/firebase.js"></script>
+  <link rel="stylesheet" href="../css/theme-global.css">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="../js/theme.js"></script>
+  <script type="module" src="../firebase/firebase.js"></script>
 </head>
 
 <body>
@@ -81,7 +81,7 @@
   </header>
 
   <nav class="tabs">
-    <a href="index.html" class="tab">RECENT</a>
+    <a href="../index.html" class="tab">RECENT</a>
     <a href="All.html" class="tab active">ALL</a>
     <a href="favorites.html" class="tab">FAVORITES</a>
   </nav>
@@ -91,7 +91,7 @@
     <div class="card border-blue" data-id="assets" style="cursor: pointer">
       <div class="card-left" onclick="openAccountDetail('assets')">
         <h2>Assets</h2>
-        <p>3 sub-account</p>
+        <p>1 sub-account</p>
       </div>
       <div class="card-right">
         <p class="amount">₹0.00</p>
@@ -142,7 +142,7 @@
       </div>
     </div>
 
-    <div class="card border-red" data-id="expenses" onclick="openAccountDetail('expenses')">
+    <div class="card border-red" data-id="expenses" onclick="openAccountDetail('expenses')" style="cursor: pointer">
       <div class="card-left">
         <h2>Expenses</h2>
         <!-- <p>26 sub-accounts</p> -->
@@ -169,7 +169,7 @@
       </div>
     </div>
 
-    <div class="card border-green" data-id="income" onclick="openAccountDetail('income')">
+    <div class="card border-green" data-id="income" onclick="openAccountDetail('income')" style="cursor: pointer">
       <div class="card-left">
         <h2>Income</h2>
         <!-- <p>5 sub-accounts</p> -->
@@ -196,7 +196,8 @@
       </div>
     </div>
 
-    <div class="card border-purple" data-id="liabilities" onclick="openAccountDetail('liabilities')">
+    <div class="card border-purple" data-id="liabilities" onclick="openAccountDetail('liabilities')"
+      style="cursor: pointer">
       <div class="card-left">
         <h2>Liabilities</h2>
         <!-- <p>1 sub-account</p> -->
@@ -244,15 +245,15 @@
             break;
           case "expenses":
             // Create expenses.html later
-            alert("Expenses detail page coming soon!");
+            window.location.href = "gnuExpense.html";
             break;
           case "income":
             // Create income.html later
-            alert("Income detail page coming soon!");
+            window.location.href = "gnuIncome.html";
             break;
           case "liabilities":
             // Create liabilities.html later
-            alert("Liabilities detail page coming soon!");
+            window.location.href = "gnuLiabilties.html";
             break;
           default:
             console.log("Unknown account type:", accountType);
@@ -391,10 +392,10 @@
     <span id="micIcon">🎙️</span>
   </button>
 
-  <script src="none.js"></script>
-  <script src="theme.js"></script>
-  <script src="mic.js"></script>
-  <script src="import.js"></script>
+  <script src="../js/none.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/mic.js"></script>
+  <script src="../js/import.js"></script>
 </body>
 
 </html>

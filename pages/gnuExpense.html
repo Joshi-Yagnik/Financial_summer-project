@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Expenses</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    :root {
+      --bg: #f2f2f2;
+      --card: #ffffff;
+      --text: #222;
+      --sub: #666;
+      --accent: #d84315;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #121212;
+        --card: #1e1e1e;
+        --text: #ffffff;
+        --sub: #bdbdbd;
+        --accent: #ff7043;
+      }
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .tabs {
+      display: flex;
+      background: var(--accent);
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      text-align: center;
+      color: white;
+      cursor: pointer;
+    }
+
+    .tab.active {
+      border-bottom: 3px solid #ffc107;
+      font-weight: bold;
+    }
+
+    .list {
+      padding: 12px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
+      cursor: pointer;
+    }
+
+    .bar {
+      width: 4px;
+      height: 40px;
+      background: var(--accent);
+      border-radius: 4px;
+      margin-right: 12px;
+    }
+
+    .details {
+      flex: 1;
+    }
+
+    .sub {
+      font-size: 13px;
+      color: var(--sub);
+    }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .amount {
+      font-size: 14px;
+    }
+
+    .actions span {
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 80px;
+      font-size: 18px;
+      color: var(--sub);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="top-bar assets-header">
+    <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
+    <h1 id="title">Expenses</h1>
+    <span>⋮</span>
+  </header>
+
+  <div class="list" id="home"></div>
+
+  <div id="details" class="hidden">
+    <div class="tabs">
+      <div class="tab active" id="subTab" onclick="showSub()">SUB-ACCOUNTS</div>
+      <div class="tab" id="txnTab" onclick="showTxn()">TRANSACTIONS</div>
+    </div>
+    <div class="list" id="content"></div>
+  </div>
+
+  <script>
+    const structure = {
+      Auto: ["Fees", "Gas", "Parking", "Repair & Maintenance"],
+      Entertainment: ["Music / Movies", "Recreation", "Travel"],
+      Insurance: ["Auto Insurance", "Health Insurance", "Life Insurance"],
+      Taxes: ["Federal", "Medicare", "Other Tax", "Social Security", "State / Province"],
+      Utilities: ["Electric", "Garbage Collection", "Gas", "Water"]
+    };
+
+    const allExpenses = [
+      "Adjustment", "Auto", "Bank Service Charge", "Books", "Cable", "Charity", "Clothes",
+      "Dining", "Education", "Entertainment", "Gifts", "Groceries", "Hobbies", "Insurance",
+      "Laundry / Dry Cleaning", "Medical Expenses", "Miscellaneous", "Online Services",
+      "Phone", "Public Transportation", "Subscriptions", "Supplies", "Taxes", "Utilities"
+    ];
+
+    let currentExpense = "", currentSub = "";
+
+    const home = document.getElementById("home");
+    const details = document.getElementById("details");
+    const content = document.getElementById("content");
+    const title = document.getElementById("title");
+
+    allExpenses.forEach(name => {
+      const hasSub = structure[name];
+      home.innerHTML += `
+    <div class="card" onclick="openExpense('${name}')">
+      <div class="bar"></div>
+      <div class="details">
+        <div>${name}</div>
+        ${hasSub ? `<div class="sub">${hasSub.length} sub-accounts</div>` : ''}
+      </div>
+      <div class="actions" onclick="event.stopPropagation()">
+        <span onclick="fav(this)">♡</span>
+        <span onclick="add('${name}')">+</span>
+        <span onclick="menu('${name}')">⋮</span>
+      </div>
+    </div>`;
+    });
+
+    function openExpense(name) {
+      currentExpense = name;
+      currentSub = "";
+      home.classList.add("hidden");
+      details.classList.remove("hidden");
+      title.textContent = "Expenses : " + name;
+      showSub();
+    }
+
+    function showSub() {
+      subTab.classList.add("active");
+      txnTab.classList.remove("active");
+      content.innerHTML = "";
+      if (!structure[currentExpense]) {
+        content.innerHTML = `<div class="empty">No sub-accounts available</div>`;
+        return;
+      }
+      structure[currentExpense].forEach(s => {
+        content.innerHTML += `
+      <div class="card" onclick="openSub('${s}')">
+        <div class="bar"></div>
+        <div class="details">${s}</div>
+        <div class="actions" onclick="event.stopPropagation()">
+          <span class="amount">₹0.00</span>
+          <span onclick="fav(this)">♡</span>
+          <span onclick="add('${s}')">+</span>
+          <span onclick="menu('${s}')">⋮</span>
+        </div>
+      </div>`;
+      });
+    }
+
+    function openSub(name) {
+      currentSub = name;
+      title.textContent = `Expenses : ${currentExpense} : ${name}`;
+      content.innerHTML = `<div class="empty">No sub-accounts available</div>`;
+    }
+
+    function showTxn() {
+      subTab.classList.remove("active");
+      txnTab.classList.add("active");
+      content.innerHTML = `<div class="empty">No transactions to display</div>`;
+    }
+
+    function goBack() {
+      if (currentSub) {
+        currentSub = "";
+        title.textContent = "Expenses : " + currentExpense;
+        showSub();
+      } else {
+        details.classList.add("hidden");
+        home.classList.remove("hidden");
+        title.textContent = "Expenses";
+      }
+    }
+
+    function fav(el) { el.textContent = el.textContent === "♡" ? "❤️" : "♡"; }
+    function add(n) { alert("Add: " + n); }
+    function menu(n) { alert("Menu: " + n); }
+  </script>
+
+</body>
+
+</html>
