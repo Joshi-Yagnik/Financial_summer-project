@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Transaction</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="TransactionForm.css">
+</head>
+
+<body>
+
+    <header class="top-bar">
+        <div class="icon-left">
+            <span class="material-icons" id="backButton">close</span>
+        </div>
+        <h1>New Transaction</h1>
+        <div class="icon-right" id="saveButton">
+            <span class="material-icons">check</span>
+        </div>
+    </header>
+
+    <main class="form-container">
+        <!-- General Info -->
+        <div class="input-group">
+            <label>Description</label>
+            <input type="text" id="description" placeholder="Description" required>
+        </div>
+
+        <div class="input-group">
+            <label>Date</label>
+            <input type="date" id="date" required>
+        </div>
+
+        <div class="input-group">
+            <label>Notes</label>
+            <textarea id="notes" rows="2" placeholder="Notes..."></textarea>
+        </div>
+
+        <hr>
+
+        <!-- Splits Section -->
+        <div class="splits-header">
+            <h3>Splits</h3>
+            <div id="imbalanceIndicator" class="imbalance">
+                Imbalance: <span id="imbalanceAmount">₹0.00</span>
+            </div>
+        </div>
+
+        <div id="splitsContainer">
+            <!-- Split Items will be injected here -->
+        </div>
+
+        <button class="add-split-btn" id="addSplitBtn">
+            <span class="material-icons">add</span> Add Split
+        </button>
+
+    </main>
+
+    <script type="module" src="TransactionForm.js"></script>
+</body>
+
+</html>

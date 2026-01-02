@@ -13,12 +13,12 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="cash-in-wallet.css">
   <script src="theme.js"></script>
-  <script type="module" src="firebase.js"></script>
+  <script type="module" src="firebase/firebase.js"></script>
 </head>
 
 <body>
   <header class="top-bar cash-wallet-header">
-    <span class="material-icons back-btn" onclick="goBack()">menu</span>
+    <span class="material-icons back-btn" onclick="goBack()">arrow_back</span>
 
     <div class="header-content">
       <h1>Assets:Curre...sh in Wallet</h1>
@@ -168,7 +168,7 @@
     // Firestore Path: transactions/{auto-generated-id}
     // All transactions are filtered by userId, accountId, and subAccountId
     // to ensure users only see their own transactions for this specific account
-    
+
     const accountId = 'assets';
     const subAccountId = 'cash-in-wallet';
     let currentUser = null;
@@ -399,14 +399,14 @@
         await addDoc(collection(db, 'transactions'), transactionData);
 
         console.log('Transaction added successfully!');
-        
+
         // Close modal
         closeTransactionModal();
       } catch (error) {
         console.error('Error adding transaction:', error);
         console.error('Error code:', error.code);
         console.error('Error message:', error.message);
-        
+
         // Show detailed error message
         let errorMessage = 'Failed to add transaction.\n\n';
         if (error.code === 'permission-denied') {
@@ -424,7 +424,7 @@
         } else {
           errorMessage += 'Please check the browser console (F12) for error details.';
         }
-        
+
         alert(errorMessage);
         submitBtn.disabled = false;
         submitBtn.textContent = originalText;

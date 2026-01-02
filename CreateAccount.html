@@ -14,11 +14,11 @@
     <header class="top-bar">
         <div class="icon-left">
             <!-- <span class="material-icons" onclick="openCreateForm1()">arrow_back</span> -->
-            <span class="material-icons" id="backButton">arrow_back</span>
+            <span class="material-icons" id="backButton" onclick="window.location.href = 'All.html'">arrow_back</span>
         </div>
         <h1>Create Account</h1>
         <div class="icon-right">
-            <span class="material-icons">check</span>
+            <span class="material-icons" onclick="createAccount()">check</span>
         </div>
     </header>
 
@@ -80,7 +80,7 @@
         </select>
     </main>
 
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
     <script src="mic.js"></script>
 </body>
 

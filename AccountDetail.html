@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Details</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="AccountDetail.css">
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="top-bar">
+        <div class="icon-left">
+            <span class="material-icons" id="backButton">arrow_back</span>
+        </div>
+        <div class="header-content">
+            <h1 id="accountName">Account Name</h1>
+            <div class="subtitle" id="accountBalance">₹0.00</div>
+        </div>
+        <div class="icon-right">
+            <span class="material-icons" id="editButton">edit</span>
+        </div>
+    </header>
+
+    <!-- Transactions List -->
+    <main class="transaction-list" id="transactionList">
+        <!-- Transactions will be loaded here -->
+        <div class="empty-state">Loading transactions...</div>
+    </main>
+
+    <!-- Floating Action Button -->
+    <button class="fab" id="addTransactionBtn">
+        <span class="material-icons">add</span>
+    </button>
+
+    <script type="module" src="AccountDetail.js"></script>
+</body>
+
+</html>

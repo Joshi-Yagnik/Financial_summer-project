@@ -5,7 +5,7 @@
  * Run this when a user signs up to create their initial financial structure.
  */
 
-import { initDatabase, createAccount, createSubAccount } from './database.js';
+import { initDatabase, createAccount, createSubAccount } from './firebase/database.js';
 
 /**
  * Default account configuration

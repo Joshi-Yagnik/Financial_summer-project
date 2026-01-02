@@ -154,7 +154,9 @@
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .loading-message {
@@ -356,20 +358,20 @@
   .cash-wallet-header {
     padding: 12px 16px;
   }
-  
+
   .header-content h1 {
     font-size: 16px;
   }
-  
+
   .header-actions {
     gap: 12px;
   }
-  
+
   .account-tabs .tab {
     padding: 14px 12px;
     font-size: 13px;
   }
-  
+
   .empty-message {
     font-size: 16px;
   }
@@ -411,8 +413,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .modal-content {
@@ -431,6 +438,7 @@ body {
     transform: translateY(20px);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;

@@ -528,39 +528,98 @@ export async function createTransaction(db, userId, transactionData) {
   await getAccount(db, validatedUserId, transactionData.accountId);
   await getSubAccount(db, validatedUserId, transactionData.subAccountId);
 
-  // Ensure userId is always included in transaction data
-  const transactionDataWithUserId = {
-    userId: validatedUserId, // Use validated userId - CRITICAL
-    accountId: transactionData.accountId,
-    subAccountId: transactionData.subAccountId,
-    transactionType: transactionData.transactionType,
+  const batch = writeBatch(db);
+  const timestamp = transactionData.transactionDate || Timestamp.now();
+  const serverTime = serverTimestamp();
+
+  // Common data
+  const baseTransaction = {
+    userId: validatedUserId,
     amount: transactionData.amount,
     description: transactionData.description || '',
-    transactionDate: transactionData.transactionDate || Timestamp.now(),
+    transactionDate: timestamp,
     category: transactionData.category || '',
     tags: transactionData.tags || [],
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp()
+    createdAt: serverTime,
+    updatedAt: serverTime
   };
 
-  // Final validation before write
-  if (!transactionDataWithUserId.userId) {
-    throw new Error('CRITICAL: userId is missing from transaction data. Cannot create transaction without user ID.');
+  if (transactionData.transactionType === 'Transfer') {
+    // Validate destination
+    if (!transactionData.toAccountId || !transactionData.toSubAccountId) {
+      throw new Error('toAccountId and toSubAccountId are required for Transfer transactions');
+    }
+
+    // Verify destination ownership
+    await getAccount(db, validatedUserId, transactionData.toAccountId);
+    await getSubAccount(db, validatedUserId, transactionData.toSubAccountId);
+
+    const sourceRef = doc(collection(db, 'transactions'));
+    const destRef = doc(collection(db, 'transactions'));
+
+    // Source Transaction (Outgoing)
+    const sourceTxn = {
+      ...baseTransaction,
+      accountId: transactionData.accountId,
+      subAccountId: transactionData.subAccountId,
+      transactionType: 'Transfer',
+      transferType: 'Outgoing',
+      linkedTransactionId: destRef.id,
+      toAccountId: transactionData.toAccountId,
+      toSubAccountId: transactionData.toSubAccountId
+    };
+
+    // Destination Transaction (Incoming)
+    const destTxn = {
+      ...baseTransaction,
+      accountId: transactionData.toAccountId,
+      subAccountId: transactionData.toSubAccountId,
+      transactionType: 'Transfer',
+      transferType: 'Incoming',
+      linkedTransactionId: sourceRef.id,
+      fromAccountId: transactionData.accountId,
+      fromSubAccountId: transactionData.subAccountId
+    };
+
+    batch.set(sourceRef, sourceTxn);
+    batch.set(destRef, destTxn);
+
+    await batch.commit();
+
+    // Recalculate balances for BOTH
+    await recalculateSubAccountBalance(db, validatedUserId, transactionData.subAccountId);
+    await recalculateAccountBalance(db, validatedUserId, transactionData.accountId);
+
+    // Only recalculate destination if it's different from source (handle edge case)
+    if (transactionData.subAccountId !== transactionData.toSubAccountId) {
+      await recalculateSubAccountBalance(db, validatedUserId, transactionData.toSubAccountId);
+      if (transactionData.accountId !== transactionData.toAccountId) {
+        await recalculateAccountBalance(db, validatedUserId, transactionData.toAccountId);
+      }
+    }
+
+    return sourceRef.id;
+
+  } else {
+    // Normal Income/Expense
+    const transactionDataWithUserId = {
+      ...baseTransaction,
+      accountId: transactionData.accountId,
+      subAccountId: transactionData.subAccountId,
+      transactionType: transactionData.transactionType
+    };
+
+    const transactionRef = doc(collection(db, 'transactions'));
+    batch.set(transactionRef, transactionDataWithUserId);
+
+    await batch.commit();
+
+    // Recalculate balances
+    await recalculateSubAccountBalance(db, validatedUserId, transactionData.subAccountId);
+    await recalculateAccountBalance(db, validatedUserId, transactionData.accountId);
+
+    return transactionRef.id;
   }
-
-  const batch = writeBatch(db);
-
-  // Create transaction
-  const transactionRef = doc(collection(db, 'transactions'));
-  batch.set(transactionRef, transactionDataWithUserId);
-
-  await batch.commit();
-
-  // Recalculate balances
-  await recalculateSubAccountBalance(db, validatedUserId, transactionData.subAccountId);
-  await recalculateAccountBalance(db, validatedUserId, transactionData.accountId);
-
-  return transactionRef.id;
 }
 
 /**
@@ -712,26 +771,49 @@ export async function updateTransaction(db, userId, transactionId, updateData) {
     updatedAt: serverTimestamp()
   };
 
-  // Prevent critical field modification
-  if ('userId' in updateFields) {
-    delete updateFields.userId;
-    console.warn('Warning: Attempted to modify userId. This field is protected.');
-  }
-  if ('accountId' in updateFields) {
-    delete updateFields.accountId;
-    console.warn('Warning: Attempted to modify accountId. This field is protected.');
-  }
-  if ('subAccountId' in updateFields) {
-    delete updateFields.subAccountId;
-    console.warn('Warning: Attempted to modify subAccountId. This field is protected.');
+  // Prevent critical field modification during simple update
+  if ('userId' in updateFields) delete updateFields.userId;
+  if ('accountId' in updateFields && updateFields.accountId === transaction.accountId) delete updateFields.accountId; // Allow if unchanged
+  if ('subAccountId' in updateFields && updateFields.subAccountId === transaction.subAccountId) delete updateFields.subAccountId; // Allow if unchanged
+
+  const batch = writeBatch(db);
+
+  // 1. Update current transaction
+  const transactionRef = doc(db, 'transactions', transactionId);
+  batch.update(transactionRef, updateFields);
+
+  // 2. If this is a Transfer and has a linked transaction, update that too
+  let linkedTransaction = null;
+  if (transaction.transactionType === 'Transfer' && transaction.linkedTransactionId) {
+    linkedTransaction = await getTransaction(db, validatedUserId, transaction.linkedTransactionId);
+    const linkedRef = doc(db, 'transactions', transaction.linkedTransactionId);
+
+    // Propagate common updates (amount, date, description, category, tags)
+    const linkedUpdates = {};
+    if ('amount' in updateFields) linkedUpdates.amount = updateFields.amount;
+    if ('transactionDate' in updateFields) linkedUpdates.transactionDate = updateFields.transactionDate;
+    if ('description' in updateFields) linkedUpdates.description = updateFields.description;
+    if ('category' in updateFields) linkedUpdates.category = updateFields.category;
+    if ('tags' in updateFields) linkedUpdates.tags = updateFields.tags;
+
+    // Add timestamp
+    linkedUpdates.updatedAt = serverTimestamp();
+
+    if (Object.keys(linkedUpdates).length > 0) {
+      batch.update(linkedRef, linkedUpdates);
+    }
   }
 
-  const transactionRef = doc(db, 'transactions', transactionId);
-  await updateDoc(transactionRef, updateFields);
+  await batch.commit();
 
   // Recalculate balances (use validated userId)
   await recalculateSubAccountBalance(db, validatedUserId, transaction.subAccountId);
   await recalculateAccountBalance(db, validatedUserId, transaction.accountId);
+
+  if (linkedTransaction) {
+    await recalculateSubAccountBalance(db, validatedUserId, linkedTransaction.subAccountId);
+    await recalculateAccountBalance(db, validatedUserId, linkedTransaction.accountId);
+  }
 }
 
 /**
@@ -751,12 +833,32 @@ export async function deleteTransaction(db, userId, transactionId) {
   // Get transaction to get account/sub-account IDs (this also validates ownership)
   const transaction = await getTransaction(db, validatedUserId, transactionId);
 
+  const batch = writeBatch(db);
+
   // Delete transaction
-  await deleteDoc(doc(db, 'transactions', transactionId));
+  batch.delete(doc(db, 'transactions', transactionId));
+
+  // If Linked Transaction (Transfer), delete that too
+  let linkedTransaction = null;
+  if (transaction.transactionType === 'Transfer' && transaction.linkedTransactionId) {
+    try {
+      linkedTransaction = await getTransaction(db, validatedUserId, transaction.linkedTransactionId);
+      batch.delete(doc(db, 'transactions', transaction.linkedTransactionId));
+    } catch (e) {
+      console.warn('Linked transaction not found or already deleted');
+    }
+  }
+
+  await batch.commit();
 
   // Recalculate balances (use validated userId)
   await recalculateSubAccountBalance(db, validatedUserId, transaction.subAccountId);
   await recalculateAccountBalance(db, validatedUserId, transaction.accountId);
+
+  if (linkedTransaction) {
+    await recalculateSubAccountBalance(db, validatedUserId, linkedTransaction.subAccountId);
+    await recalculateAccountBalance(db, validatedUserId, linkedTransaction.accountId);
+  }
 }
 
 /**
@@ -793,10 +895,12 @@ export async function recalculateSubAccountBalance(db, userId, subAccountId) {
     } else if (txn.transactionType === 'Expense') {
       balance -= amount;
     } else if (txn.transactionType === 'Transfer') {
-      // For transfers, we need to check if it's incoming or outgoing
-      // This is simplified - you may need to add a field to track direction
-      // For now, assuming transfers are expenses (outgoing)
-      balance -= amount;
+      if (txn.transferType === 'Incoming') {
+        balance += amount;
+      } else {
+        // Default to Outgoing if not specified or explicit Outgoing
+        balance -= amount;
+      }
     }
   });
 
