@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Finance Manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --bg:#f2f2f2;
+  --card:#ffffff;
+  --text:#222;
+  --accent:#1976d2;
+}
+body{
+  margin:0;
+  font-family:system-ui;
+  background:var(--bg);
+  color:var(--text);
+}
+header{
+  background:var(--accent);
+  color:white;
+  padding:14px;
+  text-align:center;
+}
+.container{
+  padding:12px;
+}
+.card{
+  background:var(--card);
+  border-radius:8px;
+  padding:12px;
+  margin-bottom:12px;
+  box-shadow:0 2px 4px rgba(0,0,0,.2);
+}
+.card h3{
+  margin-top:0;
+}
+input, select, button{
+  width:100%;
+  padding:8px;
+  margin-top:8px;
+}
+button{
+  background:var(--accent);
+  color:white;
+  border:none;
+  cursor:pointer;
+}
+.summary{
+  display:flex;
+  justify-content:space-between;
+  margin-top:6px;
+}
+.total{
+  font-weight:bold;
+}
+.net{
+  background:#c8e6c9;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>Finance Manager</h2>
+</header>
+
+<div class="container">
+
+  <!-- INCOME -->
+  <div class="card">
+    <h3>Add Income</h3>
+    <input id="incomeCategory" placeholder="Category (Salary, Bonus)">
+    <input id="incomeAmount" type="number" placeholder="Amount">
+    <button onclick="addIncome()">Add Income</button>
+  </div>
+
+  <!-- EXPENSE -->
+  <div class="card">
+    <h3>Add Expense</h3>
+    <input id="expenseCategory" placeholder="Category (Food, Rent)">
+    <input id="expenseAmount" type="number" placeholder="Amount">
+    <button onclick="addExpense()">Add Expense</button>
+  </div>
+
+  <!-- LIABILITY -->
+  <div class="card">
+    <h3>Add Liability</h3>
+    <input id="liabilityCategory" placeholder="Category (Credit Card, Loan)">
+    <input id="liabilityAmount" type="number" placeholder="Amount">
+    <button onclick="addLiability()">Add Liability</button>
+  </div>
+
+  <!-- BALANCE SHEET -->
+  <div class="card">
+    <h3>Balance Sheet</h3>
+
+    <div class="summary">
+      <span>Assets</span>
+      <span id="assets">₹0</span>
+    </div>
+
+    <div class="summary">
+      <span>Liabilities</span>
+      <span id="liabilities">₹0</span>
+    </div>
+
+    <hr>
+
+    <div class="summary total net">
+      <span>Net Worth (Equity)</span>
+      <span id="equity">₹0</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* INITIAL STORAGE */
+if(!localStorage.getItem("financeData")){
+  localStorage.setItem("financeData", JSON.stringify({
+    income: [],
+    expenses: [],
+    liabilities: []
+  }));
+}
+
+/* ADD FUNCTIONS */
+function addIncome(){
+  const cat = incomeCategory.value;
+  const amt = Number(incomeAmount.value);
+  if(!cat || !amt) return alert("Enter income details");
+
+  const data = JSON.parse(localStorage.getItem("financeData"));
+  data.income.push({category:cat, amount:amt});
+  localStorage.setItem("financeData", JSON.stringify(data));
+
+  incomeCategory.value="";
+  incomeAmount.value="";
+  calculateBalanceSheet();
+}
+
+function addExpense(){
+  const cat = expenseCategory.value;
+  const amt = Number(expenseAmount.value);
+  if(!cat || !amt) return alert("Enter expense details");
+
+  const data = JSON.parse(localStorage.getItem("financeData"));
+  data.expenses.push({category:cat, amount:amt});
+  localStorage.setItem("financeData", JSON.stringify(data));
+
+  expenseCategory.value="";
+  expenseAmount.value="";
+  calculateBalanceSheet();
+}
+
+function addLiability(){
+  const cat = liabilityCategory.value;
+  const amt = Number(liabilityAmount.value);
+  if(!cat || !amt) return alert("Enter liability details");
+
+  const data = JSON.parse(localStorage.getItem("financeData"));
+  data.liabilities.push({category:cat, amount:amt});
+  localStorage.setItem("financeData", JSON.stringify(data));
+
+  liabilityCategory.value="";
+  liabilityAmount.value="";
+  calculateBalanceSheet();
+}
+
+/* BALANCE SHEET LOGIC */
+function calculateBalanceSheet(){
+  const data = JSON.parse(localStorage.getItem("financeData"));
+
+  const totalIncome = data.income.reduce((s,i)=>s+i.amount,0);
+  const totalExpense = data.expenses.reduce((s,e)=>s+e.amount,0);
+  const totalLiability = data.liabilities.reduce((s,l)=>s+l.amount,0);
+
+  const assets = totalIncome - totalExpense;
+  const equity = assets - totalLiability;
+
+  assetsEl.textContent = "₹" + assets.toLocaleString();
+  liabilitiesEl.textContent = "₹" + totalLiability.toLocaleString();
+  equityEl.textContent = "₹" + equity.toLocaleString();
+}
+
+/* INIT */
+const assetsEl = document.getElementById("assets");
+const liabilitiesEl = document.getElementById("liabilities");
+const equityEl = document.getElementById("equity");
+
+calculateBalanceSheet();
+</script>
+
+</body>
+</html>
